@@ -1,0 +1,236 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Payments\Payments_27 Sep 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}27 Sep 2018, 03:42:20
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-09-27.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,687 observations deleted)
+
+{com}. *drop   LastPage
+. 
+. replace SurveyCode = upper(SurveyCode)
+{txt}(325 real changes made)
+
+{com}. replace SurveyCode = trim(SurveyCode)
+{txt}(0 real changes made)
+
+{com}. 
+. replace WorkerID = upper(WorkerID)
+{txt}(7 real changes made)
+
+{com}. replace WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. isid    SurveyCode WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\SurveyData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Payments\SurveyData.dta saved
+
+{com}. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 LastPage = H
+>                 Bonus = AE
+>                 PieceRateImage = AC
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-09-27.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(847 observations deleted)
+
+{com}. 
+. replace SurveyCode = upper(SurveyCode)
+{txt}(177 real changes made)
+
+{com}. replace SurveyCode = trim(SurveyCode)
+{txt}(0 real changes made)
+
+{com}. 
+. replace WorkerID = upper(WorkerID)
+{txt}(10 real changes made)
+
+{com}. replace WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. save    "${c -(}tempdir{c )-}\ExperimentData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Payments\ExperimentData.dta saved
+
+{com}. 
+. * Import data from MTurk
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  delimited 
+>                 "${c -(}rawdatadir{c )-}\Batch_3380463_batch_results.csv", 
+>                 clear
+>                 ;
+{res}{text}(30 vars, 269 obs)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. *keep   assignmentid workerid answersurveycode approve reject
+. 
+. keep    if assignmentstatus == "Submitted"
+{txt}(207 observations deleted)
+
+{com}. 
+. ren     answersurveycode SurveyCode
+{res}{txt}
+{com}. ren     workerid WorkerID
+{res}{txt}
+{com}. 
+. foreach var of varlist SurveyCode WorkerID {c -(}
+{txt}  2{com}.         replace `var' = upper(`var')
+{txt}  3{com}.         replace `var' = trim(`var')
+{txt}  4{com}. {c )-}       
+{txt}(60 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+{com}. 
+. isid    SurveyCode WorkerID
+{txt}
+{com}. 
+. merge   1:1 SurveyCode WorkerID using "${c -(}tempdir{c )-}\SurveyData", keep(1 3) keepusing(SurveyCode WorkerID Image)
+{res}{txt}{p 0 7 2}
+(note: variable
+WorkerID was 
+str14, now str26 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              44
+{txt}{col 9}from master{col 30}{res}              44{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}              18{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. merge   1:1 SurveyCode WorkerID using "${c -(}tempdir{c )-}\ExperimentData", keep(1 3) keepusing(SurveyCode WorkerID Bonus PieceRateImage) gen(_merge1)
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              21
+{txt}{col 9}from master{col 30}{res}              21{txt}  (_merge1==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge1==2)
+
+{col 5}matched{col 30}{res}              41{txt}  (_merge1==3)
+{col 5}{hline 41}
+
+{com}. 
+. foreach         var of varlist approve reject Bonus {c -(}
+{txt}  2{com}.         tostring        `var', replace
+{txt}  3{com}.         replace         `var' = "" if `var' == "."
+{txt}  4{com}. {c )-}
+{txt}approve was {res:byte} now {res:str1}
+(62 real changes made)
+reject was {res:byte} now {res:str1}
+(62 real changes made)
+Bonus was {res:double} now {res:str4}
+(21 real changes made)
+
+{com}. 
+. replace         approve = "x" if (_merge == 3 | _merge1 == 3)
+{txt}(59 real changes made)
+
+{com}. replace         reject = "Wrong worker id or survey code" if approve == ""
+{txt}variable {bf}reject{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str30{sf}
+{txt}(3 real changes made)
+
+{com}. 
+. ren             (SurveyCode WorkerID) (answersurveycode workerid)
+{res}{txt}
+{com}. 
+. * Export sheet to accept or reject HITS on MTurk
+. 
+. preserve
+{txt}
+{com}.         drop    Image Bonus PieceRateImage _merge _merge1
+{txt}
+{com}.         export  delimited using "${c -(}outdir{c )-}\Approvals$S_DATE", replace 
+{res}{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Payments\Approvals27 Sep 2018.csv not found)
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Payments\Approvals27 Sep 2018.csv saved
+
+{com}. restore
+{txt}
+{com}. 
+. * Determine bonus payments
+. 
+. gen     BonusFormula = "grantBonus " + "–workerid " + workerid + " –amount " + Bonus + " –assignment " + assignmentid + " –reason " + `"""' + "Your earnings from the labor market experiment" + `"""'  if Bonus != "" & Bonus != "0"
+{txt}(26 missing values generated)
+
+{com}. keep    if BonusFormula != "" 
+{txt}(26 observations deleted)
+
+{com}. 
+. keep            hitid assignmentid workerid Bonus BonusFormula
+{txt}
+{com}. destring        Bonus, replace
+{txt}Bonus has all characters numeric; {res}replaced {txt}as {res}double
+{txt}
+{com}. 
+. export          excel using "${c -(}outdir{c )-}\BonusPayments$S_DATE", firstrow(var) replace
+{res}{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Payments\BonusPayments27 Sep 2018.xls saved
+
+{com}. 
+. append          using "${c -(}outdir{c )-}\BonusPayments",
+{txt}
+{com}. duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. save            "${c -(}outdir{c )-}\BonusPayments", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Payments\BonusPayments.dta saved
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. exit, clear

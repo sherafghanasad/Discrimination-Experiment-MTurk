@@ -1,0 +1,105 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_5_FairnessAndEffort_21 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Oct 2018, 16:26:16
+{txt}
+{com}. 
+. use     "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. 
+. preserve
+{txt}
+{com}. 
+.         bysort  PieceRate: egen PR = count(PieceRate)
+{txt}
+{com}.         
+.         bysort          FairPieceRate: egen FPRCount = count(FairPieceRate)
+{txt}
+{com}.         gen             FPR = FPRCount if (PieceRate == FairPieceRate)
+{txt}(134 missing values generated)
+
+{com}.         bysort          PieceRate (FPR): replace FPR = FPR[1]
+{txt}(100 real changes made)
+
+{com}.         replace         FPR = 2 if PieceRate == 0
+{txt}(34 real changes made)
+
+{com}.         keep            PieceRate PR FPR
+{txt}
+{com}.         duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(198 observations deleted)
+
+{com}. 
+.         egen            PRPer = pc(PR)
+{txt}
+{com}.         egen            FPRPer = pc(FPR)        
+{txt}
+{com}. 
+.         #d ;
+{txt}delimiter now ;
+{com}.         graph   bar (asis) 
+>                 PRPer FPRPer, 
+>                 over(PieceRate) 
+>                 ytitle(Percentage) 
+>                 title("Distribution of selected and fair piece rate") 
+>                 legend(order(1 "Chosen Piece Rate" 2 "Fair Piece Rate"))
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}.         #d cr   
+{txt}delimiter now cr
+{com}.         
+.         graph   export "${c -(}outdir{c )-}\ChosenAndFairRate.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\ChosenAndFairRate.png written in PNG format)
+
+{com}. 
+. restore
+{txt}
+{com}. 
+.                 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (mean) Fair 
+>                 if Role == 2, 
+>                 over(PieceRate) 
+>                 ytitle(Fraction of workers who perceived the rate as fair) 
+>                 title("Fairness Perception")
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\FairnessPerception.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\FairnessPerception.png written in PNG format)
+
+{com}. 
+{txt}end of do-file
+
+{com}. 
+. * Miscellaneous figures for Appendix
+. 
+. do                      "${c -(}codedir{c )-}\_6_Miscellaneous.do"
+{txt}
+{com}. /* 
+> This file creates figures and tables for appendix. 
+> 
+> Input: 
+>         Cleaned Data
+> Output:
+>         Figure 
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

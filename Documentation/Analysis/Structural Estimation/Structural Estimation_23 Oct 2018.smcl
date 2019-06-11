@@ -1,0 +1,901 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Structural Estimation\Structural Estimation_23 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}23 Oct 2018, 21:07:13
+{txt}
+{com}. 
+. * Import cleaned data from experiment
+. 
+. use             "${c -(}rootdir{c )-}\Output\Analysis\CleanedData.dta", clear
+{txt}
+{com}. 
+. /*
+> * Import raw data
+> 
+> #d ;
+> import  excel 
+>                 Visited = L
+>                 SessionCode = AR
+>                 GroupIDInSession = AG
+>                 Treatment = AH
+>                 PieceRate = AI
+>                 Points = AM
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+> #d cr
+> 
+> * Keep data from links that were used
+> 
+> keep    if Visited == 1
+> drop    Visited
+> */
+. * Since each observation appear twice (once for each participant), we drop the employer observations
+. 
+. keep            if Role == 2
+{txt}(101 observations deleted)
+
+{com}. /*
+> /* Generating dummy data for now. This code will be removed when the actual data
+>  will be collected */
+> 
+> set     obs 2000
+> 
+> replace PieceRate = 0 in 1/500
+> replace PieceRate = 3 in 501/1000
+> replace PieceRate = 6 in 1001/1500
+> replace PieceRate = 9 in 1501/2000
+> 
+> replace Points = round(runiform(1000, 3000))
+> */
+. 
+. * For parameters of cost function we only use data from baseline treatment 
+. 
+. keep    if Treatment == "Baseline"
+{txt}(47 observations deleted)
+
+{com}. drop    Treatment
+{txt}
+{com}. 
+. *sort   PieceRate Points
+. 
+. replace         PieceRate = 3 if PieceRate == 0.03
+{txt}(17 real changes made)
+
+{com}. replace         PieceRate = 6 if PieceRate == 0.06
+{txt}(23 real changes made)
+
+{com}. replace         PieceRate = 9 if PieceRate == 0.09
+{txt}(6 real changes made)
+
+{com}. 
+. save            "${c -(}tempdir{c )-}\BaselineData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BaselineData.dta saved
+
+{com}. 
+. * Draw a bootstrap sample of 1000 means of observations for each piece rate
+. 
+. clear
+{txt}
+{com}. set     obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. foreach x of numlist 0 3 6 9 {c -(}
+{txt}  2{com}.         gen Points`x' = 0
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. count
+  {res}1,000
+{txt}
+{com}. 
+. forvalues i = 1/`r(N)' {c -(}
+{txt}  2{com}.                 foreach x of numlist 0 3 6 9 {c -(}
+{txt}  3{com}.                         preserve
+{txt}  4{com}.                                 use             "${c -(}tempdir{c )-}\BaselineData", clear
+{txt}  5{com}.                                 quietly         count           if PieceRate == `x'
+{txt}  6{com}.                                         
+.                                 quietly         bsample         `r(N)' if PieceRate == `x'
+{txt}  7{com}.                                 quietly         summ Points
+{txt}  8{com}.                                 quietly         local           mean`x' = `r(mean)'
+{txt}  9{com}.                         restore 
+{txt} 10{com}.                         
+.                         quietly                 replace Points`x' = round(`mean`x'') in `i'     
+{txt} 11{com}.                 {c )-}               
+{txt} 12{com}. {c )-}
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\BootstrapSample", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BootstrapSample.dta saved
+
+{com}. 
+. * Solving the equations for parameter values
+. 
+. capture program drop nlfaq
+{txt}
+{com}. forvalues       i = 1/1000 {c -(}
+{txt}  2{com}.         program nlfaq
+{txt}  3{com}.                 syntax varlist(min=1 max=1) [if], at(name)
+{txt}  4{com}.                 
+.                 tempname        G S K
+{txt}  5{com}.                 scalar          `G' = `at'[1,1]
+{txt}  6{com}.                 scalar          `S' = `at'[1,2]
+{txt}  7{com}.                 scalar          `K' = `at'[1,3]
+{txt}  8{com}.                 
+.                 tempvar         yh
+{txt}  9{com}.                 gen             double `yh' = `G'*log(Points0[`i']) - log(`S'+0) + log(`K') + 1 in 1
+{txt} 10{com}.                 replace         `yh' = `G'*log(Points3[`i']) - log(`S'+0.01) + log(`K') in 2
+{txt} 11{com}.                 replace         `yh' = `G'*log(Points9[`i']) - log(`S'+0.10) + log(`K') in 3
+{txt} 12{com}. 
+.                 replace         `varlist' = `yh'        
+{txt} 13{com}.         end     
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1):r(1);}
+
+end of do-file
+
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1):r(1);}
+
+{com}. help syntax
+
+. help at
+
+. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1530) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2005) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2157) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log_k)/log(2029)))
+{err}log_k not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1530) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2005) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2157) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}. scalar          s = exp(exp(log_gamma)*log(1521) + log(k))
+{err}log_gamma not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1530) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2005) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2157) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}. scalar          s = exp(exp(log(gamma))*log(1521) + log(k))
+{txt}
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G gamma S s K k)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} .2102697
+{txt}Iteration 1:  residual SS = {res} .2102697
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res}   .456397          2  .228198502{txt}{col 53}R-squared     = {res}    0.6846
+{txt}    Residual {c |} {res} .21026966          0           .{txt}{col 53}Adj R-squared = {res}         .
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res}        .
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res} .5397009
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} 33.13758{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /S {c |}{col 14}{res}{space 2} 7.12e-07{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 3.2e-112{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1530) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2005) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2157) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2157))/log(2005))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log(k))/log(2005)))
+{txt}
+{com}. scalar          s = exp(exp(log(gamma))*log(1530) + log(k))
+{txt}
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G gamma S s K k)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} .0156392
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res} .65102749          2  .325513746{txt}{col 53}R-squared     = {res}    0.9765
+{txt}    Residual {c |} {res} .01563917          0           .{txt}{col 53}Adj R-squared = {res}         .
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res}        .
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res}-7.256135
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} 33.22172{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /S {c |}{col 14}{res}{space 2} 1.26e-06{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 2.0e-112{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1531.560) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2015.896) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2152.582) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2152.582))/log(2015.896))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log(k))/log(2015.896)))
+{txt}
+{com}. scalar          s = exp(exp(log(gamma))*log(1531.560) + log(k))
+{txt}
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G gamma S s K k)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} .0166315
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res} .65003514          2  .325017571{txt}{col 53}R-squared     = {res}    0.9751
+{txt}    Residual {c |} {res} .01663152          0           .{txt}{col 53}Adj R-squared = {res}         .
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res}        .
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res}-7.071572
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} 33.13248{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /S {c |}{col 14}{res}{space 2} 1.11e-06{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 3.3e-112{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1531.560) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2015.896) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2152.582) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. scalar          k = exp((log(0.10) - ((log(0.01)*log(2152.582))/log(2015.896))) / (1 - (log(2152.582)/log(2015.896))))
+{txt}
+{com}. scalar          gamma = exp(log((log(0.01) - log(k))/log(2015.896)))
+{txt}
+{com}. scalar          s = exp(exp(log(gamma))*log(1531.560) + log(k))
+{txt}
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G gamma S s K k)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} 3.12e-09
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res} .66666666          2  .333333332{txt}{col 53}R-squared     = {res}    1.0000
+{txt}    Residual {c |} {res} 3.124e-09          0           .{txt}{col 53}Adj R-squared = {res}         .
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res}        .
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res}-53.53448
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} 35.09809{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /S {c |}{col 14}{res}{space 2} 6.48e-07{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 1.0e-118{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. capture program drop nlfaq
+{txt}
+{com}.         program nlfaq
+{txt}  1{com}. *               syntax          varlist(min=1 max=1) [if], at(name)
+.                 args            yh e0 e3 e9 p0 p3 p9
+{txt}  2{com}.                 
+.                 tempname        G S K
+{txt}  3{com}.                 scalar          `G' = `at'[1,1]
+{txt}  4{com}.                 scalar          `S' = `at'[1,2]
+{txt}  5{com}.                 scalar          `K' = `at'[1,3]
+{txt}  6{com}.                 
+. *               tempvar         yh
+.                 gen             double `yh' = `G'*log(`e0') - log(`S'+`p0') + log(`K') + 1 in 1
+{txt}  7{com}.                 replace         `yh' = `G'*log(`e3') - log(`S'+`p3') + log(`K') in 2
+{txt}  8{com}.                 replace         `yh' = `G'*log(`e9') - log(`S'+`p9') + log(`K') in 3
+{txt}  9{com}. 
+.                 replace         `varlist' = `yh'        
+{txt} 10{com}. 
+.                 scalar          k = exp((log(`p9') - ((log(`p3')*log(`e9'))/log(`e3'))) / (1 - (log(`e9')/log(`e3'))))
+{txt} 11{com}.                 scalar          gamma = exp(log((log(`p3') - log(k))/log(`e3')))
+{txt} 12{com}.                 scalar          s = exp(exp(log(gamma))*log(`e0') + log(k))
+{txt} 13{com}. 
+.         end     
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}.         
+.                 clear
+{txt}
+{com}. 
+.                 set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}.                 generate        y = 0
+{txt}
+{com}.                 replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+.                 scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}.                 scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}.                 scalar          s = exp(exp(log(gamma))*log(1521) + log(k))
+{txt}
+{com}. 
+.                 nl faq @ y 1521 2029 2175 0 0.01 0.10, parameters(G S K) initial(G gamma S s K k)
+{err}1521 invalid name
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. capture program drop nlfaq
+{txt}
+{com}.         program nlfaq
+{txt}  1{com}. *               syntax          varlist(min=1 max=1) [if], at(name)
+.                 args            yh e0 e3 e9 p0 p3 p9
+{txt}  2{com}.                 
+.                 tempname        G S K
+{txt}  3{com}.                 scalar          `G' = `at'[1,1]
+{txt}  4{com}.                 scalar          `S' = `at'[1,2]
+{txt}  5{com}.                 scalar          `K' = `at'[1,3]
+{txt}  6{com}.                 
+. *               tempvar         yh
+.                 gen             double `yh' = `G'*log(`e0') - log(`S'+`p0') + log(`K') + 1 in 1
+{txt}  7{com}.                 replace         `yh' = `G'*log(`e3') - log(`S'+`p3') + log(`K') in 2
+{txt}  8{com}.                 replace         `yh' = `G'*log(`e9') - log(`S'+`p9') + log(`K') in 3
+{txt}  9{com}. 
+.                 replace         `varlist' = `yh'        
+{txt} 10{com}. 
+.                 scalar          k = exp((log(`p9') - ((log(`p3')*log(`e9'))/log(`e3'))) / (1 - (log(`e9')/log(`e3'))))
+{txt} 11{com}.                 scalar          gamma = exp(log((log(`p3') - log(k))/log(`e3')))
+{txt} 12{com}.                 scalar          s = exp(exp(log(gamma))*log(`e0') + log(k))
+{txt} 13{com}. 
+.         end     
+{txt}
+{com}.         
+.                 clear
+{txt}
+{com}. 
+.                 set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}.                 generate        y = 0
+{txt}
+{com}.                 replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+.                 scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}.                 scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}.                 scalar          s = exp(exp(log(gamma))*log(1521) + log(k))
+{txt}
+{com}. 
+.                 nl faq @ y 1521 2029 2175 0 0.01 0.10, parameters(G S K) initial(G gamma S s K k)
+{err}1521 invalid name
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. capture program drop nlfaq
+{txt}
+{com}.         program nlfaq
+{txt}  1{com}. *               syntax          varlist(min=1 max=1) [if], at(name)
+.                 args            yh e0 e3 e9 p0 p3 p9
+{txt}  2{com}.                 
+.                 tempname        G S K
+{txt}  3{com}.                 scalar          `G' = `at'[1,1]
+{txt}  4{com}.                 scalar          `S' = `at'[1,2]
+{txt}  5{com}.                 scalar          `K' = `at'[1,3]
+{txt}  6{com}.                 
+. *               tempvar         yh
+.                 gen             double `yh' = `G'*log(`e0') - log(`S'+`p0') + log(`K') + 1 in 1
+{txt}  7{com}.                 replace         `yh' = `G'*log(`e3') - log(`S'+`p3') + log(`K') in 2
+{txt}  8{com}.                 replace         `yh' = `G'*log(`e9') - log(`S'+`p9') + log(`K') in 3
+{txt}  9{com}. 
+.                 replace         `varlist' = `yh'        
+{txt} 10{com}. 
+.                 scalar          k = exp((log(`p9') - ((log(`p3')*log(`e9'))/log(`e3'))) / (1 - (log(`e9')/log(`e3'))))
+{txt} 11{com}.                 scalar          gamma = exp(log((log(`p3') - log(k))/log(`e3')))
+{txt} 12{com}.                 scalar          s = exp(exp(log(gamma))*log(`e0') + log(k))
+{txt} 13{com}. 
+.         end     
+{txt}
+{com}.         
+.                 clear
+{txt}
+{com}. 
+.                 set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}.                 generate        y = 0
+{txt}
+{com}.                 replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+.                 scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}.                 scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}.                 scalar          s = exp(exp(log(gamma))*log(1521) + log(k))
+{txt}
+{com}. 
+.                 nl faq @ y "1521" 2029 2175 0 0.01 0.10, parameters(G S K) initial(G gamma S s K k)
+{err}"1521 invalid name
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. capture program drop nlfaq
+{txt}
+{com}.         program nlfaq
+{txt}  1{com}. *               syntax          varlist(min=1 max=1) [if], at(name)
+.                 args            yh e0 e3 e9 p0 p3 p9
+{txt}  2{com}.                 
+.                 tempname        G S K
+{txt}  3{com}.                 scalar          `G' = `at'[1,1]
+{txt}  4{com}.                 scalar          `S' = `at'[1,2]
+{txt}  5{com}.                 scalar          `K' = `at'[1,3]
+{txt}  6{com}.                 
+. *               tempvar         yh
+.                 gen             double `yh' = `G'*log(`e0') - log(`S'+`p0') + log(`K') + 1 in 1
+{txt}  7{com}.                 replace         `yh' = `G'*log(`e3') - log(`S'+`p3') + log(`K') in 2
+{txt}  8{com}.                 replace         `yh' = `G'*log(`e9') - log(`S'+`p9') + log(`K') in 3
+{txt}  9{com}. 
+.                 replace         `varlist' = `yh'        
+{txt} 10{com}. 
+.                 scalar          k = exp((log(`p9') - ((log(`p3')*log(`e9'))/log(`e3'))) / (1 - (log(`e9')/log(`e3'))))
+{txt} 11{com}.                 scalar          gamma = exp(log((log(`p3') - log(k))/log(`e3')))
+{txt} 12{com}.                 scalar          s = exp(exp(log(gamma))*log(`e0') + log(k))
+{txt} 13{com}. 
+.         end     
+{txt}
+{com}.         
+.                 clear
+{txt}
+{com}. 
+.                 set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}.                 generate        y = 0
+{txt}
+{com}.                 replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+.                 scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}
+{com}.                 scalar          gamma = exp(log((log(0.01) - log(k))/log(2029)))
+{txt}
+{com}.                 scalar          s = exp(exp(log(gamma))*log(1521) + log(k))
+{txt}
+{com}. 
+.                 nl faq @ y 1521 2029 2175 0 0.01 0.10, parameters(G S K) initial(G gamma S s K k)
+{err}1521 invalid name
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}.                 nl faq @ y [1521 2029 2175 0 0.01 0.10], parameters(G S K) initial(G gamma S s K k)
+{err}1521 unknown weight type
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. help void
+
+. help mysolver
+
+. help optimize_init
+
+. mata
+{txt}{hline 49} mata (type {cmd:end} to exit) {hline}
+{com}: x=2
+{res}
+{com}: X = (1/2/3)
+{res}
+{com}: end
+{txt}{hline}
+
+{com}. matrix list X
+{err}matrix X not found
+{txt}{search r(111):r(111);}
+
+{com}. matrix X
+{err}matrix operation not found
+{txt}{search r(501):r(501);}
+
+{com}. mata
+{txt}{hline 49} mata (type {cmd:end} to exit) {hline}
+{com}: X
+{res}  .1666666667
+
+{com}: X = (1\2\3)
+{res}
+{com}: X
+{res}       {txt}1
+    {c TLC}{hline 5}{c TRC}
+  1 {c |}  {res}1{txt}  {c |}
+  2 {c |}  {res}2{txt}  {c |}
+  3 {c |}  {res}3{txt}  {c |}
+    {c BLC}{hline 5}{c BRC}
+
+{com}: end
+{txt}{hline}
+
+{com}. matrix list X
+{err}matrix X not found
+{txt}{search r(111):r(111);}
+
+{com}. X
+{err}command {bf}X{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. dis X
+{res}{err}X not found
+{txt}{search r(111):r(111);}
+
+{com}. scalar stata = 45
+
+. mata
+{txt}{hline 49} mata (type {cmd:end} to exit) {hline}
+{com}: x = stata
+{res}{err}                 <istmt>:  3499  stata not found
+{txt}{search r(3499):r(3499);}
+
+{com}: capture program drop echo
+{err}invalid expression
+{txt}{search r(3000):r(3000);}
+
+{com}: 
+: program define echo
+{err}invalid expression
+{txt}{search r(3000):r(3000);}
+
+{com}: 
+:     version 9.1
+{res}
+{com}: 
+:     display as text "`0'"
+{err}invalid expression
+{txt}{search r(3000):r(3000);}
+
+{com}: 
+: end
+{txt}{hline}
+
+{com}. end
+{err}command {bf}end{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. capture program drop echo
+
+. 
+. program define echo
+{txt}  1{com}. 
+.     version 9.1
+{txt}  2{com}. 
+.     display as text "`0'"
+{txt}  3{com}. 
+. end
+
+. echo
+{txt}
+
+{com}. echo j
+{txt}j
+
+{com}. echo akldf
+{txt}akldf
+
+{com}. echo akldf jdlfjd
+{txt}akldf jdlfjd
+
+{com}. echo Programming Stata Tutorial
+{txt}Programming Stata Tutorial
+
+{com}. import excel "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Input\Raw Data\RaceVerification.xls", sheet("Sheet1") cellrange(A2:G306) firstrow clear
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. /* 
+> This set of do files generates Tables and Figures that are used in the paper
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

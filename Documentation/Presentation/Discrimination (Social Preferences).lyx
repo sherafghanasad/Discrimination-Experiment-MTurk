@@ -1,0 +1,1198 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{sansmathaccent}
+\pdfmapfile{+sansmathaccent.map}
+\usetheme{boxes}
+\usecolortheme{lily}
+\usepackage{lmodern}
+
+\author[Asad, Banerjee and Bhattacharya]{%
+  \texorpdfstring{%
+    \begin{columns}
+      \column{.5\linewidth}
+      \centering
+      Sher Afghan Asad \\ Iowa State University
+      \column{.5\linewidth}
+      \centering
+      Ritwik Banerjee \\ Indian Institute of Management
+    \end{columns}
+    \vspace{12pt}
+    \begin{columns}
+      \column{.33\linewidth}
+      \centering
+      Joydeep Bhattacharya \\ Iowa State University
+    \end{columns}
+ }
+ {Sher Afghan Asad, Ritwik Banerjee, Joydeep Bhattacharya}
+}
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\usepackage{multimedia}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Do workers discriminate against their out-group employers? Evidence from
+ an online labor market
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Outline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Motivation and Introduction}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Motivation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Prejudice or bias is widespread in labor market interactions.
+ (Neumark, 2018; Bertrand & Duflo, 2017)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The most common form of bias studied is of the employer-to-employee kind.
+ 
+\end_layout
+
+\begin_layout Itemize
+Employee may respond to discrimination by employer.
+ (Glover, Pallais and Pariente, 2017)
+\end_layout
+
+\begin_layout Itemize
+The evidence on the bias from employee-to-employer is non-existent (to our
+ knowledge).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+It has been established that people have other-regarding preferences (Fehr
+ and Schmidt 1999)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Social-preferences play an important role in economic interactions.
+ (Fehr and Fischbacher 2002)
+\end_layout
+
+\begin_layout Itemize
+The evidence on discrimination in these preferences is rare (Chen and Li
+ 2009).
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+This Paper
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Do workers discriminate in social preferences (altruism and reciprocity)
+ towards the employer? 
+\end_layout
+
+\begin_layout Itemize
+Why?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+What if bias from employer to employee is partially driven by expectations
+ of bias from the employee.
+ 
+\end_layout
+
+\begin_layout Itemize
+Policy implications.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Environment
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Online labor market: one shot interactions
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Model}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{i}+1_{Gift}\underbrace{\rho_{ij}}_{\rho_{i}+\Delta\rho_{ij}}+\underbrace{\alpha_{ij}}_{\alpha_{i}+\Delta\alpha_{ij}}v_{j}+p)e_{ij}-c(e_{ij})\right)\label{eq:utility}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ leads to following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+1_{Gift}\rho_{ij}+\alpha_{ij}v_{j}+p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Two forms of cost function
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Power Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Exponential Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{kexp^{\gamma e}}{\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Piece Rate Treatments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\rho_{ij}=0$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{ij}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+4 different piece rates 
+\end_layout
+
+\begin_layout Itemize
+Helps identify 
+\begin_inset Formula $s_{i},$
+\end_inset
+
+ 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, and 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Altruism Treatments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Baseline Altruism - (identifies 
+\begin_inset Formula $\alpha_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta\alpha_{ij}=0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Altruism Black - (identifies 
+\begin_inset Formula $\Delta\alpha_{iB}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Altruism White - (identifies 
+\begin_inset Formula $\Delta\alpha_{iW}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Reciprocity Treatments
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Baseline Reciprocity - (identifies 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta\rho_{ij}=0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Reciprocity Black - (identifies 
+\begin_inset Formula $\Delta\rho_{iB}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Reciprocity White - (identifies 
+\begin_inset Formula $\Delta\rho_{iW}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Experiment Design}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Experiment Design
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Recruitment of Subjects
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Employers: Students from ISU
+\end_layout
+
+\begin_layout Itemize
+Workers: Amazon's Mechanical Turk
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Task
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Button-Pressing task as in DellaVigna and Pope (2018)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Experiment Flow
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Recruit Black and White students from ISU to perform the role of employer.
+ 
+\end_layout
+
+\begin_layout Itemize
+Post assignment on M-Turk for a screen-er survey to recruit White subjects
+ to perform the role of worker.
+\end_layout
+
+\begin_layout Itemize
+Invite qualified subjects to initiate the experiment.
+\end_layout
+
+\begin_layout Itemize
+Randomly assign to one of the treatment groups.
+\end_layout
+
+\begin_layout Itemize
+Workers watch a video explaining instructions before starting to work on
+ the task.
+ 
+\end_layout
+
+\begin_layout Itemize
+Workers work on the task for up-to 10 minutes.
+ 
+\end_layout
+
+\begin_layout Itemize
+Workers answer some questions about social preferences towards Blacks and
+ Whites.
+ (Falk et al.
+ 2018)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Summary of Treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="2">
+<features tabularvalignment="middle" tabularwidth="10cm">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="7.5cm">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size tiny
+Treatment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size tiny
+Treatment Script
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Piece Rate - 0 cents
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Piece Rate - 3 cents
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+As a bonus, you will be paid an extra 3 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Piece Rate - 6 cents
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+As a bonus, you will be paid an extra 6 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Piece Rate - 9 cents
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+As a bonus, you will be paid an extra 9 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Altruism Baseline
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+As a bonus, I, your boss, will be paid 1 cent for every 100 points that
+ you score.
+ Your score will not affect your payment in any way.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Altruism Black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Same script as altruism baseline with Black hand and Black voice in the
+ video.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Altruism White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Same script as altruism baseline with White hand and White voice in the
+ video.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Reciprocity Baseline
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+As a bonus, I, your boss, will be paid 1 cent for every 100 points that
+ you score.
+ In appreciation to you for performing this task, I have decided to pay
+ you extra 20 cents as bonus.
+ Your score will not affect your payment in any way.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Reciprocity Black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Same as reciprocity baseline with Black hand and Black voice in the video.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Reciprocity White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+Same as reciprocity baseline with White hand and White voice in the video.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Survey Questions}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Racial preference question (Axt 2017)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Which statement best describes you?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+I strongly prefer Black people to White people
+\end_layout
+
+\begin_layout Itemize
+I moderately prefer Black people to White people, 
+\end_layout
+
+\begin_layout Itemize
+I slightly prefer Black people to White people, 
+\end_layout
+
+\begin_layout Itemize
+I prefer Black people and White people equally, 
+\end_layout
+
+\begin_layout Itemize
+I slightly prefer White people to Black people, 
+\end_layout
+
+\begin_layout Itemize
+I moderately prefer White people to Black people, 
+\end_layout
+
+\begin_layout Itemize
+I strongly prefer White people to Black people
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Altruism question 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename SPQ1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Reciprocity question 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename SPQ2.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Altruism question 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename SPQ3.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Reciprocity question 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename SPQ4.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Huge Thank You!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\end_body
+\end_document

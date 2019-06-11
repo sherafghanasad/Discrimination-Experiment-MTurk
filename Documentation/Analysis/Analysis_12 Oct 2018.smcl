@@ -1,0 +1,552 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_12 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Oct 2018, 17:08:28
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,529 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(152 observations deleted)
+
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. duplicates drop WorkerID Gender Race Age Education LastPage, force
+
+{p 0 4}{txt}Duplicates in terms of {res} WorkerID Gender Race Age Education LastPage{p_end}
+
+{txt}(6 observations deleted)
+
+{com}. isid    WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 Feedback = AB
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if GroupID == 1 & PieceRate == 0
+{txt}(2 observations deleted)
+
+{com}. drop    if LastPage == "" 
+{txt}(676 observations deleted)
+
+{com}. 
+. * Workers in following groups participated on phone so they couldn't do the button pressing task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 4 | GroupID == 18 | GroupID == 41 | GroupID == 53 |
+>                 GroupID == 71 | GroupID == 125
+>                 ;
+{txt}(12 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Workers in following groups dropped out before working on the task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 6 | GroupID == 8 | GroupID == 14 | GroupID == 16 | 
+>                 GroupID == 17 | GroupID == 21 | GroupID == 22 | GroupID == 24 |
+>                 GroupID == 32 | GroupID == 35 | GroupID == 38 | GroupID == 39 |
+>                 GroupID == 46 | GroupID == 49 | GroupID == 67 | GroupID == 77 |
+>                 GroupID == 78 | GroupID == 80 | GroupID == 82 | GroupID == 92 | 
+>                 GroupID == 95 | GroupID == 97 | GroupID == 105 | GroupID == 126 |
+>                 GroupID == 127 | GroupID == 134 | GroupID == 141 | GroupID == 145 |
+>                 GroupID == 149 | GroupID == 152 | GroupID == 154 | GroupID == 157 |
+>                 GroupID == 159 | GroupID == 165
+>                 ;
+{txt}(68 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Assigned to Multiple treatments
+. 
+. drop    if GroupID == 136 | GroupID == 131
+{txt}(4 observations deleted)
+
+{com}. 
+. * Drop subjects which did not provide M-Turk ID
+. 
+. gen             ID = _n
+{txt}
+{com}. tostring        ID, replace
+{txt}ID was {res:float} now {res:str3}
+
+{com}. replace         WorkerID = ID if WorkerID == "NOT PROVIDED"
+{txt}(15 real changes made)
+
+{com}. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(1 real change made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. *drop   if LastPage != "SurveyCode" // These guys didn't complete the survey
+. drop    LastPage
+{txt}
+{com}. *drop   if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(1 3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              20
+{txt}{col 9}from master{col 30}{res}              20{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}             226{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. tab             Race
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         27       11.95       11.95
+{txt}                   White or Caucasian {c |}{res}        199       88.05      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        226      100.00
+{txt}
+{com}. replace         Education = "College Graduate" if Education == "other_:Bachelors Degree"  
+{txt}(1 real change made)
+
+{com}. replace         Gender = "" if Gender == "Prefer not to answer" | Gender == "other_:transgender female"
+{txt}(2 real changes made)
+
+{com}. replace         Education = "Master's Degree" if Education == "Professional Degree"
+{txt}(4 real changes made)
+
+{com}. replace         Education = "High School or equivalent" if Education == "Vocational/Technical School"
+{txt}(13 real changes made)
+
+{com}. 
+. label           define education 1 "Less than high school" 2 "High School or equivalent" 3 "Some College" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree"
+{txt}
+{com}. encode          Education, gen(EducEnc) label(education) noextend
+{txt}
+{com}. drop            Education
+{txt}
+{com}. ren             EducEnc Education
+{res}{txt}
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution12 Oct 2018.png written in PNG format)
+
+{com}.                 
+. * Demographics of Subjects
+. 
+. * Gender
+. 
+. gen     Male = (Gender == "Male") * 100
+{txt}
+{com}. gen     Female = (Gender == "Female") * 100
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Male 
+>                 (mean) Female, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.") 
+>                 legend(order(1 "Male" 2 "Female")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Gender", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Gender.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. *drop   Male Female
+. 
+. /*
+> #d ;
+> graph   bar (mean), 
+>                 over(Male) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+> */
+. 
+. * Age
+. 
+. tabulate        Age, gen(Age)
+
+        {txt}Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}         26       11.50       11.50
+{txt}      25-30 {c |}{res}         61       26.99       38.50
+{txt}      31-40 {c |}{res}         88       38.94       77.43
+{txt}      41-50 {c |}{res}         25       11.06       88.50
+{txt}      51-64 {c |}{res}         23       10.18       98.67
+{txt} 65 or over {c |}{res}          3        1.33      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Age1-Age6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(26 real changes made)
+(61 real changes made)
+(88 real changes made)
+(25 real changes made)
+(23 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Age1 
+>                 (mean) Age2
+>                 (mean) Age3 
+>                 (mean) Age4
+>                 (mean) Age5 
+>                 (mean) Age6             , 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.") 
+>                 legend(order(1 "18-24" 2 "25-30" 3 "31-40" 4 "41-50" 5 "51-60" 6 "65 or over")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Age", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Age.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+> */
+. 
+. * Education
+. 
+. tabulate        Education, gen(Education)
+
+                {txt}Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+    Less than high school {c |}{res}          2        0.88        0.88
+{txt}High School or equivalent {c |}{res}         32       14.16       15.04
+{txt}             Some College {c |}{res}         69       30.53       45.58
+{txt}         College Graduate {c |}{res}         85       37.61       83.19
+{txt}          Master's Degree {c |}{res}         35       15.49       98.67
+{txt}          Doctoral Degree {c |}{res}          3        1.33      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Education1-Education6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(2 real changes made)
+(32 real changes made)
+(69 real changes made)
+(85 real changes made)
+(35 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Education1 
+>                 (mean) Education2
+>                 (mean) Education3 
+>                 (mean) Education4
+>                 (mean) Education5 
+>                 (mean) Education6, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.") 
+>                 legend(order(1 "Less than high school" 2 "High school or equivalent" 3 "Some college" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Education", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Education.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+> */
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 "${c -(}outdir{c )-}\Gender" "${c -(}outdir{c )-}\Age" "${c -(}outdir{c )-}\Education", 
+>                 title(Demographics of Overall Sample) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\Demographics.png", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Demographics.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png written in PNG format)
+
+{com}. 
+. *drop   Age? Education?
+. 
+. * Generate a table of demographic information
+. 
+. foreach var of varlist Male Female Age1-Age6 Education1-Education6 {c -(}
+{txt}  2{com}.         replace `var' = `var'/100
+{txt}  3{com}. {c )-}
+{txt}(78 real changes made)
+(146 real changes made)
+(26 real changes made)
+(61 real changes made)
+(88 real changes made)
+(25 real changes made)
+(23 real changes made)
+(3 real changes made)
+(2 real changes made)
+(32 real changes made)
+(69 real changes made)
+(85 real changes made)
+(35 real changes made)
+(3 real changes made)
+
+{com}. 
+. label   var Age1 "18-24"
+{txt}
+{com}. label   var Age2 "25-30"
+{txt}
+{com}. label   var Age3 "31-40"
+{txt}
+{com}. label   var Age4 "41-50"
+{txt}
+{com}. label   var Age5 "51-64"
+{txt}
+{com}. label   var Age6 "65 and over"
+{txt}
+{com}. 
+. label   var Education1 "Less than high school"
+{txt}
+{com}. label   var Education2 "High school or equivalent"
+{txt}
+{com}. label   var Education3 "Some college"
+{txt}
+{com}. label   var Education4 "College graduate"
+{txt}
+{com}. label   var Education5 "Master's degree"
+{txt}
+{com}. label   var Education6 "Doctoral degree"
+{txt}
+{com}. 
+. tab             Race, gen(Race)
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         27       11.95       11.95
+{txt}                   White or Caucasian {c |}{res}        199       88.05      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        226      100.00
+{txt}
+{com}. 
+. label   var Race1 "Black or African American"
+{txt}
+{com}. label   var Race2 "White or Caucasian"
+{txt}
+{com}. 
+. eststo  clear
+{txt}
+{com}. *eststo, title("Mean"): xi: estpost sum Male Race1 Age1-Age6 i.Education 
+. *eststo Gender, title("Mean"): estpost sum Male Female  
+. *eststo Race, title("Mean"): estpost sum Race1 Race2  
+. *eststo Age, title("Mean"): estpost sum Age1-Age6 
+. *eststo Education, title("Mean"): estpost sum Education1-Education6
+. 
+. eststo, title("Mean"): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      246}}}{space 1}{space 1}{ralign 9:{res:{sf:      246}}}{space 1}{space 1}{ralign 9:{res:{sf: .3170732}}}{space 1}{space 1}{ralign 9:{res:{sf: .2174216}}}{space 1}{space 1}{ralign 9:{res:{sf: .4662849}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      246}}}{space 1}{space 1}{ralign 9:{res:{sf:      246}}}{space 1}{space 1}{ralign 9:{res:{sf: .5934959}}}{space 1}{space 1}{ralign 9:{res:{sf: .2422432}}}{space 1}{space 1}{ralign 9:{res:{sf: .4921821}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:  .119469}}}{space 1}{space 1}{ralign 9:{res:{sf: .1056637}}}{space 1}{space 1}{ralign 9:{res:{sf: .3250596}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:  .880531}}}{space 1}{space 1}{ralign 9:{res:{sf: .1056637}}}{space 1}{space 1}{ralign 9:{res:{sf: .3250596}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .1150442}}}{space 1}{space 1}{ralign 9:{res:{sf: .1022616}}}{space 1}{space 1}{ralign 9:{res:{sf: .3197836}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .2699115}}}{space 1}{space 1}{ralign 9:{res:{sf: .1979351}}}{space 1}{space 1}{ralign 9:{res:{sf:  .444899}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .3893805}}}{space 1}{space 1}{ralign 9:{res:{sf: .2388201}}}{space 1}{space 1}{ralign 9:{res:{sf: .4886922}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .1106195}}}{space 1}{space 1}{ralign 9:{res:{sf: .0988201}}}{space 1}{space 1}{ralign 9:{res:{sf: .3143566}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .1017699}}}{space 1}{space 1}{ralign 9:{res:{sf: .0918191}}}{space 1}{space 1}{ralign 9:{res:{sf: .3030166}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .0132743}}}{space 1}{space 1}{ralign 9:{res:{sf: .0131563}}}{space 1}{space 1}{ralign 9:{res:{sf: .1147011}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .0088496}}}{space 1}{space 1}{ralign 9:{res:{sf: .0088102}}}{space 1}{space 1}{ralign 9:{res:{sf: .0938628}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .1415929}}}{space 1}{space 1}{ralign 9:{res:{sf: .1220846}}}{space 1}{space 1}{ralign 9:{res:{sf:  .349406}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .3053097}}}{space 1}{space 1}{ralign 9:{res:{sf: .2130383}}}{space 1}{space 1}{ralign 9:{res:{sf: .4615608}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .3761062}}}{space 1}{space 1}{ralign 9:{res:{sf: .2356932}}}{space 1}{space 1}{ralign 9:{res:{sf: .4854825}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .1548673}}}{space 1}{space 1}{ralign 9:{res:{sf: .1314651}}}{space 1}{space 1}{ralign 9:{res:{sf: .3625812}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf:      226}}}{space 1}{space 1}{ralign 9:{res:{sf: .0132743}}}{space 1}{space 1}{ralign 9:{res:{sf: .0131563}}}{space 1}{space 1}{ralign 9:{res:{sf: .1147011}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       78}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      146}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       27}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      199}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       26}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       61}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       25}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       23}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       32}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       69}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       85}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       35}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+({res}est1{txt} stored)
+
+{com}. 
+.   
+. esttab using "${c -(}outdir{c )-}\Demographic.tex", label mtitles title(Demographic Information) main(mean) b(2) nostar nogaps nonote replace
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographic.tex"'})
+
+{com}. st
+{err}data not st 
+{txt}{search r(119):r(119);}
+
+end of do-file
+
+{search r(119):r(119);}
+
+{com}. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Analysis\DescriptiveStatistics.do"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

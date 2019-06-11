@@ -1,0 +1,114 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_ 1 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 1 Oct 2018, 17:09:19
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-01.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,563 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(144 observations deleted)
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. *isid   WorkerID
+. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-01.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(765 observations deleted)
+
+{com}. drop    LastPage
+{txt}
+{com}. drop    if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+{txt}(1 observation deleted)
+
+{com}. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:m WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             240{txt}  
+{col 5}{hline 41}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. tab             Race
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         31       12.92       12.92
+{txt}                   White or Caucasian {c |}{res}        209       87.08      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        240      100.00
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. exit, clear

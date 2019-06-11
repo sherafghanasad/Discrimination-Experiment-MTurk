@@ -1,0 +1,220 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_2_AnalysePictures_25 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Oct 2018, 11:25:25
+{txt}
+{com}. 
+. use             "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. * First verify if the reported race match with observed race from hand
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import          excel 
+>                         WorkerID = A
+>                         HandRaceMatched = E
+>                         HandGenderMatched = F
+>                         using 
+>                         "${c -(}rawdatadir{c )-}\RaceVerification.xls", 
+>                         cellrange(A2) clear
+>                         ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. foreach         var of varlist HandRaceMatched HandGenderMatched {c -(}
+{txt}  2{com}.                         bysort  WorkerID (`var'): replace `var' = `var'[1] if `var'==.
+{txt}  3{com}.                         {c )-}
+{txt}(2 real changes made)
+(2 real changes made)
+
+{com}. duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(3 observations deleted)
+
+{com}.                         
+. isid            WorkerID
+{txt}
+{com}.                         
+. merge           1:1 WorkerID using "${c -(}outdir{c )-}\CleanedData", keep(2 3) 
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              15
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              15{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             187{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. isid            WorkerID
+{txt}
+{com}. drop            _merge
+{txt}
+{com}. save            "${c -(}tempdir{c )-}\CleanedDataWithHandPic", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\CleanedDataWithHandPic.dta saved
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. import          excel 
+>                         WorkerID = A
+>                         AmountVisible = H
+>                         FaceVisible = I
+>                         HandVisible = J
+>                         OtherInfoVisible = K
+>                         RaceSalient = L
+>                         GenderSalient = M
+>                         using 
+>                         "${c -(}rawdatadir{c )-}\PieceRatePicVerification.xls", 
+>                         cellrange(A2) clear
+>                         ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. foreach         var of varlist AmountVisible FaceVisible HandVisible OtherInfoVisible RaceSalient GenderSalient{c -(}
+{txt}  2{com}.                         bysort  WorkerID (`var'): replace `var' = `var'[1] if `var'==.
+{txt}  3{com}.                         {c )-}
+{txt}(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+
+{com}. duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(3 observations deleted)
+
+{com}. isid            WorkerID
+{txt}
+{com}. 
+. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\CleanedDataWithHandPic", keep(2 3)
+{res}{txt}{p 0 7 2}
+(note: variable
+WorkerID was 
+str18, now str26 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             117
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             117{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}              85{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. tab AmountVisible if Role == 1 & Treatment == "Race Salient" & _merge == 2
+{txt}no observations
+
+{com}. tab AmountVisible if Role == 1 & Treatment == "Race Salient"
+
+{txt}AmountVisib {c |}
+         le {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          6       14.29       14.29
+{txt}          1 {c |}{res}         36       85.71      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+
+{com}. tab FaceVisible if Role == 1 & Treatment == "Race Salient"
+
+{txt}FaceVisible {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         41       97.62       97.62
+{txt}          1 {c |}{res}          1        2.38      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+
+{com}. tab RaceSalient if Role == 1 & Treatment == "Race Salient"
+
+{txt}RaceSalient {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         13       30.95       30.95
+{txt}          1 {c |}{res}         29       69.05      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+
+{com}. tab HandVisible if Role == 1 & Treatment == "Race Salient"
+
+{txt}HandVisible {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         10       23.81       23.81
+{txt}          1 {c |}{res}         32       76.19      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+
+{com}. http://www.statalist.org/auth.key
+{err}command {bf}http{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. type http://www.statalist.org/auth.key
+{res}hx2AytymrtzbuzkbhomjtijpOslldynzgutsazy2
+
+{com}. tab GenderSalient if Role == 1 & Treatment == "Race Salient"
+
+{txt}GenderSalie {c |}
+         nt {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         27       64.29       64.29
+{txt}          1 {c |}{res}         15       35.71      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+
+{com}. br
+
+. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Analysis\Structural Estimation\_1_EstimatingCostFunction.do"
+{txt}
+{com}. /* 
+> This file estimate the parameters of cost function using minimum distance 
+> estimation. 
+> Input: 
+>         Individual level raw data
+> Output:
+>         Table with paramter values
+>         
+> Written by: Sher Afghan Asad
+> Date: 2018-08-06
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

@@ -1,0 +1,1701 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_14 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}14 Oct 2018, 23:57:52
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,529 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(152 observations deleted)
+
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. duplicates drop WorkerID Gender Race Age Education LastPage, force
+
+{p 0 4}{txt}Duplicates in terms of {res} WorkerID Gender Race Age Education LastPage{p_end}
+
+{txt}(6 observations deleted)
+
+{com}. isid    WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 GuessedPieceRate = AI
+>                 FairPieceRate = AJ
+>                 GuessedPoints = AN
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 Feedback = AB
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if GroupID == 1 & PieceRate == 0
+{txt}(2 observations deleted)
+
+{com}. drop    if LastPage == "" 
+{txt}(676 observations deleted)
+
+{com}. 
+. * Workers in following groups participated on phone so they couldn't do the button pressing task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 4 | GroupID == 18 | GroupID == 41 | GroupID == 53 |
+>                 GroupID == 71 | GroupID == 125
+>                 ;
+{txt}(12 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Workers in following groups dropped out before working on the task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 6 | GroupID == 8 | GroupID == 14 | GroupID == 16 | 
+>                 GroupID == 17 | GroupID == 21 | GroupID == 22 | GroupID == 24 |
+>                 GroupID == 32 | GroupID == 35 | GroupID == 38 | GroupID == 39 |
+>                 GroupID == 46 | GroupID == 49 | GroupID == 67 | GroupID == 77 |
+>                 GroupID == 78 | GroupID == 80 | GroupID == 82 | GroupID == 92 | 
+>                 GroupID == 95 | GroupID == 97 | GroupID == 105 | GroupID == 126 |
+>                 GroupID == 127 | GroupID == 134 | GroupID == 141 | GroupID == 145 |
+>                 GroupID == 149 | GroupID == 152 | GroupID == 154 | GroupID == 157 |
+>                 GroupID == 159 | GroupID == 165
+>                 ;
+{txt}(68 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Assigned to Multiple treatments
+. 
+. drop    if GroupID == 136 | GroupID == 131
+{txt}(4 observations deleted)
+
+{com}. 
+. * Drop subjects which did not provide M-Turk ID
+. 
+. gen             ID = _n
+{txt}
+{com}. tostring        ID, replace
+{txt}ID was {res:float} now {res:str3}
+
+{com}. replace         WorkerID = ID if WorkerID == "NOT PROVIDED"
+{txt}(15 real changes made)
+
+{com}. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(1 real change made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. *drop   if LastPage != "SurveyCode" // These guys didn't complete the survey
+. drop    LastPage
+{txt}
+{com}. *drop   if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+. 
+. * Dropping groups that scored zero points, this must be because of technical issues
+. 
+. drop    if Points == 0 
+{txt}(44 observations deleted)
+
+{com}. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(1 3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              15
+{txt}{col 9}from master{col 30}{res}              15{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}             187{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. replace         Gender = "Male" if Gender == "" 
+{txt}(15 real changes made)
+
+{com}. replace         Race = "Black or African-American" if Race == ""
+{txt}(15 real changes made)
+
+{com}. 
+. replace         Education = "College Graduate" if Education == "other_:Bachelors Degree"  
+{txt}(0 real changes made)
+
+{com}. replace         Gender = "" if Gender == "Prefer not to answer" | Gender == "other_:transgender female"
+{txt}(2 real changes made)
+
+{com}. replace         Education = "Master's Degree" if Education == "Professional Degree"
+{txt}(3 real changes made)
+
+{com}. replace         Education = "High School or equivalent" if Education == "Vocational/Technical School"
+{txt}(12 real changes made)
+
+{com}. 
+. label           define education 1 "Less than high school" 2 "High School or equivalent" 3 "Some College" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree"
+{txt}
+{com}. encode          Education, gen(EducEnc) label(education) noextend
+{txt}
+{com}. drop            Education
+{txt}
+{com}. ren             EducEnc Education
+{res}{txt}
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution14 Oct 2018.png written in PNG format)
+
+{com}.                 
+. * Demographics of Subjects
+. 
+. * Gender
+. 
+. gen     Male = (Gender == "Male") * 100
+{txt}
+{com}. gen     Female = (Gender == "Female") * 100
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Male 
+>                 (mean) Female, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.") 
+>                 legend(order(1 "Male" 2 "Female")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Gender", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Gender.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. *drop   Male Female
+. 
+. /*
+> #d ;
+> graph   bar (mean), 
+>                 over(Male) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+> */
+. 
+. * Age
+. 
+. tabulate        Age, gen(Age)
+
+        {txt}Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}         21       11.23       11.23
+{txt}      25-30 {c |}{res}         54       28.88       40.11
+{txt}      31-40 {c |}{res}         70       37.43       77.54
+{txt}      41-50 {c |}{res}         20       10.70       88.24
+{txt}      51-64 {c |}{res}         19       10.16       98.40
+{txt} 65 or over {c |}{res}          3        1.60      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        187      100.00
+{txt}
+{com}. foreach var of varlist Age1-Age6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(21 real changes made)
+(54 real changes made)
+(70 real changes made)
+(20 real changes made)
+(19 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Age1 
+>                 (mean) Age2
+>                 (mean) Age3 
+>                 (mean) Age4
+>                 (mean) Age5 
+>                 (mean) Age6             , 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.") 
+>                 legend(order(1 "18-24" 2 "25-30" 3 "31-40" 4 "41-50" 5 "51-60" 6 "65 or over")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Age", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Age.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+> */
+. 
+. * Education
+. 
+. tabulate        Education, gen(Education)
+
+                {txt}Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+    Less than high school {c |}{res}          2        1.07        1.07
+{txt}High School or equivalent {c |}{res}         24       12.83       13.90
+{txt}             Some College {c |}{res}         55       29.41       43.32
+{txt}         College Graduate {c |}{res}         73       39.04       82.35
+{txt}          Master's Degree {c |}{res}         30       16.04       98.40
+{txt}          Doctoral Degree {c |}{res}          3        1.60      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        187      100.00
+{txt}
+{com}. foreach var of varlist Education1-Education6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(2 real changes made)
+(24 real changes made)
+(55 real changes made)
+(73 real changes made)
+(30 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Education1 
+>                 (mean) Education2
+>                 (mean) Education3 
+>                 (mean) Education4
+>                 (mean) Education5 
+>                 (mean) Education6, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.") 
+>                 legend(order(1 "Less than high school" 2 "High school or equivalent" 3 "Some college" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Education", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Education.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+> */
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 "${c -(}outdir{c )-}\Gender" "${c -(}outdir{c )-}\Age" "${c -(}outdir{c )-}\Education", 
+>                 title(Demographics of Overall Sample) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\Demographics.png", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Demographics.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png written in PNG format)
+
+{com}. 
+. *drop   Age? Education?
+. 
+. * Generate a table of demographic information
+. 
+. foreach var of varlist Male Female Age1-Age6 Education1-Education6 {c -(}
+{txt}  2{com}.         replace `var' = `var'/100
+{txt}  3{com}. {c )-}
+{txt}(81 real changes made)
+(119 real changes made)
+(21 real changes made)
+(54 real changes made)
+(70 real changes made)
+(20 real changes made)
+(19 real changes made)
+(3 real changes made)
+(2 real changes made)
+(24 real changes made)
+(55 real changes made)
+(73 real changes made)
+(30 real changes made)
+(3 real changes made)
+
+{com}. 
+. label   var Male "\hspace{c -(}0.5cm{c )-}Male"
+{txt}
+{com}. label   var Female "\hspace{c -(}0.5cm{c )-}Female"
+{txt}
+{com}. 
+. label   var Age1 "\hspace{c -(}0.5cm{c )-}18-24"
+{txt}
+{com}. label   var Age2 "\hspace{c -(}0.5cm{c )-}25-30"
+{txt}
+{com}. label   var Age3 "\hspace{c -(}0.5cm{c )-}31-40"
+{txt}
+{com}. label   var Age4 "\hspace{c -(}0.5cm{c )-}41-50"
+{txt}
+{com}. label   var Age5 "\hspace{c -(}0.5cm{c )-}51-64"
+{txt}
+{com}. label   var Age6 "\hspace{c -(}0.5cm{c )-}65 and over"
+{txt}
+{com}. 
+. label   var Education1 "\hspace{c -(}0.5cm{c )-}Less than high school"
+{txt}
+{com}. label   var Education2 "\hspace{c -(}0.5cm{c )-}High school or equivalent"
+{txt}
+{com}. label   var Education3 "\hspace{c -(}0.5cm{c )-}Some college"
+{txt}
+{com}. label   var Education4 "\hspace{c -(}0.5cm{c )-}College graduate"
+{txt}
+{com}. label   var Education5 "\hspace{c -(}0.5cm{c )-}Master's degree"
+{txt}
+{com}. label   var Education6 "\hspace{c -(}0.5cm{c )-}Doctoral degree"
+{txt}
+{com}. 
+. tab             Race, gen(Race)
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         37       18.32       18.32
+{txt}                   White or Caucasian {c |}{res}        165       81.68      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        202      100.00
+{txt}
+{com}. 
+. label   var Race1 "\hspace{c -(}0.5cm{c )-}Black or African American"
+{txt}
+{com}. label   var Race2 "\hspace{c -(}0.5cm{c )-}White or Caucasian"
+{txt}
+{com}. 
+. eststo  clear
+{txt}
+{com}. 
+. eststo estBlacks, title(Blacks): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Race == "Black or African-American"
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf: .5405405}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf: .4324324}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .0909091}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .2272727}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       .5}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1363636}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .0454545}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1363636}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .4090909}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1818182}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2552553}}}{space 1}{space 1}{ralign 9:{res:{sf: .5052279}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2522523}}}{space 1}{space 1}{ralign 9:{res:{sf: .5022472}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0865801}}}{space 1}{space 1}{ralign 9:{res:{sf: .2942449}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1839827}}}{space 1}{space 1}{ralign 9:{res:{sf:  .428932}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2619048}}}{space 1}{space 1}{ralign 9:{res:{sf: .5117663}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1233766}}}{space 1}{space 1}{ralign 9:{res:{sf: .3512501}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0454545}}}{space 1}{space 1}{ralign 9:{res:{sf: .2132007}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1233766}}}{space 1}{space 1}{ralign 9:{res:{sf: .3512501}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2077922}}}{space 1}{space 1}{ralign 9:{res:{sf: .4558423}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2532468}}}{space 1}{space 1}{ralign 9:{res:{sf: .5032363}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1558442}}}{space 1}{space 1}{ralign 9:{res:{sf:  .394771}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       20}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       16}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        9}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{com}. eststo estWhites, title(Whites): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Race == "White or Caucasian"
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:  .369697}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .6242424}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1151515}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .2969697}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .3575758}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1030303}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1090909}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0181818}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0121212}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1272727}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .2969697}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .3878788}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1575758}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0181818}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .234442}}}{space 1}{space 1}{ralign 9:{res:{sf: .4841921}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2359941}}}{space 1}{space 1}{ralign 9:{res:{sf: .4857922}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1025129}}}{space 1}{space 1}{ralign 9:{res:{sf: .3201764}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2100517}}}{space 1}{space 1}{ralign 9:{res:{sf:  .458314}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .231116}}}{space 1}{space 1}{ralign 9:{res:{sf: .4807453}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0929786}}}{space 1}{space 1}{ralign 9:{res:{sf: .3049239}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0977827}}}{space 1}{space 1}{ralign 9:{res:{sf: .3127023}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0179601}}}{space 1}{space 1}{ralign 9:{res:{sf: .1340153}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0120473}}}{space 1}{space 1}{ralign 9:{res:{sf: .1097602}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1117517}}}{space 1}{space 1}{ralign 9:{res:{sf: .3342928}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2100517}}}{space 1}{space 1}{ralign 9:{res:{sf:  .458314}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2388766}}}{space 1}{space 1}{ralign 9:{res:{sf:   .48875}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1335551}}}{space 1}{space 1}{ralign 9:{res:{sf: .3654519}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0179601}}}{space 1}{space 1}{ralign 9:{res:{sf: .1340153}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       61}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      103}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       49}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       59}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       18}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       21}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       49}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       64}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       26}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. eststo estAll, title("All Subjects"): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .4009901}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .5891089}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .1831683}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .8168317}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1122995}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .2887701}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .3743316}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1069519}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1016043}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0160428}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0106952}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1283422}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .2941176}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .3903743}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1604278}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0160428}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .241392}}}{space 1}{space 1}{ralign 9:{res:{sf: .4913166}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2432639}}}{space 1}{space 1}{ralign 9:{res:{sf: .4932179}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1503621}}}{space 1}{space 1}{ralign 9:{res:{sf: .3877655}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1503621}}}{space 1}{space 1}{ralign 9:{res:{sf: .3877655}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1002243}}}{space 1}{space 1}{ralign 9:{res:{sf: .3165821}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2064861}}}{space 1}{space 1}{ralign 9:{res:{sf: .4544074}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2354666}}}{space 1}{space 1}{ralign 9:{res:{sf:  .485249}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0960267}}}{space 1}{space 1}{ralign 9:{res:{sf: .3098817}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0917716}}}{space 1}{space 1}{ralign 9:{res:{sf: .3029383}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0158703}}}{space 1}{space 1}{ralign 9:{res:{sf: .1259773}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0106377}}}{space 1}{space 1}{ralign 9:{res:{sf: .1031392}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .112472}}}{space 1}{space 1}{ralign 9:{res:{sf: .3353684}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2087287}}}{space 1}{space 1}{ralign 9:{res:{sf: .4568683}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2392617}}}{space 1}{space 1}{ralign 9:{res:{sf: .4891438}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1354149}}}{space 1}{space 1}{ralign 9:{res:{sf: .3679876}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0158703}}}{space 1}{space 1}{ralign 9:{res:{sf: .1259773}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       81}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      119}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       21}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       54}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       70}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       20}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       24}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       55}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       73}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. eststo estWorkers, title(Workers): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Role == 2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .3861386}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .5940594}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1485149}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .8514851}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1313131}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3030303}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3535354}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1010101}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1010101}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1313131}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3939394}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1919192}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2394059}}}{space 1}{space 1}{ralign 9:{res:{sf: .4892913}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2435644}}}{space 1}{space 1}{ralign 9:{res:{sf: .4935224}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1277228}}}{space 1}{space 1}{ralign 9:{res:{sf: .3573832}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1277228}}}{space 1}{space 1}{ralign 9:{res:{sf: .3573832}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .115234}}}{space 1}{space 1}{ralign 9:{res:{sf: .3394613}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2133581}}}{space 1}{space 1}{ralign 9:{res:{sf:  .461907}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2308802}}}{space 1}{space 1}{ralign 9:{res:{sf:    .4805}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0917337}}}{space 1}{space 1}{ralign 9:{res:{sf: .3028757}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0917337}}}{space 1}{space 1}{ralign 9:{res:{sf: .3028757}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1005038}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1005038}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .115234}}}{space 1}{space 1}{ralign 9:{res:{sf: .3394613}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2003711}}}{space 1}{space 1}{ralign 9:{res:{sf: .4476283}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2411874}}}{space 1}{space 1}{ralign 9:{res:{sf: .4911083}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1566687}}}{space 1}{space 1}{ralign 9:{res:{sf:  .395814}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       39}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       60}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       86}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       35}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       27}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       39}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{com}. eststo estEmployers, title(Employers): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Role == 1
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .4158416}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .5841584}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .2178218}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .7821782}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0909091}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3977273}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .1136364}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .1022727}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0227273}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0113636}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:     .125}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3181818}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3863636}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:     .125}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0340909}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2453465}}}{space 1}{space 1}{ralign 9:{res:{sf: .4953247}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2453465}}}{space 1}{space 1}{ralign 9:{res:{sf: .4953247}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1720792}}}{space 1}{space 1}{ralign 9:{res:{sf: .4148243}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1720792}}}{space 1}{space 1}{ralign 9:{res:{sf: .4148243}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0835946}}}{space 1}{space 1}{ralign 9:{res:{sf: .2891272}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .200627}}}{space 1}{space 1}{ralign 9:{res:{sf:  .447914}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2422936}}}{space 1}{space 1}{ralign 9:{res:{sf: .4922333}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1018809}}}{space 1}{space 1}{ralign 9:{res:{sf: .3191878}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0928683}}}{space 1}{space 1}{ralign 9:{res:{sf: .3047431}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .022466}}}{space 1}{space 1}{ralign 9:{res:{sf: .1498868}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0113636}}}{space 1}{space 1}{ralign 9:{res:{sf: .1066004}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1106322}}}{space 1}{space 1}{ralign 9:{res:{sf: .3326142}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2194357}}}{space 1}{space 1}{ralign 9:{res:{sf: .4684397}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .2398119}}}{space 1}{space 1}{ralign 9:{res:{sf: .4897059}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1106322}}}{space 1}{space 1}{ralign 9:{res:{sf: .3326142}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .0333072}}}{space 1}{space 1}{ralign 9:{res:{sf: .1825026}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       42}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       59}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       79}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       24}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       35}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        9}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       28}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       34}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estAll estBlacks estWhites estEmployers estWorkers using "${c -(}outdir{c )-}\Demographic.tex", 
+>                 label mtitles 
+>                 main(mean) b(2) 
+>                 nostar nonote nogap
+>                 width(\hsize)
+>                 refcat(Male "Gender" Race1 "Race" Age1 "Age" Education1 "Education",nolabel)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographic.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. 
+. * Distribution of points scored
+. 
+. histogram Points if Role ==1, width(25) start(0) xtitle("Points") ytitle("Frequency") ///
+>                 freq title("Distribution of Points - All Treatments") graphregion(color(white)) lcolor(black) fcolor(black) ///
+>                 xlabel(0(500)4000) xmtick(0(100)4000,grid) gap(75) ylabel(,nogrid)
+{txt}(bin={res}144{txt}, start={res}0{txt}, width={res}25{txt})
+{res}{txt}
+{com}. graph   export "${c -(}outdir{c )-}\PointsDist.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PointsDist.png written in PNG format)
+
+{com}. 
+. * Effort against different piece rates
+. 
+. eststo clear
+{txt}
+{com}. eststo estBaseline, title(Baseline): estpost tabstat Points if Role == 2 & Treatment == "Baseline", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}{space 1}{ralign 9:{res:{sf: 1125.125}}}{space 1}{space 1}{ralign 9:{res:{sf: 1245.585}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}{space 1}{ralign 9:{res:{sf: 1750.824}}}{space 1}{space 1}{ralign 9:{res:{sf: 686.4713}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       23}}}{space 1}{space 1}{ralign 9:{res:{sf: 2111.652}}}{space 1}{space 1}{ralign 9:{res:{sf: 554.9694}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}{space 1}{ralign 9:{res:{sf:     1926}}}{space 1}{space 1}{ralign 9:{res:{sf: 644.7573}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       54}}}{space 1}{space 1}{ralign 9:{res:{sf: 1831.278}}}{space 1}{space 1}{ralign 9:{res:{sf: 791.6515}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 440.3809}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 166.4937}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 115.7191}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 263.2211}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 107.7301}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. bysort GroupID (Role): gen EmployerRace = Race[1]
+{txt}
+{com}. eststo estBlack, title(Black Employer): estpost tabstat Points if Role == 2 & Treatment == "Race Salient" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}{space 1}{ralign 9:{res:{sf: 1912.833}}}{space 1}{space 1}{ralign 9:{res:{sf: 419.5309}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2133}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:  2623.25}}}{space 1}{space 1}{ralign 9:{res:{sf: 850.3965}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}{space 1}{ralign 9:{res:{sf: 2191.182}}}{space 1}{space 1}{ralign 9:{res:{sf: 653.0343}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 171.2728}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 425.1983}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 196.8972}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estWhite, title(White Employer): estpost tabstat Points if Role == 2 & Treatment == "Race Salient" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:      812}}}{space 1}{space 1}{ralign 9:{res:{sf: 1312.274}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}{space 1}{ralign 9:{res:{sf: 1868.385}}}{space 1}{space 1}{ralign 9:{res:{sf: 932.0581}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}{space 1}{ralign 9:{res:{sf: 2303.588}}}{space 1}{space 1}{ralign 9:{res:{sf: 396.9934}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:     2654}}}{space 1}{space 1}{ralign 9:{res:{sf: 585.8131}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       36}}}{space 1}{space 1}{ralign 9:{res:{sf: 2051.333}}}{space 1}{space 1}{ralign 9:{res:{sf: 833.0882}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 757.6417}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 258.5064}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 96.28504}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 338.2194}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  138.848}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estBaseline estBlack estWhite using "${c -(}outdir{c )-}\EffortByTreatments.tex", 
+>                 label mtitles
+>                 cells("count(fmt(0) label(N\?))  mean(fmt(2) label(Mean (s.e)\?))" "b(label(\hspace{c -(}0.01cm{c )-})) semean(fmt(2) par label(\hspace{c -(}0.01cm{c )-}))")
+>                 noobs
+>                 coeflabels(1 "0.00" 2 "0.03" 3 "0.06" 4 "0.09")
+>                 nostar gaps
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\EffortByTreatments.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Effort by the identity of worker in the Race Salient treatment
+. preserve
+{txt}
+{com}. keep            if Treatment == "Race Salient"
+{txt}(108 observations deleted)
+
+{com}. tostring        PieceRate, gen(PR)
+{txt}PR generated as {res:str3}
+
+{com}. replace         PR = "0.00" if PR == "0"
+{txt}variable {bf}PR{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str4{sf}
+{txt}(18 real changes made)
+
+{com}. replace         PR = "0.03" if PR == ".03"
+{txt}(28 real changes made)
+
+{com}. replace         PR = "0.06" if PR == ".06"
+{txt}(42 real changes made)
+
+{com}. replace         PR = "0.09" if PR == ".09"
+{txt}(6 real changes made)
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. eststo estBB, title(Black-Black): estpost tabstat Points if Role == 2 & Race == "Black or African-American" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2070}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2070}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estBW, title(Black-White): estpost tabstat Points if Role == 2 & Race == "Black or African-American" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      109}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2395}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:     2175}}}{space 1}{space 1}{ralign 9:{res:{sf: 374.7666}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:   1713.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 1096.248}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      265}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 548.1238}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. eststo estWB, title(White-Black): estpost tabstat Points if Role == 2 & Race == "White or Caucasian" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}{space 1}{ralign 9:{res:{sf:   1881.4}}}{space 1}{space 1}{ralign 9:{res:{sf: 461.0827}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2133}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:  2623.25}}}{space 1}{space 1}{ralign 9:{res:{sf: 850.3965}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}{space 1}{ralign 9:{res:{sf:   2203.3}}}{space 1}{space 1}{ralign 9:{res:{sf: 687.0536}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 206.2025}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 425.1983}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 217.2654}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estWW, title(White-White): estpost tabstat Points if Role == 2 & Race == "White or Caucasian" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PR)
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:   1163.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 1644.023}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       12}}}{space 1}{space 1}{ralign 9:{res:{sf:   1824.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 959.3726}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}{space 1}{ralign 9:{res:{sf: 2320.733}}}{space 1}{space 1}{ralign 9:{res:{sf: 409.1569}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:     2654}}}{space 1}{space 1}{ralign 9:{res:{sf: 585.8131}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       32}}}{space 1}{space 1}{ralign 9:{res:{sf: 2093.563}}}{space 1}{space 1}{ralign 9:{res:{sf: 806.6735}}}{space 1}
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   1162.5}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  276.947}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 105.6439}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 338.2194}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 142.6011}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estWW estBW estWB  estBB using "${c -(}outdir{c )-}\EffortByWorkerGroup.tex", 
+>                 label mtitles
+>                 cells("count(fmt(0) label(N\?))  mean(fmt(2) label(Mean (s.e)\?))" "b(label(\hspace{c -(}0.01cm{c )-})) semean(fmt(2) par label(\hspace{c -(}0.01cm{c )-}))")
+>                 noobs
+>                 coeflabels(1 "0.00" 2 "0.03" 3 "0.06" 4 "0.09")
+>                 nostar gaps
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\EffortByWorkerGroup.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. restore
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. twoway  (fpfit Points PieceRate if Treatment == "Baseline") 
+>                 (fpfit Points PieceRate if Treatment == "Race Salient" & 
+>                 EmployerRace == "Black or African-American") 
+>                 (fpfit Points PieceRate if Treatment == "Race Salient" & 
+>                 EmployerRace == "White or Caucasian"), 
+>                 ytitle(Points Scored) xtitle(Piece Rate (in cents)) 
+>                 title("Incentive effect by treatment") 
+>                 legend(order(1 "Baseline" 2 "Black Employers" 3 "White Employers"))
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}. #d cr   
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\IncentiveEffectByTreatment.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\IncentiveEffectByTreatment.png written in PNG format)
+
+{com}.         
+. * Treatment Effect
+. 
+. encode  Treatment, gen(Treat)
+{txt}
+{com}. gen     lPoints = ln(Points)
+{txt}
+{com}. gen     lPieceRate = ln(PieceRate + 1)
+{txt}
+{com}. gen     Fair = (PieceRate >= FairPieceRate)
+{txt}
+{com}. encode  EmployerRace, gen(EmpRace)
+{txt}
+{com}. label   def EmpRace 1 "Black Employer" 2 "White Employer", replace
+{txt}
+{com}.         
+. eststo  clear
+{txt}
+{com}. eststo  estTE, title(Model 1): reg      lPoints lPieceRate i.Treat if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(2, 98)        = {res}    10.12
+{txt}       Model {c |} {res} 23.0675916         2  11.5337958   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 111.667869        98  1.13946805   {txt}R-squared       ={res}    0.1712
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1543
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0675
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.94392{col 26}{space 2} 4.229034{col 37}{space 1}    4.48{col 46}{space 3}0.000{col 54}{space 4} 10.55154{col 67}{space 3}  27.3363
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} .1535525{col 26}{space 2} .2134174{col 37}{space 1}    0.72{col 46}{space 3}0.474{col 54}{space 4}-.2699675{col 67}{space 3} .5770724
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.432436{col 26}{space 2}  .235062{col 37}{space 1}   27.36{col 46}{space 3}0.000{col 54}{space 4} 5.965963{col 67}{space 3} 6.898909
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEInt, title(Model 2): reg   lPoints lPieceRate i.Treat##EmpRace  if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(4, 96)        = {res}     6.87
+{txt}       Model {c |} {res} 29.9694066         4  7.49235164   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 104.766054        96  1.09131306   {txt}R-squared       ={res}    0.2224
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1900
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0447
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.65732{col 26}{space 2} 5.080841{col 37}{space 1}    3.67{col 46}{space 3}0.000{col 54}{space 4} 8.571929{col 67}{space 3} 28.74271
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} 1.096594{col 26}{space 2} .4526331{col 37}{space 1}    2.42{col 46}{space 3}0.017{col 54}{space 4} .1981244{col 67}{space 3} 1.995064
+{txt}{space 12} {c |}
+{space 5}EmpRace {c |}
+White Emp..  {c |}{col 14}{res}{space 2} .4161136{col 26}{space 2} .4198754{col 37}{space 1}    0.99{col 46}{space 3}0.324{col 54}{space 4}-.4173326{col 67}{space 3}  1.24956
+{txt}{space 12} {c |}
+{space 7}Treat#{c |}
+{space 5}EmpRace {c |}
+Race Sali.. #{c |}
+White Emp..  {c |}{col 14}{res}{space 2}-1.215968{col 26}{space 2} .5177637{col 37}{space 1}   -2.35{col 46}{space 3}0.021{col 54}{space 4}-2.243721{col 67}{space 3}-.1882153
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 6.113611{col 26}{space 2} .3176286{col 37}{space 1}   19.25{col 46}{space 3}0.000{col 54}{space 4} 5.483123{col 67}{space 3} 6.744098
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. eststo  estTEF, title(Model 3): reg     lPoints lPieceRate i.Treat Fair if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(3, 97)        = {res}     6.68
+{txt}       Model {c |} {res} 23.0677908         3  7.68926361   {txt}Prob > F        ={res}    0.0004
+{txt}    Residual {c |} {res} 111.667669        97  1.15121309   {txt}R-squared       ={res}    0.1712
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1456
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0729
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.99194{col 26}{space 2} 5.602847{col 37}{space 1}    3.39{col 46}{space 3}0.001{col 54}{space 4} 7.871836{col 67}{space 3} 30.11204
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} .1537917{col 26}{space 2} .2152841{col 37}{space 1}    0.71{col 46}{space 3}0.477{col 54}{space 4}-.2734876{col 67}{space 3} .5810711
+{txt}{space 8}Fair {c |}{col 14}{res}{space 2}-.0037345{col 26}{space 2} .2838647{col 37}{space 1}   -0.01{col 46}{space 3}0.990{col 54}{space 4}-.5671274{col 67}{space 3} .5596585
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.431928{col 26}{space 2} .2394023{col 37}{space 1}   26.87{col 46}{space 3}0.000{col 54}{space 4} 5.956781{col 67}{space 3} 6.907076
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEFE, title(Model 4): reg    lPoints lPieceRate i.Treat Fair Female Education2-Education6 Race1 Age2-Age6 if Role ==2
+{p 0 6 2}{txt}note: Education6 omitted because of collinearity{p_end}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        99
+{txt}{hline 13}{c +}{hline 34}   F(14, 84)       = {res}     1.35
+{txt}       Model {c |} {res} 22.3176795        14  1.59411997   {txt}Prob > F        ={res}    0.1967
+{txt}    Residual {c |} {res} 99.1959904        84  1.18090465   {txt}R-squared       ={res}    0.1837
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0476
+{txt}       Total {c |} {res}  121.51367        98  1.23993541   {txt}Root MSE        =   {res} 1.0867
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 17.63277{col 26}{space 2} 6.270385{col 37}{space 1}    2.81{col 46}{space 3}0.006{col 54}{space 4} 5.163424{col 67}{space 3} 30.10212
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} .1008888{col 26}{space 2} .2377917{col 37}{space 1}    0.42{col 46}{space 3}0.672{col 54}{space 4} -.371986{col 67}{space 3} .5737636
+{txt}{space 8}Fair {c |}{col 14}{res}{space 2} .0775525{col 26}{space 2} .3021506{col 37}{space 1}    0.26{col 46}{space 3}0.798{col 54}{space 4}-.5233071{col 67}{space 3} .6784121
+{txt}{space 6}Female {c |}{col 14}{res}{space 2}-.1195647{col 26}{space 2} .2413335{col 37}{space 1}   -0.50{col 46}{space 3}0.622{col 54}{space 4}-.5994829{col 67}{space 3} .3603535
+{txt}{space 2}Education2 {c |}{col 14}{res}{space 2}-.4830592{col 26}{space 2} 1.171829{col 37}{space 1}   -0.41{col 46}{space 3}0.681{col 54}{space 4} -2.81337{col 67}{space 3} 1.847252
+{txt}{space 2}Education3 {c |}{col 14}{res}{space 2}-.6724103{col 26}{space 2} 1.165379{col 37}{space 1}   -0.58{col 46}{space 3}0.565{col 54}{space 4}-2.989895{col 67}{space 3} 1.645074
+{txt}{space 2}Education4 {c |}{col 14}{res}{space 2}-.8046677{col 26}{space 2} 1.164359{col 37}{space 1}   -0.69{col 46}{space 3}0.491{col 54}{space 4}-3.120123{col 67}{space 3} 1.510788
+{txt}{space 2}Education5 {c |}{col 14}{res}{space 2}-.7691763{col 26}{space 2} 1.167615{col 37}{space 1}   -0.66{col 46}{space 3}0.512{col 54}{space 4}-3.091107{col 67}{space 3} 1.552754
+{txt}{space 2}Education6 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
+{space 7}Race1 {c |}{col 14}{res}{space 2} .3360702{col 26}{space 2} .3447239{col 37}{space 1}    0.97{col 46}{space 3}0.332{col 54}{space 4}-.3494511{col 67}{space 3} 1.021591
+{txt}{space 8}Age2 {c |}{col 14}{res}{space 2}-.0972497{col 26}{space 2} .3814157{col 37}{space 1}   -0.25{col 46}{space 3}0.799{col 54}{space 4}-.8557366{col 67}{space 3} .6612372
+{txt}{space 8}Age3 {c |}{col 14}{res}{space 2} .0766763{col 26}{space 2} .3654422{col 37}{space 1}    0.21{col 46}{space 3}0.834{col 54}{space 4}-.6500457{col 67}{space 3} .8033982
+{txt}{space 8}Age4 {c |}{col 14}{res}{space 2} .1356158{col 26}{space 2} .4762581{col 37}{space 1}    0.28{col 46}{space 3}0.777{col 54}{space 4}-.8114757{col 67}{space 3} 1.082707
+{txt}{space 8}Age5 {c |}{col 14}{res}{space 2} .1442953{col 26}{space 2} .4702946{col 37}{space 1}    0.31{col 46}{space 3}0.760{col 54}{space 4}-.7909371{col 67}{space 3} 1.079528
+{txt}{space 8}Age6 {c |}{col 14}{res}{space 2} .7556031{col 26}{space 2} 1.159227{col 37}{space 1}    0.65{col 46}{space 3}0.516{col 54}{space 4}-1.549646{col 67}{space 3} 3.060853
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 7.211381{col 26}{space 2} 1.168498{col 37}{space 1}    6.17{col 46}{space 3}0.000{col 54}{space 4} 4.887695{col 67}{space 3} 9.535067
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}.          
+. label   var lPieceRate "Piece Rate"
+{txt}
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estTE estTEInt estTEF estTEFE using "${c -(}outdir{c )-}\TreatmentEffect.tex", 
+>                 label mtitles 
+>                 main() b(2) 
+>                 p
+>                 noomitted
+>                 refcat(Female "Gender" Race1 "Race" Age2 "Age" Education2 "Education",nolabel)
+>                 nobaselevels
+>                 nogap
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\TreatmentEffect.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. 
+. *reg    Points PieceRate i.Treat        
+. * Fairness and Effort 
+. 
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. eststo  clear
+{txt}
+{com}. eststo  estTE, title(Model 1): reg      lPoints lPieceRate i.Treat if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(2, 98)        = {res}    10.12
+{txt}       Model {c |} {res} 23.0675916         2  11.5337958   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 111.667869        98  1.13946805   {txt}R-squared       ={res}    0.1712
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1543
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0675
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.94392{col 26}{space 2} 4.229034{col 37}{space 1}    4.48{col 46}{space 3}0.000{col 54}{space 4} 10.55154{col 67}{space 3}  27.3363
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} .1535525{col 26}{space 2} .2134174{col 37}{space 1}    0.72{col 46}{space 3}0.474{col 54}{space 4}-.2699675{col 67}{space 3} .5770724
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.432436{col 26}{space 2}  .235062{col 37}{space 1}   27.36{col 46}{space 3}0.000{col 54}{space 4} 5.965963{col 67}{space 3} 6.898909
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEInt, title(Model 2): reg   lPoints lPieceRate i.Treat##EmpRace  if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(4, 96)        = {res}     6.87
+{txt}       Model {c |} {res} 29.9694066         4  7.49235164   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 104.766054        96  1.09131306   {txt}R-squared       ={res}    0.2224
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1900
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0447
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.65732{col 26}{space 2} 5.080841{col 37}{space 1}    3.67{col 46}{space 3}0.000{col 54}{space 4} 8.571929{col 67}{space 3} 28.74271
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} 1.096594{col 26}{space 2} .4526331{col 37}{space 1}    2.42{col 46}{space 3}0.017{col 54}{space 4} .1981244{col 67}{space 3} 1.995064
+{txt}{space 12} {c |}
+{space 5}EmpRace {c |}
+White Emp..  {c |}{col 14}{res}{space 2} .4161136{col 26}{space 2} .4198754{col 37}{space 1}    0.99{col 46}{space 3}0.324{col 54}{space 4}-.4173326{col 67}{space 3}  1.24956
+{txt}{space 12} {c |}
+{space 7}Treat#{c |}
+{space 5}EmpRace {c |}
+Race Sali.. #{c |}
+White Emp..  {c |}{col 14}{res}{space 2}-1.215968{col 26}{space 2} .5177637{col 37}{space 1}   -2.35{col 46}{space 3}0.021{col 54}{space 4}-2.243721{col 67}{space 3}-.1882153
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 6.113611{col 26}{space 2} .3176286{col 37}{space 1}   19.25{col 46}{space 3}0.000{col 54}{space 4} 5.483123{col 67}{space 3} 6.744098
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEFE, title(Model 3): reg    lPoints lPieceRate i.Treat##EmpRace Female Education2-Education6 Race1 Age2-Age6 if Role ==2
+{p 0 6 2}{txt}note: Education6 omitted because of collinearity{p_end}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        99
+{txt}{hline 13}{c +}{hline 34}   F(15, 83)       = {res}     1.48
+{txt}       Model {c |} {res} 25.6478973        15  1.70985982   {txt}Prob > F        ={res}    0.1317
+{txt}    Residual {c |} {res} 95.8657726        83  1.15500931   {txt}R-squared       ={res}    0.2111
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0685
+{txt}       Total {c |} {res}  121.51367        98  1.23993541   {txt}Root MSE        =   {res} 1.0747
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.53453{col 26}{space 2} 5.778444{col 37}{space 1}    3.21{col 46}{space 3}0.002{col 54}{space 4} 7.041436{col 67}{space 3} 30.02762
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+Race Sali..  {c |}{col 14}{res}{space 2} .8220674{col 26}{space 2} .5422055{col 37}{space 1}    1.52{col 46}{space 3}0.133{col 54}{space 4}-.2563575{col 67}{space 3} 1.900492
+{txt}{space 12} {c |}
+{space 5}EmpRace {c |}
+White Emp..  {c |}{col 14}{res}{space 2} .2084703{col 26}{space 2} .4667762{col 37}{space 1}    0.45{col 46}{space 3}0.656{col 54}{space 4}-.7199288{col 67}{space 3} 1.136869
+{txt}{space 12} {c |}
+{space 7}Treat#{c |}
+{space 5}EmpRace {c |}
+Race Sali.. #{c |}
+White Emp..  {c |}{col 14}{res}{space 2}-.9071642{col 26}{space 2} .6167681{col 37}{space 1}   -1.47{col 46}{space 3}0.145{col 54}{space 4}-2.133891{col 67}{space 3} .3195629
+{txt}{space 12} {c |}
+{space 6}Female {c |}{col 14}{res}{space 2} -.030392{col 26}{space 2}  .244509{col 37}{space 1}   -0.12{col 46}{space 3}0.901{col 54}{space 4}-.5167105{col 67}{space 3} .4559266
+{txt}{space 2}Education2 {c |}{col 14}{res}{space 2}-.0684689{col 26}{space 2} 1.185142{col 37}{space 1}   -0.06{col 46}{space 3}0.954{col 54}{space 4}-2.425668{col 67}{space 3} 2.288731
+{txt}{space 2}Education3 {c |}{col 14}{res}{space 2}-.1750727{col 26}{space 2} 1.189992{col 37}{space 1}   -0.15{col 46}{space 3}0.883{col 54}{space 4}-2.541919{col 67}{space 3} 2.191773
+{txt}{space 2}Education4 {c |}{col 14}{res}{space 2}-.2759724{col 26}{space 2} 1.193098{col 37}{space 1}   -0.23{col 46}{space 3}0.818{col 54}{space 4}-2.648996{col 67}{space 3} 2.097051
+{txt}{space 2}Education5 {c |}{col 14}{res}{space 2}-.2842958{col 26}{space 2} 1.189007{col 37}{space 1}   -0.24{col 46}{space 3}0.812{col 54}{space 4}-2.649183{col 67}{space 3} 2.080592
+{txt}{space 2}Education6 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
+{space 7}Race1 {c |}{col 14}{res}{space 2}  .323259{col 26}{space 2} .3404685{col 37}{space 1}    0.95{col 46}{space 3}0.345{col 54}{space 4}-.3539192{col 67}{space 3} 1.000437
+{txt}{space 8}Age2 {c |}{col 14}{res}{space 2}-.0308491{col 26}{space 2} .3811205{col 37}{space 1}   -0.08{col 46}{space 3}0.936{col 54}{space 4}-.7888825{col 67}{space 3} .7271842
+{txt}{space 8}Age3 {c |}{col 14}{res}{space 2} .0893091{col 26}{space 2} .3613476{col 37}{space 1}    0.25{col 46}{space 3}0.805{col 54}{space 4}-.6293968{col 67}{space 3}  .808015
+{txt}{space 8}Age4 {c |}{col 14}{res}{space 2} .0081511{col 26}{space 2} .4781007{col 37}{space 1}    0.02{col 46}{space 3}0.986{col 54}{space 4}-.9427721{col 67}{space 3} .9590743
+{txt}{space 8}Age5 {c |}{col 14}{res}{space 2} .1050637{col 26}{space 2} .4661655{col 37}{space 1}    0.23{col 46}{space 3}0.822{col 54}{space 4}-.8221207{col 67}{space 3} 1.032248
+{txt}{space 8}Age6 {c |}{col 14}{res}{space 2} .6677791{col 26}{space 2} 1.150336{col 37}{space 1}    0.58{col 46}{space 3}0.563{col 54}{space 4}-1.620194{col 67}{space 3} 2.955752
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  6.47757{col 26}{space 2} 1.268564{col 37}{space 1}    5.11{col 46}{space 3}0.000{col 54}{space 4} 3.954446{col 67}{space 3} 9.000693
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}.          
+. label   var lPieceRate "Piece Rate"
+{txt}
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estTE estTEInt estTEFE estTEFE using "${c -(}outdir{c )-}\TreatmentEffect.tex", 
+>                 label mtitles 
+>                 main() b(2) 
+>                 p
+>                 noomitted
+>                 refcat(Female "Gender" Race1 "Race" Age2 "Age" Education2 "Education",nolabel)
+>                 nobaselevels
+>                 nogap
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\TreatmentEffect.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estTE estTEInt estTEFE using "${c -(}outdir{c )-}\TreatmentEffect.tex", 
+>                 label mtitles 
+>                 main() b(2) 
+>                 p
+>                 noomitted
+>                 refcat(Female "Gender" Race1 "Race" Age2 "Age" Education2 "Education",nolabel)
+>                 nobaselevels
+>                 nogap
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\TreatmentEffect.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. 
+. 
+{txt}end of do-file
+
+{com}. br
+
+. twoway (scatter Fair PieceRate)
+{res}
+{com}. histogram Fair
+{txt}(bin={res}14{txt}, start={res}0{txt}, width={res}.07142857{txt})
+{res}
+{com}. graph bar (mean) Fair, over(PieceRate)
+{res}
+{com}. graph bar (mean) Fair, over(PieceRate) percentages ytitle(Percentage)
+{res}
+{com}. graph bar (mean) Fair, over(PieceRate) ytitle(Percentage)
+{res}
+{com}. graph bar (mean) Fair, over(PieceRate) ytitle(Fraction perceived the rate as fair)
+{res}
+{com}. graph bar (mean) Fair, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair)
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair)
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (mean) Fair 
+>                 if Role == 2, 
+>                 over(PieceRate) 
+>                 ytitle(Fraction of workers who perceived the rate as fair) 
+>                 title("Fairness Perception")
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) blabel(total) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) blabel(bar) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") legend(on)
+{res}
+{com}. graph bar (mean) Fair (count) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) over(EmployerRace) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2 & Treatment == "Race Salient", over(PieceRate) over(EmployerRace) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(EmployerRace) over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception")
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) bar(1, fcolor(gold)) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) bar(1, fcolor(forest_green)) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (mean) Fair 
+>                 if Role == 2, 
+>                 over(PieceRate) 
+>                 ytitle(Fraction of workers who perceived the rate as fair) 
+>                 title("Fairness Perception")
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\FairnessPerception.png", replace
+{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\FairnessPerception.png not found)
+(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\FairnessPerception.png written in PNG format)
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. tab Fair
+
+       {txt}Fair {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        114       56.44       56.44
+{txt}          1 {c |}{res}         88       43.56      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        202      100.00
+
+{com}. tab Fair if Role ==2
+
+       {txt}Fair {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         57       56.44       56.44
+{txt}          1 {c |}{res}         44       43.56      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        101      100.00
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. gen     Fair1 = (PieceRate == FairPieceRate)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. graph bar (mean) Fair1 if Role == 2, over(PieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair1 if Role == 2, ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair1 if Role == 2, over(FairPieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (count) FairPieceRate if Role == 2, over(FairPieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{err}FairPieceRate may not be both target and by()
+{txt}{search r(198):r(198);}
+
+{com}. graph bar (count) GuessedPoints if Role == 2, over(FairPieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. tab FairPieceRate
+
+{txt}FairPieceRa {c |}
+         te {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          2        0.99        0.99
+{txt}        .03 {c |}{res}         26       12.87       13.86
+{txt}        .06 {c |}{res}        118       58.42       72.28
+{txt}        .09 {c |}{res}         56       27.72      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        202      100.00
+
+{com}. graph bar if Role == 2, over(FairPieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) ytitle(Fraction of workers who perceived the rate as fair) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(PieceRate) over(FairPieceRate) ytitle(Distribution of Fairness) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) over(PieceRate) ytitle(Distribution of Fairness) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (count) FairPieceRate if Role == 2, over(PieceRate) ytitle(Distribution of Fairness) title("Fairness Perception") graphregion(fcolor(white))
+{res}
+{com}. graph bar (count) FairPieceRate if Role == 2, over(PieceRate) ytitle(Distribution of Fairness) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar (count) GroupID if Role == 2, over(FairPieceRate) ytitle(Distribution of Fairness) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar (mean) Fair1 if Role == 2, over(FairPieceRate) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar (percent) GuessedPieceRate if Role == 2, over(FairPieceRate) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. histogram Points if Role ==1, width(25) start(0) xtitle("Points") ytitle("Frequency") ///
+>                 freq title("Distribution of Points - All Treatments") graphregion(color(white)) lcolor(black) fcolor(black) ///
+>                 xlabel(0(500)4000) xmtick(0(100)4000,grid) gap(75) ylabel(,nogrid)
+{txt}(bin={res}144{txt}, start={res}0{txt}, width={res}25{txt})
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. graph bar if Role == 2, over(FairPieceRate) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar (count) if Role == 2, over(FairPieceRate) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(PieceRate) over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) over(PieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar (percent) FairPieceRate if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{err}FairPieceRate may not be both target and by()
+{txt}{search r(198):r(198);}
+
+{com}. graph bar (percent) FairPieceRate if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{err}FairPieceRate may not be both target and by()
+{txt}{search r(198):r(198);}
+
+{com}. graph bar (percent) FairPieceRate (percent) PieceRate if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{err}FairPieceRate may not be both target and by()
+{txt}{search r(198):r(198);}
+
+{com}. graph bar (percent) GuessedPieceRate (percent) PieceRate if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(FairPieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") graphregion(fcolor(white))
+{res}
+{com}. graph bar if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") name(SelectedPieceRateDist) graphregion(fcolor(white))
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 if Role == 2, 
+>                 over(PieceRate) 
+>                 ytitle(Percentage) 
+>                 title("Selected piece rate distribution") 
+>                 graphregion(fcolor(white))
+>                 name(SelectedPieceRateDist)
+>                 ;
+{err}graph SelectedPieceRateDist already exists
+{txt}{search r(110):r(110);}
+
+end of do-file
+
+{search r(110):r(110);}
+
+{com}. graph bar if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") name(SelectedPieceRateDist, replace) graphregion(fcolor(white))
+{res}
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 if Role == 2, 
+>                 over(PieceRate) 
+>                 ytitle(Percentage) 
+>                 title("Selected piece rate distribution") 
+>                 graphregion(fcolor(white))
+>                 name(SelectedPieceRateDist, replace)
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 if Role == 2, 
+>                 over(FairPieceRate) 
+>                 ytitle(Percentage) 
+>                 title("Fair piece rate distribution") 
+>                 graphregion(fcolor(white))
+>                 name(FairPieceRateDist, replace)
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+.         
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 SelectedPieceRateDist FairPieceRateDist, 
+>                 title(Selected and fair piece rates) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\FairPieceRate.png", replace)
+>                 ;
+{res}{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\FairPieceRate.png not found)
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\FairPieceRate.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 SelectedPieceRateDist FairPieceRateDist, 
+>                 title(Selected and fair piece rates) 
+>                 saving("${c -(}outdir{c )-}\SelectedAndFairPieceRate.png", replace)
+>                 ;
+{res}{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\SelectedAndFairPieceRate.png not found)
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\SelectedAndFairPieceRate.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. bysort PieceRate: egen PRCount = count(PieceRate)
+
+. bysort FairPieceRate: egen FPRCount = count(FairPieceRate)
+
+. keep if PRCount FPRCounts
+{err}invalid 'FPRCounts' 
+{txt}{search r(198):r(198);}
+
+{com}. keep if PRCount FPRCount
+{err}invalid 'FPRCount' 
+{txt}{search r(198):r(198);}
+
+{com}. keep PieceRate FairPieceRate PRCount FPRCount
+
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(190 observations deleted)
+
+{com}. graph bar (asis) PRCount FPRCount if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") name(SelectedPieceRateDist) graphregion(fcolor(white))
+{err}graph SelectedPieceRateDist already exists
+{txt}{search r(110):r(110);}
+
+{com}. graph bar (asis) PRCount FPRCount if Role == 2, over(PieceRate) ytitle(Percentage) title("Fairness distribution") name(SelectedPieceRateDist, replace) graphregion(fcolor(white))
+{err}Role not found
+{txt}{search r(111):r(111);}
+
+{com}. graph bar (asis) PRCount FPRCount, over(PieceRate) ytitle(Percentage) title("Fairness distribution") name(SelectedPieceRateDist, replace) graphregion(fcolor(white))
+{err}variables PieceRate _variables do not uniquely identify the observations
+{txt}{search r(459):r(459);}
+
+{com}. sort PieceRate
+
+. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Analysis\DescriptiveStatistics.do"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

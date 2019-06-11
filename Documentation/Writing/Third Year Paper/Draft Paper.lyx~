@@ -1,0 +1,2683 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage[natbibapa]{apacite}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Discrimination in Reciprocity: Evidence from an Online Labor Market
+\end_layout
+
+\begin_layout Author
+Sher Afghan Asad
+\end_layout
+
+\begin_layout Date
+05/07/18
+\end_layout
+
+\begin_layout Abstract
+Add abstract at the end.
+ 
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+A large body of literature in economics has demonstrated that prejudice
+ or bias – whether it be racial, religious, ethnic or gender in origin –
+ is widespread in labor markets.
+ Frequently, such biases reveal themselves as deliberate discrimination
+ in actual labor market decision-making.
+ The most common form of such discrimination studied is of the employer-to-emplo
+yee kind, that shown by an employer from one group toward a potential or
+ existing employee from another group.
+ Such discrimination can be along an “extensive” margin (e.g., unwarranted
+ low interviewing or hiring of job-seekers from a certain group) or along
+ an “intensive margin” (e.g.
+ deliberate unfairness in compensation, pecuniary or otherwise).
+ Researchers have established that discrimination along either margin is
+ emphatically costly and demoralizing to those being discriminated against:
+ it may cause inefficiently-low job seeking or suboptimal investment in
+ skill or human capital by minority workers 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Coate1993}
+\end_layout
+
+\end_inset
+
+; it may directly reduce their performance 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Glover2015b}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Fundamentally, economists view discrimination as arising in one of two ways.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+ introduced the notion of taste-based discrimination postulating that discrimina
+tion exists because of prejudice/animus of the majority toward the minority.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Phelps1972a"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Arrow1973c"
+
+\end_inset
+
+ instead view discrimination as statistical, in which, say, a majority group-emp
+loyer, lacking information, say, on a minority group-worker, forms rational
+ beliefs about the worker in terms of the aggregate distribution of group
+ traits.
+ 
+\end_layout
+
+\begin_layout Standard
+Almost all of this literature on discrimination has tend to investigate
+ the issue on the premise that discrimination is always driven by the employer
+ i.e.
+ employers have some animus or beliefs about the productivity of minority
+ workers and that leads them to discriminate against the equally productive
+ minority workers in favor of workers from the majority group.
+ In this study we investigate the issue from a different angle and see whether
+ discrimination can run in opposite direction i.e.
+ whether a worker from the majority (minority) group may exhibit bias towards
+ the employer from the minority (majority) group when considering to work
+ for opposite group employers.
+ To our knowledge the possibility of discrimination from this direction
+ has never been explored in the economic literature.
+ 
+\end_layout
+
+\begin_layout Standard
+The purpose of this research is twofold, first to investigate whether the
+ discrimination can be driven from the worker side and second what is the
+ nature of this discrimination - taste or statistical? Is it that workers
+ exhibit distaste towards the employers from opposite group or is it that
+ the discrimination is statistical in nature where workers have some beliefs
+ or stereotypes towards the opposite group employer and they invoke those
+ when working for the employer.
+ The distinction is important because each kind of discrimination warrants
+ different policy prescriptions for addressing the problem of discrimination.
+ So in a nutshell this paper aims to first document whether racial discriminatio
+n exists from employee-to-employer in the biggest online labor market, and
+ if it exists which economic theory best explains the existence of discriminatio
+n.
+ 
+\end_layout
+
+\begin_layout Standard
+(Carefully define taste based and statistical discrimination from the worker
+ side.
+ )
+\end_layout
+
+\begin_layout Standard
+(Discrimination from coworkers (add relevant arguments here distinguishing
+ it from discrimination towards employers).)
+\end_layout
+
+\begin_layout Standard
+(Address the argument that workers should demand higher wages in the presence
+ of discrimination.
+ )
+\end_layout
+
+\begin_layout Standard
+(Why not real effort task? Upwork workers work hard because they know they
+ are monitored, so there is no issue of contract enforcement.)
+\end_layout
+
+\begin_layout Standard
+(Why gift exchange framework? How is it any better than dictator/trust/ultimatum
+ games that are used to study discrimination?)
+\end_layout
+
+\begin_layout Standard
+(Why 
+\begin_inset Quotes eld
+\end_inset
+
+make believe
+\begin_inset Quotes erd
+\end_inset
+
+ environment?)
+\end_layout
+
+\begin_layout Standard
+Discrimination in labor markets is a decades old problem and even after
+ various affirmative action policies by governments all over the world it
+ continue to exist in one form or another.
+ One possible explanation for why those policies haven't achieved the discrimina
+tion free society could be that those policies were aimed at employers and
+ they were perceived as the only entity responsible for causing discrimination.
+ However our research identified that discrimination can also be driven
+ by those who are traditionally "discriminated against" and if one is to
+ tackle the issue it needs to target both sides of market i.e.
+ employers and workers.
+ For example we find that workers discriminate against the employers from
+ minority group, then the right prescription to deal with the problem would
+ be to address workers concerns that may discourage them for working with
+ the opposite group employers (aim of future research).
+ 
+\end_layout
+
+\begin_layout Standard
+To address our research question we make use of the gift exchange framework
+ pioneered by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Akerlof1982"
+
+\end_inset
+
+ and in an experimental setting by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1993"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Model and Treatments
+\end_layout
+
+\begin_layout Standard
+We closely follow the model of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ for the worker side and modify it to incorporate employer side, possiblity
+ of discrimination from worker side and the notion of reciprocity by workers.
+ Assuming risk neurtality, a worker 
+\begin_inset Formula $i\in\left\{ B,W\right\} $
+\end_inset
+
+ solves the following problem when working for an employer 
+\begin_inset Formula $j\in\left\{ B,W\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+ denote the black or white race of an agent (employer or worker) respectively;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F_{j}+(s_{ij}+p)e_{ij}-c(e_{ij})+Y_{ij}\kappa_{ij}\lambda_{iji}\right)\label{eq:utility}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+is the number of points (on a button-pressing task) scored by worker 
+\begin_inset Formula $i$
+\end_inset
+
+ when working for employer 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $F_{j}$
+\end_inset
+
+ is the fixed money paid just for working on a task, 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ (as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+) captures the sense of duty, norm, intrinsict motivation, and competitiveness
+ of worker towards the task.
+ We argue that 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ also include the taste (like or dislike) of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the employer 
+\begin_inset Formula $j$
+\end_inset
+
+ per unit of effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ is the piece rate chosen by the employer 
+\begin_inset Formula $j$
+\end_inset
+
+, we allow employers to select piece rate from anywhere between 0 cents
+ and 10 cents per 100 points.
+ 
+\begin_inset Formula $c(e_{ij})$
+\end_inset
+
+ is the cost of effort, following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ we assume cost fucntion to have either power or exponential functional
+ form i.e.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}\label{eq:Power Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or 
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{kexp^{\gamma e}}{\gamma}\label{eq:Exponential Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These functions differ in their elasticity of effort with respect to the
+ value of effort.
+ Power cost function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Power Cost Function"
+
+\end_inset
+
+) characterize a costant elasticity of effort given by 
+\begin_inset Formula $1/\gamma$
+\end_inset
+
+ while exponential cost function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Exponential Cost Function"
+
+\end_inset
+
+) implies a decreasing elasticity as effort increases.
+ Both functions requires the estimation of unknowns 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ which we will back out using observed effort at different piece rates.
+ 
+\end_layout
+
+\begin_layout Standard
+The last term in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ represents the worker's notion of fairness and reciprocity a la 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Rabin1993}
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Dufwenberg2018}
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $\kappa_{ij}$
+\end_inset
+
+ denotes the how kind worker 
+\begin_inset Formula $i$
+\end_inset
+
+ is to employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\lambda_{iji}$
+\end_inset
+
+ denotes worker 
+\begin_inset Formula $i$
+\end_inset
+
+'s belief about how kind employer 
+\begin_inset Formula $j$
+\end_inset
+
+ is to worker 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\begin_inset Formula $Y_{ij}\geq0$
+\end_inset
+
+ is the worker 
+\begin_inset Formula $i's$
+\end_inset
+
+ sensitivity to reciprocity for employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ We define the kindness functions for our setting as follows;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\kappa_{ij}=e_{ij}-e_{i}^{fair}\label{eq:worker_kindness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\lambda_{iji}=p-p_{i}^{fair}\label{eq:employer_kindness}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{i}^{fair}$
+\end_inset
+
+represents worker 
+\begin_inset Formula $i$
+\end_inset
+
+'s belief about fair effort that he/she can provide and 
+\begin_inset Formula $p_{i}^{fair}$
+\end_inset
+
+ represents a worker 
+\begin_inset Formula $i$
+\end_inset
+
+'s beleif about the fair piece rate that the employer could have offered.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We elicit these beliefs directly from the workers by asking them what would
+ they consider as a fair piece rate.
+\end_layout
+
+\end_inset
+
+ So if 
+\begin_inset Formula $\lambda_{iji}<0$
+\end_inset
+
+, i.e.
+ if a worker believes that the selected piece rate is less than the fair
+ piece rate, then a worker 
+\begin_inset Formula $i$
+\end_inset
+
+ will respond by choosing 
+\begin_inset Formula $\kappa_{ij}<0$
+\end_inset
+
+ i.e.
+ by choosing less effort than what would be considered fair by the worker.
+ Our parameter of interest in the above specficaition is 
+\begin_inset Formula $Y_{ij}$
+\end_inset
+
+i.e.
+ we are interested in finding whether workers reciprocate and wheter 
+\begin_inset Quotes eld
+\end_inset
+
+reciprocity sensitivity
+\begin_inset Quotes erd
+\end_inset
+
+ varies for employer types.
+ Our choice of kindness functions is very simple but it captures the essential
+ idea of reciprocity, it can be shown that more complicated functional forms
+ lead to same conclusions.
+ 
+\end_layout
+
+\begin_layout Standard
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ using 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:worker_kindness"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:employer_kindness"
+
+\end_inset
+
+ leads to following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{ij}+p+Y_{ij}\left(p-p_{i}^{fair}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Implying that effort is increasing in the belief about kindness of employer
+ 
+\begin_inset Formula $\left(\lambda_{iji}\right)$
+\end_inset
+
+.
+ In other words higher piece rate from employer is construed as kind behavior
+ by worker and hence encourage reciprocal workers (for whom 
+\begin_inset Formula $Y_{ij}>0$
+\end_inset
+
+) to put more effort.
+ 
+\end_layout
+
+\begin_layout Standard
+With power cost function this translates to; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\left(\frac{s_{ij}+p+Y_{ij}\left(p-p_{i}^{fair}\right)}{k}\right)^{1/\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While exponential cost function lead to the solution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\frac{1}{\gamma}log\left(\frac{s_{ij}+p+Y_{ij}\left(p-p_{i}^{fair}\right)}{k}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We make a simplifying assumption that the workers of type 
+\begin_inset Formula $i$
+\end_inset
+
+ are homogenous given a treatment i.e.
+ they will make the same effort choice in a given treatment.
+ In the rest of this section we will be using power cost function for illustrati
+on.
+ 
+\end_layout
+
+\begin_layout Subsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+The baseline treatment is the traditional bilateral gift exchange game 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Fehr1998}
+\end_layout
+
+\end_inset
+
+ in which an employer chooses a wage, worker observes the wage and then
+ work on the task.
+ We allow employers to select any wage between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $10$
+\end_inset
+
+ cents while workers work on a simple button-pressing task for 10 minutes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We use the exact same task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ From the MTurk standards this variation in piece rates is substantial for
+ the 10 minute task.
+ 
+\end_layout
+
+\begin_layout Standard
+These piece rates provide evidence on the responsiveness of effort to incentives
+ for this particular task and hence allow us to estimate parameters of cost
+ function which will be used to estimate other behavioral parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+Formally, in the baseline treatment, employer 
+\begin_inset Formula $j$
+\end_inset
+
+ selects a piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ for worker 
+\begin_inset Formula $i$
+\end_inset
+
+, worker observe the piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ and then choose effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+.
+ Worker do no observe the identity of the employer which implies that for
+ any worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $s_{iW}=s_{iB}=s_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{iW}=Y_{iB}=Y_{i}$
+\end_inset
+
+.
+ The equilibrium effort 
+\begin_inset Formula $e_{i}^{\star}$
+\end_inset
+
+ in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{\star}=c'^{-1}\left(s_{i}+p+Y_{i}\left(p-p_{i}^{fair}\right)\right)\text{ for }i\in\left\{ B,W\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This treatment will give us the baseline measure of effort of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ at the piece rate of 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ For each 
+\begin_inset Formula $i$
+\end_inset
+
+, the solution of effort has two behavioral unknowns (
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+), and two unknowns from cost function (
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+).
+ We will back out these unknowns from the observed effort at different piece
+ rates.
+ 
+\end_layout
+
+\begin_layout Subsection
+Race Salient Treatment
+\end_layout
+
+\begin_layout Standard
+In the race salient treatment, workers will observe the race of the matched
+ employer along with the selected piece rate and then work on a task.
+ In the presence of group biases i.e.
+ when workers derive different level of social preference for different
+ employers' group then;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{RS}=c'^{-1}\left(\left(s_{i}+\Delta s_{ij}^{RS}\right)+p+\left(Y_{i}+\Delta Y_{ij}\right)\left(p-p_{i}^{fair}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are implicitly assuming 
+\begin_inset Formula $s_{ij}=s_{i}+\Delta s_{ij}$
+\end_inset
+
+ i.e.
+ the parameter 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ can be separated into two components 1) 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+, which is independent of the employer type and include everything such
+ as sense of duty, norm, intrinsict motivation, competitiveness of worker
+ etc.
+ and 2) 
+\begin_inset Formula $\Delta s_{ij}$
+\end_inset
+
+, which represents additional utility or disutility from working for the
+ employer of type 
+\begin_inset Formula $j$
+\end_inset
+
+ which we interpret as taste towards the employer a' la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Delta s_{ij}^{RS}>0$
+\end_inset
+
+ 
+\begin_inset Formula $\left(\Delta s_{ij}^{RS}<0\right)$
+\end_inset
+
+ will represent the increase (decrease) in effort because of social preference
+ of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards (against) the employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $j\neq i$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta s_{ij}^{RS}<0$
+\end_inset
+
+ will be interpreted as the decrease in effort due to taste bias of worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the opposite group employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ In other words, the difference in effort towards the white employer and
+ black employer 
+\begin_inset Formula $\left(e_{iW}^{RS}-e_{iB}^{RS}\right)$
+\end_inset
+
+ is construed as a difference which is only driven by the taste bias of
+ the workers of group 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Three Stage Treatment
+\end_layout
+
+\begin_layout Standard
+Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1997"
+
+\end_inset
+
+ we introduce a third stage to the baseline treatment.
+ In this treatment, employer will select piece rate and workers will work
+ on a task exactly as in baseline treatment, however there will be a third
+ stage in which the employer will decide whether to reward a bonus to the
+ worker after observing the effort choice.
+ Bonus will be costly to employers.
+ So the worker's problem would look like this
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{max}_{e_{ij}\geq0}\left(s_{ij}+p\right)e_{ij}-c(e_{ij})+\pi_{ij}(e_{ij})Bonus
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\pi_{ij}(e_{ij})$
+\end_inset
+
+ is the probability that an employer 
+\begin_inset Formula $j$
+\end_inset
+
+ will offer a Bonus to worker 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ In the presence of reciprocal employers, we assume 
+\begin_inset Formula $\pi_{ij}'(e)>0$
+\end_inset
+
+ i.e.
+ higher effort increases the probabity of bonus being rewarded.
+ If workers expect employers to be reciprocal than they will increase their
+ effort in this treatment as compared to baseline treatment.
+ If we assume probability to be a linear function of effort, and since employer'
+s identity is not observed by workers 
+\begin_inset Formula $\left(\pi_{ij}=\pi_{i}\forall j\in\left\{ B,W\right\} \right)$
+\end_inset
+
+, then effort in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{TS}=c'^{-1}\left(s_{i}+p+\pi_{i}Bonus\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This treatment will give us the baseline measure of effort of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ in the presence of uncertainty about the Bonus.
+ 
+\end_layout
+
+\begin_layout Subsection
+Race Salient and Three Stage
+\end_layout
+
+\begin_layout Standard
+This treatment is the combination of race salient and three stage treatments.
+ The effort in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{RSTS}=c'^{-1}\left(s_{i}+\Delta s_{ij}^{RS}+p+\left(\pi_{i}+\Delta\pi_{ij}\right)Bonus\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now if 
+\begin_inset Formula $e_{W|j=B}^{RSTS}<e_{W}^{TS}$
+\end_inset
+
+, then the resulting decrease in output in this treatment will be attributed
+ to the 
+\end_layout
+
+\begin_layout Section
+Experiment Design
+\end_layout
+
+\begin_layout Subsection
+Recruitment of Subjects
+\end_layout
+
+\begin_layout Standard
+The subjects for this experiment will be recruited from an online labor
+ market upwork (formerly Elance-oDesk).
+ Upwork is one of the largest online labor market in the world with over
+ twelve million registered freelancers, earning more than a billion dollars
+ via the site each year 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Upwork}
+\end_layout
+
+\end_inset
+
+.
+ Unlike Amazon's Mechanical Turk, another online labor market used in economics
+ research, upwork employers have complete discretion in whom they hire and
+ they have real relationships with hired workers.
+ Another benefit of using Upwork is that employers can monitor the workers'
+ progress while the task is being performed.
+ Workers log in to upwork applicaiton that shows employers when they are
+ working.
+ The application records keystroke volume and shows screenshots of the worker's
+ computer screen, taken six times per hour.
+ 
+\end_layout
+
+\begin_layout Standard
+We will post the job listing on upwork with very little description of the
+ experiment, only that 
+\begin_inset Quotes eld
+\end_inset
+
+We need people to participate in an experiment for an economics research
+ project.
+ The task involves making economic decisions in a strategic environment.
+\begin_inset Quotes erd
+\end_inset
+
+ Potential subjects will also be told that 
+\begin_inset Quotes eld
+\end_inset
+
+In this experiment you will be randomly matched with another participant.
+ You will be paid 3 dollars for participating in this experiment.
+ On top of that you may earn anywhere from zero dollars to 10 dollars based
+ on the choices/decisions that you and your matched participants make during
+ the experiment.
+ There are no specific skills required for this project.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We will invite subjects to participate in this experiment who meet the following
+ criteria (1) are from United States, (2) speack fluent english , (3) list
+ an hourly wage of $10 or less (4) have earned more than a dollar on upwork
+ and (4) have a job success rate of 75% or more.
+ For every application that we receive from worker, we will examine the
+ profile picture of the applicant to see if the subject fall into a any
+ of the two races that we are interested in i.e.
+ Black or White (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "upwork-profile"
+
+\end_inset
+
+ shows an example profile of a worker on upwork).
+ We restrict to Black and White, english speaking people from United States
+ because we want to study racial discrimination in the context of United
+ States.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename UpWork Example Profile.png
+	scale 50
+	rotateOrigin center
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Upwork example profile.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "upwork-profile"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Treatments
+\end_layout
+
+\begin_layout Standard
+This experiment is designed to measure whether workers discrininate in reciproci
+ty based on the race of the employer and which economic theory explains
+ the source of discrimination.
+ The experiment is a 2-factor design with treatments as follows; 
+\end_layout
+
+\begin_layout Subsubsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+In this treatment, we rely on a version of bilateral gift-exchange game
+ in which each participant play the game 10 times/periods 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Fehr1998}
+\end_layout
+
+\end_inset
+
+.
+ This is a two-person game consisting of two stages.
+ In the first stage, an employer decide how much wage to offer to a worker.
+ Worker observes the wage offer in the second stage and choose effort level.
+ Effort is costly to workers but profitable to employers.
+ Wage is costly to employer but profitable to worker.
+ All earnings in the experiment will be calculated in the unit of points
+ which will be converted to US dollars at the end of experiment with the
+ exchange rate of 
+\begin_inset Formula $1\text{ point}=10\text{ cents}$
+\end_inset
+
+.
+ The effort cost function is specified as in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Effort-Cost"
+
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\size footnotesize
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="11">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $e$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.9$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c(e)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $10$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $12$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $15$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $18$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Cost of Effort
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Effort-Cost"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The profit for employer and workers are given by; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Employer Profits}=(v-w)e\label{eq:employer-profit}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Worker Earnings}=w-c-c(e)\label{eq:worker-profit}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We use 
+\begin_inset Formula $v=120,$
+\end_inset
+
+ and 
+\begin_inset Formula $c=20$
+\end_inset
+
+.
+ The choice of payoff functions (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:employer-profit"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:worker-profit"
+
+\end_inset
+
+) and parameters (
+\begin_inset Formula $v$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+) is made following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1998"
+
+\end_inset
+
+.
+ To ensure that payoffs are always positive and to avoid concerns about
+ expectations of loss aversion 
+\begin_inset Formula $w\in\{20,35,40,...,120\}.$
+\end_inset
+
+ As mentioned earlier, subjects will play this game for 10 periods, one
+ of those 10 periods will be randomly selected and the payment to the subject
+ will be determined on the basis of payoff in that period.
+ 
+\end_layout
+
+\begin_layout Standard
+To avoid reputation effects, a worker in each period will be told that it
+ is partnered with a new employer i.e.
+ a worker will be told that it will never be matched with the same employer
+ again.
+ Worker will also be told that the game will proceed anonymously i.e.
+ employer will never observe the identity of a worker.
+ In the absence of social preference, a worker should always choose minimum
+ effort (
+\begin_inset Formula $e_{min}$
+\end_inset
+
+) irrespective of the wage offer.
+ As once the wage is determined there is no pecuniary incentive to choose
+ 
+\begin_inset Formula $e>e_{min}.$
+\end_inset
+
+ In this experiment we are only interested in the worker's problem, therefore
+ there will be no real employers and wages by the employers will be randomly
+ determined.
+ Random wages are introduced to give more control on the experiment and
+ to avoid any confounds from employer choice that may influence worker's
+ effort choice.
+ 
+\end_layout
+
+\begin_layout Standard
+While we agree that deception should be discouraged in labortary experiments,
+ our experiment does not violate any of the ethical concerns associated
+ with deception.
+ We were careful to follow APA guidelines for deception.
+ There appear to be three concerns at stake regardign deception.
+ First, there is the argument that deception will harm the subjects.
+ This argument is not relevant in this case because we don't see how subjects
+ can be harmed by the deception in this case.
+ The earnings of the subjects are not affected because of this deception
+ as compared to having real people playing the game.
+ Second, there is the argument that deception will 
+\begin_inset Quotes eld
+\end_inset
+
+poison
+\begin_inset Quotes erd
+\end_inset
+
+ the subject pool for future experiments.
+ We avoid this problem by not debriefing the subjects about this deception.
+ Debriefing the subjects can broadcast the deception to other potential
+ subjects and hence potentially affect their behavior in future experiments.
+ Third, the suspicion of deception may bias the results of the experiment.
+ If such a bias exist it will bias the results in the direction of null
+ effect.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Race Salient Treatment
+\end_layout
+
+\begin_layout Standard
+This treatment will be same as baseline treatment except that when workers
+ see the wage offer, they will see the picture of an employer who made the
+ wage offer.
+ We use neurtal pictures of Blacks and Whites from the Chicago Face Database
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Ma2015}
+\end_layout
+
+\end_inset
+
+.
+ Chicago Face Database (CFD) is a free resource consisting of 158 high-resolutio
+n, standardized photographs of Black and White males and females between
+ the ages of 18 and 40 years.
+ These photographs are rated on a number of different psychological dimensions
+ (e.g.
+ attractiveness and trustworthiness).
+ Using pictures from CFD (compared to using pictures of real people) offer
+ us the better experimental control and is also cost-effective.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Race-Salient-Layout"
+
+\end_inset
+
+ presents the layout of interface that the worker will see while making
+ the effort choice.
+ Each worker will see 5 White and 5 Black pictures in the random order.
+ 
+\end_layout
+
+\begin_layout Standard
+(How does within group behavior changes will effect the reciprocity, e.g.
+ white faces might be attractive to both blacks and whites.
+ )
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Layout Race Salient.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Layout of the Race Salient Treatment
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Race-Salient-Layout"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Three Stage Treatment
+\end_layout
+
+\begin_layout Standard
+Three stage treatment will be same as Baseline except that there will be
+ an additional stage to the game.
+ We closely follow the design in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1997"
+
+\end_inset
+
+ to formulate this third stage.
+ Workers will be told that 
+\begin_inset Quotes eld
+\end_inset
+
+In the third stage employer will observe your effort choice and decide whether
+ to reward or punish you.
+\begin_inset Quotes erd
+\end_inset
+
+ So after the effort is chosen, employer will observe the effort choice
+ and choose a number 
+\begin_inset Formula $p\in[0,2]$
+\end_inset
+
+.
+ The workers earning from previous two stages will then be multiplied by
+ 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Both 
+\begin_inset Formula $p<1$
+\end_inset
+
+ (a punishment) and 
+\begin_inset Formula $p>1$
+\end_inset
+
+ (a reward) will be costly to employers with cost schedule as given in Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "reciprocity-cost"
+
+\end_inset
+
+.
+ The payoff functions in this treatment will be as follows; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Employer Profits}=(v-w)e-k(p)\label{eq:employer-profit-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Worker Earnings}=[w-c-c(e)]p\label{eq:worker-profit-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="12">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $p$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.9$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $k(p)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $10$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $p$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.9$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $k(p)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $10$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Employers' cost of Punishing and Rewarding
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "reciprocity-cost"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As argued in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1997"
+
+\end_inset
+
+, the introduction of this third stage should not have any impact at all.
+ Employers should never punish or reward workers since it is costly to them
+ i.e.
+ they will choose 
+\begin_inset Formula $p=1$
+\end_inset
+
+.
+ Workers should anticipate that and should choose the same effort as in
+ Basline treatment.
+ However if workers expect employers to have positve (negative) reciprocity
+ towards a worker, it may expect employers to choose 
+\begin_inset Formula $p>1$
+\end_inset
+
+ (
+\begin_inset Formula $p<1$
+\end_inset
+
+).
+ Worker may think that if the employer is happy (unhappy) with the effort
+ choice, it may decide to reward (punish) them.
+ So workers should choose higher effort to elicit the positive reciprocity
+ or to avoid the negative reciprocity from the employer.
+ Hence we expect the effort to be higher in this treatment as compared to
+ the baseline treatement.
+ 
+\end_layout
+
+\begin_layout Standard
+The way the expectations will form in this case is not very clear.
+ Workers may also take into account the wage offer from the first stage
+ to form expectations about the conditional probability of rewarded a bonus.
+ For example workers may expect an employer with higher wage offer to be
+ willing to reward the bonus more easily than the employer who offered lower
+ wage in the first stage or the relationship may be opposite becuase the
+ wage goes out of the employer's payoff and it is aimed at eliciting more
+ effort from worker but bonus doesn't affect employer payoff.
+ Hence apriori we are not sure on the direction of average effort in the
+ bonus treatment.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Race Salient and Bonus Treatment
+\end_layout
+
+\begin_layout Standard
+This treatment is a combination of Race Salient and Bonus treatments.
+ Workers will see the picture of the person (as in race salient treatment)
+ and will also be informed of the additional stage of the game (as in Bonus
+ treatment).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "../../../References/Discrimination"
+options "bibtotoc,apacitex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Estimation Appendix
+\end_layout
+
+\begin_layout Subsection
+Minimum Distance
+\end_layout
+
+\begin_layout Standard
+We use data from baseline treatment to estimate parameters of cost function
+ and baseline parameters.
+ Given 20 moments (mean efforts from 10 different piece rates for each of
+ the two types of workers) we are able to estimate 6 parameters 
+\begin_inset Formula $s_{B}$
+\end_inset
+
+, 
+\begin_inset Formula $s_{W}$
+\end_inset
+
+, 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, 
+\begin_inset Formula $k$
+\end_inset
+
+, 
+\begin_inset Formula $r_{B}$
+\end_inset
+
+, and 
+\begin_inset Formula $r_{W}$
+\end_inset
+
+.
+ That is, we solve numerically the system of 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\gamma log(e_{i}^{p})+log(k)-log(s_{i}+r_{i}p)=0\text{ }\text{for }p\in[0,10]\text{ and }i\in\left\{ B,W\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

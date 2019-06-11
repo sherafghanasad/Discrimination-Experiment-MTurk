@@ -1,0 +1,244 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Structural Estimation\Structural Estimation_21 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Oct 2018, 23:59:26
+{txt}
+{com}. 
+. * Import cleaned data from experiment
+. 
+. use             "${c -(}rootdir{c )-}\Output\Analysis\CleanedData.dta", clear
+{txt}
+{com}. 
+. /*
+> * Import raw data
+> 
+> #d ;
+> import  excel 
+>                 Visited = L
+>                 SessionCode = AR
+>                 GroupIDInSession = AG
+>                 Treatment = AH
+>                 PieceRate = AI
+>                 Points = AM
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+> #d cr
+> 
+> * Keep data from links that were used
+> 
+> keep    if Visited == 1
+> drop    Visited
+> */
+. * Since each observation appear twice (once for each participant), we drop the employer observations
+. 
+. keep            if Role == 2
+{txt}(101 observations deleted)
+
+{com}. /*
+> /* Generating dummy data for now. This code will be removed when the actual data
+>  will be collected */
+> 
+> set     obs 2000
+> 
+> replace PieceRate = 0 in 1/500
+> replace PieceRate = 3 in 501/1000
+> replace PieceRate = 6 in 1001/1500
+> replace PieceRate = 9 in 1501/2000
+> 
+> replace Points = round(runiform(1000, 3000))
+> */
+. 
+. * For parameters of cost function we only use data from baseline treatment 
+. 
+. keep    if Treatment == "Baseline"
+{txt}(47 observations deleted)
+
+{com}. drop    Treatment
+{txt}
+{com}. 
+. *sort   PieceRate Points
+. 
+. replace         PieceRate = 3 if PieceRate == 0.03
+{txt}(17 real changes made)
+
+{com}. replace         PieceRate = 6 if PieceRate == 0.06
+{txt}(23 real changes made)
+
+{com}. replace         PieceRate = 9 if PieceRate == 0.09
+{txt}(6 real changes made)
+
+{com}. 
+. save            "${c -(}tempdir{c )-}\BaselineData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BaselineData.dta saved
+
+{com}. 
+. * Draw a bootstrap sample of 1000 means of observations for each piece rate
+. 
+. clear
+{txt}
+{com}. set     obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. foreach x of numlist 0 3 6 9 {c -(}
+{txt}  2{com}.         gen Points`x' = 0
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. count
+  {res}1,000
+{txt}
+{com}. 
+. forvalues i = 1/`r(N)' {c -(}
+{txt}  2{com}.                 foreach x of numlist 0 3 6 9 {c -(}
+{txt}  3{com}.                         preserve
+{txt}  4{com}.                                 use             "${c -(}tempdir{c )-}\BaselineData", clear
+{txt}  5{com}.                                 quietly         count           if PieceRate == `x'
+{txt}  6{com}.                                         
+.                                 quietly         bsample         `r(N)' if PieceRate == `x'
+{txt}  7{com}.                                 quietly         summ Points
+{txt}  8{com}.                                 quietly         local           mean`x' = `r(mean)'
+{txt}  9{com}.                         restore 
+{txt} 10{com}.                         
+.                         quietly                 replace Points`x' = round(`mean`x'') in `i'     
+{txt} 11{com}.                 {c )-}               
+{txt} 12{com}. {c )-}
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\BootstrapSample", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BootstrapSample.dta saved
+
+{com}. 
+. * Solving the equations for parameter values
+. 
+. 
+. capture program drop nlfaq
+{txt}
+{com}. program nlfaq
+{txt}  1{com}.         syntax varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}.         
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log(1521) - log(`S') + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log(2029) - log(`S'+0.01) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log(2175) - log(`S'+0.10) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}. end     
+{txt}
+{com}. 
+. clear
+{txt}
+{com}. 
+. set             obs 3
+{txt}{p}
+number of observations (_N)  was 0,
+now 3
+{p_end}
+
+{com}. generate        y = 0
+{txt}
+{com}. replace         y = 1 in 1
+{txt}(1 real change made)
+
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G 1 S 1 K 1)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} .0031682
+{txt}Iteration 1:  residual SS = {res} .0005008
+{txt}Iteration 2:  residual SS = {res} .0001032
+{txt}Iteration 3:  residual SS = {res} .0000239
+{txt}Iteration 4:  residual SS = {res} 5.78e-06
+{txt}Iteration 5:  residual SS = {res} 1.42e-06
+{txt}Iteration 6:  residual SS = {res} 3.54e-07
+{txt}Iteration 7:  residual SS = {res} 8.81e-08
+{txt}Iteration 8:  residual SS = {res} 2.20e-08
+{txt}Iteration 9:  residual SS = {res} 5.49e-09
+{txt}Iteration 10:  residual SS = {res} 2.53e-09
+{txt}Iteration 11:  residual SS = {res} 2.52e-09
+{txt}Iteration 12:  residual SS = {res} 2.52e-09
+{txt}Iteration 13:  residual SS = {res} 2.52e-09
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res} .66666666          1  .666666664{txt}{col 53}R-squared     = {res}    1.0000
+{txt}    Residual {c |} {res} 2.520e-09          1  2.5196e-09{txt}{col 53}Adj R-squared = {res}    1.0000
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res} .0000502
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res}-54.17973
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} .0001922{col 26}{space 2} .0001872{col 37}{space 1}    1.03{col 46}{space 3}0.491{col 54}{space 4}-.0021858{col 67}{space 3} .0025703
+{txt}          /S {c |}{col 14}{res}{space 2} 1082.426{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 1080.895{col 26}{space 2} 1.526125{col 37}{space 1}  708.26{col 46}{space 3}0.001{col 54}{space 4} 1061.504{col 67}{space 3} 1100.286
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+. scalar  GInitial = [G]_b[_cons]
+{txt}
+{com}. scalar  SInitial = [S]_b[_cons]
+{txt}
+{com}. scalar  KInitial = [K]_b[_cons]
+{txt}
+{com}. 
+. nl faq @ y, parameters(G S K) initial(G GInitial S SInitial K KInitial)
+{txt}(obs = 3)
+
+Iteration 0:  residual SS = {res} 2.52e-09
+
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res} .66666666          1  .666666664{txt}{col 53}R-squared     = {res}    1.0000
+{txt}    Residual {c |} {res} 2.520e-09          1  2.5196e-09{txt}{col 53}Adj R-squared = {res}    1.0000
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res} .0000502
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res}-54.17973
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} .0001922{col 26}{space 2} .0001871{col 37}{space 1}    1.03{col 46}{space 3}0.491{col 54}{space 4}-.0021857{col 67}{space 3} .0025702
+{txt}          /S {c |}{col 14}{res}{space 2} 1082.426{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 1080.895{col 26}{space 2} 1.526069{col 37}{space 1}  708.29{col 46}{space 3}0.001{col 54}{space 4} 1061.504{col 67}{space 3} 1100.285
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Analysis\Structural Estimation\_1_EstimatingCostFunction.do"
+{txt}
+{com}. /* 
+> This file estimate the parameters of cost function using minimum distance 
+> estimation. 
+> Input: 
+>         Individual level raw data
+> Output:
+>         Table with paramter values
+>         
+> Written by: Sher Afghan Asad
+> Date: 2018-08-06
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

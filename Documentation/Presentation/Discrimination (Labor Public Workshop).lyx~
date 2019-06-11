@@ -1,0 +1,1588 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{sansmathaccent}
+\pdfmapfile{+sansmathaccent.map}
+\usetheme{boxes}
+\usecolortheme{lily}
+\usepackage{lmodern}
+
+\author[Asad, Banerjee and Bhattacharya]{%
+  \texorpdfstring{%
+    \begin{columns}
+      \column{.5\linewidth}
+      \centering
+      Sher Afghan Asad \\ Iowa State University
+      \column{.5\linewidth}
+      \centering
+      Ritwik Banerjee \\ Indian Institute of Management
+    \end{columns}
+    \vspace{12pt}
+    \begin{columns}
+      \column{.33\linewidth}
+      \centering
+      Joydeep Bhattacharya \\ Iowa State University
+    \end{columns}
+ }
+ {Sher Afghan Asad, Ritwik Banerjee, Joydeep Bhattacharya}
+}
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Reverse Discrimination: Evidence from an Online Labor Market 
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Outline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Motivation and Introduction}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Motivation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Prejudice or bias is widespread in labor market interactions.
+ (Neumark, 2018; Bertrand & Duflo, 2017)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The most common form of bias studied is of the employer-to-employee kind.
+ 
+\end_layout
+
+\begin_layout Itemize
+Employee may respond to discrimination by employer.
+ (Glover, Pallais and Pariente, 2017)
+\end_layout
+
+\begin_layout Itemize
+The evidence on the bias from employee-to-employer is non-existent (to our
+ knowledge).
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+This Paper
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Do workers exhibit bias when providing effort to the employers? 
+\end_layout
+
+\begin_layout Itemize
+What is the nature of bias; taste or statistical? 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Taste: Animus from a worker towards the employer's group.
+ (Becker)
+\end_layout
+
+\begin_layout Itemize
+Statistical: Beliefs or stereotypes towards the employer's group.
+ (Arrow and Phelps)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Why?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+What if bias from employer to employee is partially driven by expectations
+ of bias from the employee.
+ 
+\end_layout
+
+\begin_layout Itemize
+Policy implications.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Environment
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Online labor market: one shot interactions
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Model}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Model (without Statistical Discrimination)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size small
+Assuming risk neutrality, a worker 
+\begin_inset Formula $i\in\left\{ B,W\right\} $
+\end_inset
+
+ solves the following problem when working for an employer 
+\begin_inset Formula $j\in\left\{ B,W\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+ denote the black or white race of an agent;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{ij}+p_{j})e_{ij}-c(e_{ij})\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ leads to following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(\underbrace{s_{i}+\Delta s_{ij}}_{s_{ij}}+p_{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Two forms of cost function
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Power Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Exponential Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{kexp^{\gamma e}}{\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Baseline Treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An employer 
+\begin_inset Formula $j$
+\end_inset
+
+ selects a piece rate 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ for worker 
+\begin_inset Formula $i$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+Worker 
+\begin_inset Formula $i$
+\end_inset
+
+ observes the 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ and then choose effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Worker do no observe the identity of the employer which implies that for
+ any worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $s_{iW}=s_{iB}=s_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The equilibrium effort 
+\begin_inset Formula $e_{i}^{\star}$
+\end_inset
+
+ in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{\star}=c'^{-1}\left(s_{i}+p_{j}\right)\text{ for }i\in\left\{ B,W\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Race Salient Treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Just like baseline except that workers observe the race of the employer.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{RS}=c'^{-1}\left(\left(\underbrace{s_{i}+\Delta s_{ij}^{p_{j}}}_{s_{ij}}\right)+p_{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Experiment Design}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Experiment Design
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Recruitment of Subjects
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Amazon's Mechanical Turk
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Task
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Button-Pressing task as in DellaVigna and Pope (2018)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Experiment Flow
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assignment posted on M-Turk for a screen-er survey.
+\end_layout
+
+\begin_layout Itemize
+Qualified subjects invited to initiate the experiment.
+\end_layout
+
+\begin_layout Itemize
+Randomly assigned to the treatment group and to the role of employer or
+ worker.
+\end_layout
+
+\begin_layout Itemize
+Employer given 10 cents for every 100 points scored by the worker.
+ Decides how to split these 10 cents before worker start working on the
+ task.
+\end_layout
+
+\begin_layout Itemize
+Worker observes the piece rate and then work on the task for up-to 10 minutes.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Revealing Race
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename BlackImage.png
+	scale 90
+	rotateOrigin centerTop
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename WhiteImage.png
+	scale 90
+	rotateOrigin centerBaseline
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Data and Results}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Data Collection
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+202 subjects (37 Blacks and 165 Whites)
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/Demographics.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Results
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/IncentiveEffectByTreatment.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Effort choices by treatment
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/EffortByTreatments.tex"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+OLS regression results for effort
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/TreatmentEffect.tex"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Effort choices by worker's group
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/EffortByWorkerGroup.tex"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Estimation}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Structural Estimation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We use the minimum-distance estimator employing the three moments (average
+ effort corresponding to three piece rates (
+\begin_inset Formula $0$
+\end_inset
+
+, 
+\begin_inset Formula $3$
+\end_inset
+
+ and 
+\begin_inset Formula $9$
+\end_inset
+
+ cents) in baseline treatment) and thus three parameters (
+\begin_inset Formula $\gamma$
+\end_inset
+
+, 
+\begin_inset Formula $s$
+\end_inset
+
+ and 
+\begin_inset Formula $k$
+\end_inset
+
+) are exactly identified.
+ 
+\end_layout
+
+\begin_layout Itemize
+The standard errors are derived via a bootstrap with 1000 draws.
+ 
+\end_layout
+
+\begin_layout Itemize
+Implied effort is calculated using estimated parameters.
+ 
+\end_layout
+
+\begin_layout Itemize
+For the race salient parameters, the baseline parameters are taken as given
+ and we use the average effort for Black employers and White Employer (subsuming
+ piece rate and worker's race) from the race salient treatments to calculate
+ 
+\begin_inset Formula $\Delta s_{.W}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta s_{.B}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Standard errors are calculated by taking a bootstrap sample of 1000 draws
+ and recalculating these parameters for each draw.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Estimates of behavioral parameters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/Structural Estimation/StructuralParameters.tex"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Learnings}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Learning from this pilot
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It is not clear whether the difference in effort would be driven by taste
+ bias towards the employer, the reciprocity towards the employer or the
+ combination of both.
+ 
+\end_layout
+
+\begin_layout Itemize
+There is considerable ambiguity in the way race was revealed.
+\end_layout
+
+\begin_layout Itemize
+The current experiment design lead to disproportional number of observations
+ in each treatment cell.
+ 
+\end_layout
+
+\begin_layout Itemize
+We probably don't need to hire as many employers as we did for this experiment.
+ 
+\end_layout
+
+\begin_layout Itemize
+Since it is not easy to recruit blacks on M-Turk, we may way to restrict
+ only to white workers.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{New Design}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Revised Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{i}+p)e_{ij}-c(e_{ij})+\underbrace{\alpha_{ij}}_{\alpha_{i}+d_{ij}}\left(v-p\right)e_{ij}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Solving leads to following solution (when interior); 
+\size default
+
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+p+\alpha_{ij}(v-p)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Two forms of cost function
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Power Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Exponential Cost Function
+\begin_inset Formula 
+\[
+c(e)=\frac{kexp^{\gamma e}}{\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Baseline Treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Employer's identity is not revealed to worker ensuring 
+\begin_inset Formula $d_{ij}=0$
+\end_inset
+
+, i.e.
+ there is no taste/distaste towards the employer's identity because the
+ identity is not revealed, 
+\end_layout
+
+\begin_layout Itemize
+Employer do not earn anything from worker's effort ensuring 
+\begin_inset Formula $\alpha_{ij}=0$
+\end_inset
+
+.
+ This implies that the effort in this treatment is given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+p\right)
+\]
+
+\end_inset
+
+This gives us three treatments;
+\end_layout
+
+\begin_layout Enumerate
+Baseline - 
+\begin_inset Formula $p_{1}$
+\end_inset
+
+ cents
+\end_layout
+
+\begin_layout Enumerate
+Baseline - 
+\begin_inset Formula $p_{2}$
+\end_inset
+
+ cents
+\end_layout
+
+\begin_layout Enumerate
+Baseline - 
+\begin_inset Formula $p_{3}$
+\end_inset
+
+ cents
+\end_layout
+
+\begin_layout Enumerate
+Baseline - 
+\begin_inset Formula $p_{4}$
+\end_inset
+
+ cents (just to test the model)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Altruistic Treatment
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In this treatment, we once again do not reveal the identity of the employer
+ (i.e.
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $d_{ij}=0$
+\end_inset
+
+ 
+\begin_inset Formula $\implies$
+\end_inset
+
+ 
+\begin_inset Formula $\alpha_{ij}=\alpha_{i}$
+\end_inset
+
+)
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ however workers know the return to the employer 
+\begin_inset Formula $v$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+.
+ This implies the effort in this treatment (at 0 piece rate) is given as;
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+\alpha_{i}(v)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Altruistic Treatment with Employer Identity
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In this treatment, we reveal the identity of the employer hence allowing
+ for 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $d_{ij}\neq0$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ and workers know the return to the employer (
+\begin_inset Formula $v$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+).
+ This implies the effort in this treatment (at 0 piece rate) is given as;
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+(\alpha_{i}+d_{ij})(v)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This gives us two treatments;
+\end_layout
+
+\begin_layout Enumerate
+Altruistic Treatment with Black Employer
+\end_layout
+
+\begin_layout Enumerate
+Altruistic Treatment with White Employer
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Experiment Design
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Recruitment of Employers
+\end_layout
+
+\begin_layout Itemize
+Recruitment of Workers
+\end_layout
+
+\begin_layout Itemize
+Sample Size (200 x 7)
+\end_layout
+
+\begin_layout Itemize
+Task
+\end_layout
+
+\begin_layout Itemize
+Race Revelation
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Huge Thank You!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\end_body
+\end_document

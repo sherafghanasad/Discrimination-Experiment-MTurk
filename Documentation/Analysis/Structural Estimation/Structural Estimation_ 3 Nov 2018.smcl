@@ -1,0 +1,1416 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Structural Estimation\Structural Estimation_ 3 Nov 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Nov 2018, 16:39:03
+{txt}
+{com}. 
+. * Set some parameters
+. 
+. set             seed 123
+{txt}
+{com}. local   draws = 1000
+{txt}
+{com}. 
+. * Import cleaned data from experiment
+. 
+. use             "${c -(}rootdir{c )-}\Output\Analysis\CleanedData.dta", clear
+{txt}
+{com}. 
+. * Since each observation appear twice (once for each participant), we drop the employer observations
+. 
+. keep            if Role == 2
+{txt}(101 observations deleted)
+
+{com}. 
+. * For parameters of cost function we only use data from baseline treatment 
+. 
+. keep    if Treatment == "Baseline"
+{txt}(47 observations deleted)
+
+{com}. *drop   Treatment
+. 
+. *sort   PieceRate Points
+. 
+. replace         PieceRate = 3 if PieceRate == 0.03
+{txt}(17 real changes made)
+
+{com}. replace         PieceRate = 6 if PieceRate == 0.06
+{txt}(23 real changes made)
+
+{com}. replace         PieceRate = 9 if PieceRate == 0.09
+{txt}(6 real changes made)
+
+{com}. 
+. save            "${c -(}tempdir{c )-}\BaselineData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BaselineData.dta saved
+
+{com}. 
+. * Draw a bootstrap sample of 1000 means of observations for each piece rate
+. 
+. clear
+{txt}
+{com}. set     obs `draws'
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. foreach x of numlist 0 3 6 9 {c -(}
+{txt}  2{com}.         gen Points`x' = 0
+{txt}  3{com}.         {c )-}
+{txt}
+{com}. count
+  {res}1,000
+{txt}
+{com}. 
+. forvalues i = 1/`r(N)' {c -(}
+{txt}  2{com}.                 foreach x of numlist 0 3 6 9 {c -(}
+{txt}  3{com}.                         preserve
+{txt}  4{com}.                                 use             "${c -(}tempdir{c )-}\BaselineData", clear
+{txt}  5{com}.                                 quietly         count           if PieceRate == `x'
+{txt}  6{com}.                                         
+.                                 quietly         bsample         `r(N)' if PieceRate == `x'
+{txt}  7{com}.                                 quietly         summ Points
+{txt}  8{com}.                                 quietly         local           mean`x' = `r(mean)'
+{txt}  9{com}.                         restore 
+{txt} 10{com}.                         
+.                         quietly                 replace Points`x' = round(`mean`x'') in `i'     
+{txt} 11{com}.                 {c )-}               
+{txt} 12{com}. {c )-}
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\BootstrapSample", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BootstrapSample.dta saved
+
+{com}. 
+. * Solving the equations for parameter values
+. 
+. gen     G = .
+{txt}(1,000 missing values generated)
+
+{com}. gen     S = .
+{txt}(1,000 missing values generated)
+
+{com}. gen     K = .
+{txt}(1,000 missing values generated)
+
+{com}.         
+. capture program drop nlcostsolver
+{txt}
+{com}. program nlcostsolver
+{txt}  1{com}.         syntax          varlist(min=1 max=1) [if], at(name)
+{txt}  2{com}. 
+.         tempname        G S K
+{txt}  3{com}.         scalar          `G' = `at'[1,1]
+{txt}  4{com}.         scalar          `S' = `at'[1,2]
+{txt}  5{com}.         scalar          `K' = `at'[1,3]
+{txt}  6{com}.         
+.         tempvar         yh
+{txt}  7{com}.         gen             double `yh' = `G'*log($e0) - log(`S'+0) + log(`K') + 1 in 1
+{txt}  8{com}.         replace         `yh' = `G'*log($e3) - log(`S'+0.03) + log(`K') in 2
+{txt}  9{com}.         replace         `yh' = `G'*log($e9) - log(`S'+0.09) + log(`K') in 3
+{txt} 10{com}. 
+.         replace         `varlist' = `yh'        
+{txt} 11{com}.         
+. end     
+{txt}
+{com}. 
+. forvalues i = 1/`draws' {c -(}
+{txt}  2{com}.         dis             "Solving equation `i' " 
+{txt}  3{com}.         global  e0 = Points0[`i']
+{txt}  4{com}.         global  e3 = Points3[`i']
+{txt}  5{com}.         global  e9 = Points9[`i']
+{txt}  6{com}. 
+.         scalar          k = exp((log(0.09) - ((log(0.03)*log(${c -(}e9{c )-}))/log(${c -(}e3{c )-}))) / (1 - (log(${c -(}e9{c )-})/log(${c -(}e3{c )-}))))
+{txt}  7{com}.         
+.         if k == 0 | k == . {c -(}
+{txt}  8{com}.         scalar          k = exp((log(0.10) - ((log(0.01)*log(2175))/log(2029))) / (1 - (log(2175)/log(2029))))
+{txt}  9{com}.         {c )-}
+{txt} 10{com}.         
+.         scalar          gamma = (log(0.03) - log(k))/log(${c -(}e3{c )-})
+{txt} 11{com}.         scalar          s = exp(gamma*log(${c -(}e0{c )-}) + log(k))
+{txt} 12{com}. 
+.         preserve
+{txt} 13{com}.                 clear
+{txt} 14{com}. 
+.                 quietly         set             obs 3
+{txt} 15{com}.                 quietly         generate        y = 0
+{txt} 16{com}.                 quietly         replace         y = 1 in 1
+{txt} 17{com}. 
+.                 quietly nl costsolver @ y, parameters(G S K) initial(G gamma S s K k) eps(0.5e-3)  nolog
+{txt} 18{com}.         restore
+{txt} 19{com}.                 
+.         quietly replace G                       =       [G]_b[_cons]    in `i'
+{txt} 20{com}.         quietly replace S                       =       [S]_b[_cons]    in `i'
+{txt} 21{com}.         quietly replace K                       =       [K]_b[_cons]    in `i'
+{txt} 22{com}. {c )-}
+Solving equation 1 
+Solving equation 2 
+Solving equation 3 
+Solving equation 4 
+Solving equation 5 
+Solving equation 6 
+Solving equation 7 
+Solving equation 8 
+Solving equation 9 
+Solving equation 10 
+Solving equation 11 
+Solving equation 12 
+Solving equation 13 
+Solving equation 14 
+Solving equation 15 
+Solving equation 16 
+Solving equation 17 
+Solving equation 18 
+Solving equation 19 
+Solving equation 20 
+Solving equation 21 
+Solving equation 22 
+Solving equation 23 
+Solving equation 24 
+Solving equation 25 
+Solving equation 26 
+Solving equation 27 
+Solving equation 28 
+Solving equation 29 
+Solving equation 30 
+Solving equation 31 
+Solving equation 32 
+Solving equation 33 
+Solving equation 34 
+Solving equation 35 
+Solving equation 36 
+Solving equation 37 
+Solving equation 38 
+Solving equation 39 
+Solving equation 40 
+Solving equation 41 
+Solving equation 42 
+Solving equation 43 
+Solving equation 44 
+Solving equation 45 
+Solving equation 46 
+Solving equation 47 
+Solving equation 48 
+Solving equation 49 
+Solving equation 50 
+Solving equation 51 
+Solving equation 52 
+Solving equation 53 
+Solving equation 54 
+Solving equation 55 
+Solving equation 56 
+Solving equation 57 
+Solving equation 58 
+Solving equation 59 
+Solving equation 60 
+Solving equation 61 
+Solving equation 62 
+Solving equation 63 
+Solving equation 64 
+Solving equation 65 
+Solving equation 66 
+Solving equation 67 
+Solving equation 68 
+Solving equation 69 
+Solving equation 70 
+Solving equation 71 
+Solving equation 72 
+Solving equation 73 
+Solving equation 74 
+Solving equation 75 
+Solving equation 76 
+Solving equation 77 
+Solving equation 78 
+Solving equation 79 
+Solving equation 80 
+Solving equation 81 
+Solving equation 82 
+Solving equation 83 
+Solving equation 84 
+Solving equation 85 
+Solving equation 86 
+Solving equation 87 
+Solving equation 88 
+Solving equation 89 
+Solving equation 90 
+Solving equation 91 
+Solving equation 92 
+Solving equation 93 
+Solving equation 94 
+Solving equation 95 
+Solving equation 96 
+Solving equation 97 
+Solving equation 98 
+Solving equation 99 
+Solving equation 100 
+Solving equation 101 
+Solving equation 102 
+Solving equation 103 
+Solving equation 104 
+Solving equation 105 
+Solving equation 106 
+Solving equation 107 
+Solving equation 108 
+Solving equation 109 
+Solving equation 110 
+Solving equation 111 
+Solving equation 112 
+Solving equation 113 
+Solving equation 114 
+Solving equation 115 
+Solving equation 116 
+Solving equation 117 
+Solving equation 118 
+Solving equation 119 
+Solving equation 120 
+Solving equation 121 
+Solving equation 122 
+Solving equation 123 
+Solving equation 124 
+Solving equation 125 
+Solving equation 126 
+Solving equation 127 
+Solving equation 128 
+Solving equation 129 
+Solving equation 130 
+Solving equation 131 
+Solving equation 132 
+Solving equation 133 
+Solving equation 134 
+Solving equation 135 
+Solving equation 136 
+Solving equation 137 
+Solving equation 138 
+Solving equation 139 
+Solving equation 140 
+Solving equation 141 
+Solving equation 142 
+Solving equation 143 
+Solving equation 144 
+Solving equation 145 
+Solving equation 146 
+Solving equation 147 
+Solving equation 148 
+Solving equation 149 
+Solving equation 150 
+Solving equation 151 
+Solving equation 152 
+Solving equation 153 
+Solving equation 154 
+Solving equation 155 
+Solving equation 156 
+Solving equation 157 
+Solving equation 158 
+Solving equation 159 
+Solving equation 160 
+Solving equation 161 
+Solving equation 162 
+Solving equation 163 
+Solving equation 164 
+Solving equation 165 
+Solving equation 166 
+Solving equation 167 
+Solving equation 168 
+Solving equation 169 
+Solving equation 170 
+Solving equation 171 
+Solving equation 172 
+Solving equation 173 
+Solving equation 174 
+Solving equation 175 
+Solving equation 176 
+Solving equation 177 
+Solving equation 178 
+Solving equation 179 
+Solving equation 180 
+Solving equation 181 
+Solving equation 182 
+Solving equation 183 
+Solving equation 184 
+Solving equation 185 
+Solving equation 186 
+Solving equation 187 
+Solving equation 188 
+Solving equation 189 
+Solving equation 190 
+Solving equation 191 
+Solving equation 192 
+Solving equation 193 
+Solving equation 194 
+Solving equation 195 
+Solving equation 196 
+Solving equation 197 
+Solving equation 198 
+Solving equation 199 
+Solving equation 200 
+Solving equation 201 
+Solving equation 202 
+Solving equation 203 
+Solving equation 204 
+Solving equation 205 
+Solving equation 206 
+Solving equation 207 
+Solving equation 208 
+Solving equation 209 
+Solving equation 210 
+Solving equation 211 
+Solving equation 212 
+Solving equation 213 
+Solving equation 214 
+Solving equation 215 
+Solving equation 216 
+Solving equation 217 
+Solving equation 218 
+Solving equation 219 
+Solving equation 220 
+Solving equation 221 
+Solving equation 222 
+Solving equation 223 
+Solving equation 224 
+Solving equation 225 
+Solving equation 226 
+Solving equation 227 
+Solving equation 228 
+Solving equation 229 
+Solving equation 230 
+Solving equation 231 
+Solving equation 232 
+Solving equation 233 
+Solving equation 234 
+Solving equation 235 
+Solving equation 236 
+Solving equation 237 
+Solving equation 238 
+Solving equation 239 
+Solving equation 240 
+Solving equation 241 
+Solving equation 242 
+Solving equation 243 
+Solving equation 244 
+Solving equation 245 
+Solving equation 246 
+Solving equation 247 
+Solving equation 248 
+Solving equation 249 
+Solving equation 250 
+Solving equation 251 
+Solving equation 252 
+Solving equation 253 
+Solving equation 254 
+Solving equation 255 
+Solving equation 256 
+Solving equation 257 
+Solving equation 258 
+Solving equation 259 
+Solving equation 260 
+Solving equation 261 
+Solving equation 262 
+Solving equation 263 
+Solving equation 264 
+Solving equation 265 
+Solving equation 266 
+Solving equation 267 
+Solving equation 268 
+Solving equation 269 
+Solving equation 270 
+Solving equation 271 
+Solving equation 272 
+Solving equation 273 
+Solving equation 274 
+Solving equation 275 
+Solving equation 276 
+Solving equation 277 
+Solving equation 278 
+Solving equation 279 
+Solving equation 280 
+Solving equation 281 
+Solving equation 282 
+Solving equation 283 
+Solving equation 284 
+Solving equation 285 
+Solving equation 286 
+Solving equation 287 
+Solving equation 288 
+Solving equation 289 
+Solving equation 290 
+Solving equation 291 
+Solving equation 292 
+Solving equation 293 
+Solving equation 294 
+Solving equation 295 
+Solving equation 296 
+Solving equation 297 
+Solving equation 298 
+Solving equation 299 
+Solving equation 300 
+Solving equation 301 
+Solving equation 302 
+Solving equation 303 
+Solving equation 304 
+Solving equation 305 
+Solving equation 306 
+Solving equation 307 
+Solving equation 308 
+Solving equation 309 
+Solving equation 310 
+Solving equation 311 
+Solving equation 312 
+Solving equation 313 
+Solving equation 314 
+Solving equation 315 
+Solving equation 316 
+Solving equation 317 
+Solving equation 318 
+Solving equation 319 
+Solving equation 320 
+Solving equation 321 
+Solving equation 322 
+Solving equation 323 
+Solving equation 324 
+Solving equation 325 
+Solving equation 326 
+Solving equation 327 
+Solving equation 328 
+Solving equation 329 
+Solving equation 330 
+Solving equation 331 
+Solving equation 332 
+Solving equation 333 
+Solving equation 334 
+Solving equation 335 
+Solving equation 336 
+Solving equation 337 
+Solving equation 338 
+Solving equation 339 
+Solving equation 340 
+Solving equation 341 
+Solving equation 342 
+Solving equation 343 
+Solving equation 344 
+Solving equation 345 
+Solving equation 346 
+Solving equation 347 
+Solving equation 348 
+Solving equation 349 
+Solving equation 350 
+Solving equation 351 
+Solving equation 352 
+Solving equation 353 
+Solving equation 354 
+Solving equation 355 
+Solving equation 356 
+Solving equation 357 
+Solving equation 358 
+Solving equation 359 
+Solving equation 360 
+Solving equation 361 
+Solving equation 362 
+Solving equation 363 
+Solving equation 364 
+Solving equation 365 
+Solving equation 366 
+Solving equation 367 
+Solving equation 368 
+Solving equation 369 
+Solving equation 370 
+Solving equation 371 
+Solving equation 372 
+Solving equation 373 
+Solving equation 374 
+Solving equation 375 
+Solving equation 376 
+Solving equation 377 
+Solving equation 378 
+Solving equation 379 
+Solving equation 380 
+Solving equation 381 
+Solving equation 382 
+Solving equation 383 
+Solving equation 384 
+Solving equation 385 
+Solving equation 386 
+Solving equation 387 
+Solving equation 388 
+Solving equation 389 
+Solving equation 390 
+Solving equation 391 
+Solving equation 392 
+Solving equation 393 
+Solving equation 394 
+Solving equation 395 
+Solving equation 396 
+Solving equation 397 
+Solving equation 398 
+Solving equation 399 
+Solving equation 400 
+Solving equation 401 
+Solving equation 402 
+Solving equation 403 
+Solving equation 404 
+Solving equation 405 
+Solving equation 406 
+Solving equation 407 
+Solving equation 408 
+Solving equation 409 
+Solving equation 410 
+Solving equation 411 
+Solving equation 412 
+Solving equation 413 
+Solving equation 414 
+Solving equation 415 
+Solving equation 416 
+Solving equation 417 
+Solving equation 418 
+Solving equation 419 
+Solving equation 420 
+Solving equation 421 
+Solving equation 422 
+Solving equation 423 
+Solving equation 424 
+Solving equation 425 
+Solving equation 426 
+Solving equation 427 
+Solving equation 428 
+Solving equation 429 
+Solving equation 430 
+Solving equation 431 
+Solving equation 432 
+Solving equation 433 
+Solving equation 434 
+Solving equation 435 
+Solving equation 436 
+Solving equation 437 
+Solving equation 438 
+Solving equation 439 
+Solving equation 440 
+Solving equation 441 
+Solving equation 442 
+Solving equation 443 
+Solving equation 444 
+Solving equation 445 
+Solving equation 446 
+Solving equation 447 
+Solving equation 448 
+Solving equation 449 
+Solving equation 450 
+Solving equation 451 
+Solving equation 452 
+Solving equation 453 
+Solving equation 454 
+Solving equation 455 
+Solving equation 456 
+Solving equation 457 
+Solving equation 458 
+Solving equation 459 
+Solving equation 460 
+Solving equation 461 
+Solving equation 462 
+Solving equation 463 
+Solving equation 464 
+Solving equation 465 
+Solving equation 466 
+Solving equation 467 
+Solving equation 468 
+Solving equation 469 
+Solving equation 470 
+Solving equation 471 
+Solving equation 472 
+Solving equation 473 
+Solving equation 474 
+Solving equation 475 
+Solving equation 476 
+Solving equation 477 
+Solving equation 478 
+Solving equation 479 
+Solving equation 480 
+Solving equation 481 
+Solving equation 482 
+Solving equation 483 
+Solving equation 484 
+Solving equation 485 
+Solving equation 486 
+Solving equation 487 
+Solving equation 488 
+Solving equation 489 
+Solving equation 490 
+Solving equation 491 
+Solving equation 492 
+Solving equation 493 
+Solving equation 494 
+Solving equation 495 
+Solving equation 496 
+Solving equation 497 
+Solving equation 498 
+Solving equation 499 
+Solving equation 500 
+Solving equation 501 
+Solving equation 502 
+Solving equation 503 
+Solving equation 504 
+Solving equation 505 
+Solving equation 506 
+Solving equation 507 
+Solving equation 508 
+Solving equation 509 
+Solving equation 510 
+Solving equation 511 
+Solving equation 512 
+Solving equation 513 
+Solving equation 514 
+Solving equation 515 
+Solving equation 516 
+Solving equation 517 
+Solving equation 518 
+Solving equation 519 
+Solving equation 520 
+Solving equation 521 
+Solving equation 522 
+Solving equation 523 
+Solving equation 524 
+Solving equation 525 
+Solving equation 526 
+Solving equation 527 
+Solving equation 528 
+Solving equation 529 
+Solving equation 530 
+Solving equation 531 
+Solving equation 532 
+Solving equation 533 
+Solving equation 534 
+Solving equation 535 
+Solving equation 536 
+Solving equation 537 
+Solving equation 538 
+Solving equation 539 
+Solving equation 540 
+Solving equation 541 
+Solving equation 542 
+Solving equation 543 
+Solving equation 544 
+Solving equation 545 
+Solving equation 546 
+Solving equation 547 
+Solving equation 548 
+Solving equation 549 
+Solving equation 550 
+Solving equation 551 
+Solving equation 552 
+Solving equation 553 
+Solving equation 554 
+Solving equation 555 
+Solving equation 556 
+Solving equation 557 
+Solving equation 558 
+Solving equation 559 
+Solving equation 560 
+Solving equation 561 
+Solving equation 562 
+Solving equation 563 
+Solving equation 564 
+Solving equation 565 
+Solving equation 566 
+Solving equation 567 
+Solving equation 568 
+Solving equation 569 
+Solving equation 570 
+Solving equation 571 
+Solving equation 572 
+Solving equation 573 
+Solving equation 574 
+Solving equation 575 
+Solving equation 576 
+Solving equation 577 
+Solving equation 578 
+Solving equation 579 
+Solving equation 580 
+Solving equation 581 
+Solving equation 582 
+Solving equation 583 
+Solving equation 584 
+Solving equation 585 
+Solving equation 586 
+Solving equation 587 
+Solving equation 588 
+Solving equation 589 
+Solving equation 590 
+Solving equation 591 
+Solving equation 592 
+Solving equation 593 
+Solving equation 594 
+Solving equation 595 
+Solving equation 596 
+Solving equation 597 
+Solving equation 598 
+Solving equation 599 
+Solving equation 600 
+Solving equation 601 
+Solving equation 602 
+Solving equation 603 
+Solving equation 604 
+Solving equation 605 
+Solving equation 606 
+Solving equation 607 
+Solving equation 608 
+Solving equation 609 
+Solving equation 610 
+Solving equation 611 
+Solving equation 612 
+Solving equation 613 
+Solving equation 614 
+Solving equation 615 
+Solving equation 616 
+Solving equation 617 
+Solving equation 618 
+Solving equation 619 
+Solving equation 620 
+Solving equation 621 
+Solving equation 622 
+Solving equation 623 
+Solving equation 624 
+Solving equation 625 
+Solving equation 626 
+Solving equation 627 
+Solving equation 628 
+Solving equation 629 
+Solving equation 630 
+Solving equation 631 
+Solving equation 632 
+Solving equation 633 
+Solving equation 634 
+Solving equation 635 
+Solving equation 636 
+Solving equation 637 
+Solving equation 638 
+Solving equation 639 
+Solving equation 640 
+Solving equation 641 
+Solving equation 642 
+Solving equation 643 
+Solving equation 644 
+Solving equation 645 
+Solving equation 646 
+Solving equation 647 
+Solving equation 648 
+Solving equation 649 
+Solving equation 650 
+Solving equation 651 
+Solving equation 652 
+Solving equation 653 
+Solving equation 654 
+Solving equation 655 
+Solving equation 656 
+Solving equation 657 
+Solving equation 658 
+Solving equation 659 
+Solving equation 660 
+Solving equation 661 
+Solving equation 662 
+Solving equation 663 
+Solving equation 664 
+Solving equation 665 
+Solving equation 666 
+Solving equation 667 
+Solving equation 668 
+Solving equation 669 
+Solving equation 670 
+Solving equation 671 
+Solving equation 672 
+Solving equation 673 
+Solving equation 674 
+Solving equation 675 
+Solving equation 676 
+Solving equation 677 
+Solving equation 678 
+Solving equation 679 
+Solving equation 680 
+Solving equation 681 
+Solving equation 682 
+Solving equation 683 
+Solving equation 684 
+Solving equation 685 
+Solving equation 686 
+Solving equation 687 
+Solving equation 688 
+Solving equation 689 
+Solving equation 690 
+Solving equation 691 
+Solving equation 692 
+Solving equation 693 
+Solving equation 694 
+Solving equation 695 
+Solving equation 696 
+Solving equation 697 
+Solving equation 698 
+Solving equation 699 
+Solving equation 700 
+Solving equation 701 
+Solving equation 702 
+Solving equation 703 
+Solving equation 704 
+Solving equation 705 
+Solving equation 706 
+Solving equation 707 
+Solving equation 708 
+Solving equation 709 
+Solving equation 710 
+Solving equation 711 
+Solving equation 712 
+Solving equation 713 
+Solving equation 714 
+Solving equation 715 
+Solving equation 716 
+Solving equation 717 
+Solving equation 718 
+Solving equation 719 
+Solving equation 720 
+Solving equation 721 
+Solving equation 722 
+Solving equation 723 
+Solving equation 724 
+Solving equation 725 
+Solving equation 726 
+Solving equation 727 
+Solving equation 728 
+Solving equation 729 
+Solving equation 730 
+Solving equation 731 
+Solving equation 732 
+Solving equation 733 
+Solving equation 734 
+Solving equation 735 
+Solving equation 736 
+Solving equation 737 
+Solving equation 738 
+Solving equation 739 
+Solving equation 740 
+Solving equation 741 
+Solving equation 742 
+Solving equation 743 
+Solving equation 744 
+Solving equation 745 
+Solving equation 746 
+Solving equation 747 
+Solving equation 748 
+Solving equation 749 
+Solving equation 750 
+Solving equation 751 
+Solving equation 752 
+Solving equation 753 
+Solving equation 754 
+Solving equation 755 
+Solving equation 756 
+Solving equation 757 
+Solving equation 758 
+Solving equation 759 
+Solving equation 760 
+Solving equation 761 
+Solving equation 762 
+Solving equation 763 
+Solving equation 764 
+Solving equation 765 
+Solving equation 766 
+Solving equation 767 
+Solving equation 768 
+Solving equation 769 
+Solving equation 770 
+Solving equation 771 
+Solving equation 772 
+Solving equation 773 
+Solving equation 774 
+Solving equation 775 
+Solving equation 776 
+Solving equation 777 
+Solving equation 778 
+Solving equation 779 
+Solving equation 780 
+Solving equation 781 
+Solving equation 782 
+Solving equation 783 
+Solving equation 784 
+Solving equation 785 
+Solving equation 786 
+Solving equation 787 
+Solving equation 788 
+Solving equation 789 
+Solving equation 790 
+Solving equation 791 
+Solving equation 792 
+Solving equation 793 
+Solving equation 794 
+Solving equation 795 
+Solving equation 796 
+Solving equation 797 
+Solving equation 798 
+Solving equation 799 
+Solving equation 800 
+Solving equation 801 
+Solving equation 802 
+Solving equation 803 
+Solving equation 804 
+Solving equation 805 
+Solving equation 806 
+Solving equation 807 
+Solving equation 808 
+Solving equation 809 
+Solving equation 810 
+Solving equation 811 
+Solving equation 812 
+Solving equation 813 
+Solving equation 814 
+Solving equation 815 
+Solving equation 816 
+Solving equation 817 
+Solving equation 818 
+Solving equation 819 
+Solving equation 820 
+Solving equation 821 
+Solving equation 822 
+Solving equation 823 
+Solving equation 824 
+Solving equation 825 
+Solving equation 826 
+Solving equation 827 
+Solving equation 828 
+Solving equation 829 
+Solving equation 830 
+Solving equation 831 
+Solving equation 832 
+Solving equation 833 
+Solving equation 834 
+Solving equation 835 
+Solving equation 836 
+Solving equation 837 
+Solving equation 838 
+Solving equation 839 
+Solving equation 840 
+Solving equation 841 
+Solving equation 842 
+Solving equation 843 
+Solving equation 844 
+Solving equation 845 
+Solving equation 846 
+Solving equation 847 
+Solving equation 848 
+Solving equation 849 
+Solving equation 850 
+Solving equation 851 
+Solving equation 852 
+Solving equation 853 
+Solving equation 854 
+Solving equation 855 
+Solving equation 856 
+Solving equation 857 
+Solving equation 858 
+Solving equation 859 
+Solving equation 860 
+Solving equation 861 
+Solving equation 862 
+Solving equation 863 
+Solving equation 864 
+Solving equation 865 
+Solving equation 866 
+Solving equation 867 
+Solving equation 868 
+Solving equation 869 
+Solving equation 870 
+Solving equation 871 
+Solving equation 872 
+Solving equation 873 
+Solving equation 874 
+Solving equation 875 
+Solving equation 876 
+Solving equation 877 
+Solving equation 878 
+Solving equation 879 
+Solving equation 880 
+Solving equation 881 
+Solving equation 882 
+Solving equation 883 
+Solving equation 884 
+Solving equation 885 
+Solving equation 886 
+Solving equation 887 
+Solving equation 888 
+Solving equation 889 
+Solving equation 890 
+Solving equation 891 
+Solving equation 892 
+Solving equation 893 
+Solving equation 894 
+Solving equation 895 
+Solving equation 896 
+Solving equation 897 
+Solving equation 898 
+Solving equation 899 
+Solving equation 900 
+Solving equation 901 
+Solving equation 902 
+Solving equation 903 
+Solving equation 904 
+Solving equation 905 
+Solving equation 906 
+Solving equation 907 
+Solving equation 908 
+Solving equation 909 
+Solving equation 910 
+Solving equation 911 
+Solving equation 912 
+Solving equation 913 
+Solving equation 914 
+Solving equation 915 
+Solving equation 916 
+Solving equation 917 
+Solving equation 918 
+Solving equation 919 
+Solving equation 920 
+Solving equation 921 
+Solving equation 922 
+Solving equation 923 
+Solving equation 924 
+Solving equation 925 
+Solving equation 926 
+Solving equation 927 
+Solving equation 928 
+Solving equation 929 
+Solving equation 930 
+Solving equation 931 
+Solving equation 932 
+Solving equation 933 
+Solving equation 934 
+Solving equation 935 
+Solving equation 936 
+Solving equation 937 
+Solving equation 938 
+Solving equation 939 
+Solving equation 940 
+Solving equation 941 
+Solving equation 942 
+Solving equation 943 
+Solving equation 944 
+Solving equation 945 
+Solving equation 946 
+Solving equation 947 
+Solving equation 948 
+Solving equation 949 
+Solving equation 950 
+Solving equation 951 
+Solving equation 952 
+Solving equation 953 
+Solving equation 954 
+Solving equation 955 
+Solving equation 956 
+Solving equation 957 
+Solving equation 958 
+Solving equation 959 
+Solving equation 960 
+Solving equation 961 
+Solving equation 962 
+Solving equation 963 
+Solving equation 964 
+Solving equation 965 
+Solving equation 966 
+Solving equation 967 
+Solving equation 968 
+Solving equation 969 
+Solving equation 970 
+Solving equation 971 
+Solving equation 972 
+Solving equation 973 
+Solving equation 974 
+Solving equation 975 
+Solving equation 976 
+Solving equation 977 
+Solving equation 978 
+Solving equation 979 
+Solving equation 980 
+Solving equation 981 
+Solving equation 982 
+Solving equation 983 
+Solving equation 984 
+Solving equation 985 
+Solving equation 986 
+Solving equation 987 
+Solving equation 988 
+Solving equation 989 
+Solving equation 990 
+Solving equation 991 
+Solving equation 992 
+Solving equation 993 
+Solving equation 994 
+Solving equation 995 
+Solving equation 996 
+Solving equation 997 
+Solving equation 998 
+Solving equation 999 
+Solving equation 1000 
+{txt}
+{com}. beep
+{txt}
+{com}. keep    if K >0 & S>0
+{txt}(259 observations deleted)
+
+{com}. 
+. eststo clear
+{txt}
+{com}. *eststo estCostParametersSD, title(): estpost summ G S K  
+. *matrix         SD = e(sd)
+. 
+. global  e0 = 1125
+{txt}
+{com}. global  e3 = 1750
+{txt}
+{com}. global  e9 = 1926
+{txt}
+{com}. 
+.         preserve
+{txt}
+{com}.                 clear
+{txt}
+{com}. 
+.                 quietly         set             obs 3
+{txt}
+{com}.                 quietly         generate        y = 0
+{txt}
+{com}.                 quietly         replace         y = 1 in 1
+{txt}
+{com}. 
+.                 eststo estCostParameters: nl costsolver @ y, parameters(G S K) initial(G gamma S s K k) eps(0.5e-4)  nolog
+{txt}(obs = 3)
+{res}
+
+{txt}      Source {c |}      SS            df       MS
+{hline 13}{c +}{hline 34}{col 53}Number of obs = {res}         3
+{txt}       Model {c |} {res}-157.79795          2  -78.898974{txt}{col 53}R-squared     = {res} -236.6969
+{txt}    Residual {c |} {res} 158.46461          0           .{txt}{col 53}Adj R-squared = {res}         .
+{txt}{hline 13}{c +}{hline 34}{col 53}Root MSE      =  {res}        .
+{txt}       Total {c |} {res} .66666667          2  .333333333{txt}{col 53}Res. dev.     =  {res} 20.41439
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+          /G {c |}{col 14}{res}{space 2} 19.63257{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /S {c |}{col 14}{res}{space 2} 9.48e-12{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}          /K {c |}{col 14}{res}{space 2} 3.42e-66{col 26}{space 2}        .{col 37}{space 1}       .{col 46}{space 3}    .{col 54}{space 4}        .{col 67}{space 3}        .
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+  Parameter K taken as constant term in model & ANOVA table
+
+{com}.         restore
+{txt}
+{com}.         matrix  define Beta = e(b)
+{txt}
+{com}.         matrix coleq Beta = :G :S :K   
+{txt}
+{com}.         
+.         eststo estCostParametersSD, title("Minimum distance estimator"): estpost summ G S K  
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:G}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      741}}}{space 1}{space 1}{ralign 9:{res:{sf:      741}}}{space 1}{space 1}{ralign 9:{res:{sf:-1.808573}}}{space 1}{space 1}{ralign 9:{res:{sf: 242.3669}}}{space 1}{space 1}{ralign 9:{res:{sf: 15.56814}}}{space 1}{space 1}{ralign 9:{res:{sf:-90.11688}}}{space 1}{space 1}{ralign 9:{res:{sf: 11.41812}}}{space 1}{space 1}{ralign 9:{res:{sf:-1340.152}}}{space 1}
+{space 0}{space 0}{ralign 12:S}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      741}}}{space 1}{space 1}{ralign 9:{res:{sf:      741}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.57e+29}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.30e+62}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.52e+31}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.80e-11}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.13e+32}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.13e+32}}}{space 1}
+{space 0}{space 0}{ralign 12:K}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      625}}}{space 1}{space 1}{ralign 9:{res:{sf:      625}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.46e+35}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.07e+73}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.55e+36}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.58e-39}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.21e+37}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.16e+38}}}{space 1}
+
+{com}. 
+.         estadd  matrix Coef = Beta
+
+{txt}added matrix:
+               e(Coef) :  {res}1 x 3
+{txt}
+{com}. 
+. * Out of sample prediction . Predict effort when p = 6 cent
+. 
+. *scalar e6 = ((Beta[1,2]+0.06)/Beta[1,3])^(1/Beta[1,1])
+. 
+. estadd  scalar e6 = ((Beta[1,2]+0.06)/Beta[1,3])^(1/Beta[1,1])
+
+{txt}added scalar:
+                 e(e6) =  {res}1871.9375
+{txt}
+{com}. /*
+> #d ;  
+>                 esttab  estCostParametersSD using "${c -(}outdir{c )-}\StructuralParameters.tex", 
+>                 label mtitles
+>                 main(Coef) 
+>                 aux(sd %8.3g)
+>                 stats(e6 N, labels("Implied effort at 6-cents" "N") )
+>                 sfmt(0)
+>                 coeflabel(G  "Curvature $\gamma$ of cost of effort function" S "Level k of cost of effort function" 
+>                                                 K "Intrinsic motivation s (cents per point)")
+>                 gap
+>                 nonotes
+>                 addnotes(standard errors in parenthesis)
+>                 width(\hsize)
+>                 replace
+>                 ;
+> #d cr
+> */
+. 
+. /* 
+> Estimating parameters from race salient treatment
+> 
+> Taking parameters of cost function (gamma and k) and intrinsic motivation (s) as given, we solve for delta s
+> for both black and white employers. 
+> 
+> Because of limited sample size and very few observations for racial combinations of Black/White workers
+> with Black/White employers for each piece rate, we only restrict to average effort by All Worker under
+> all piece rates to Black/White Employer. So we will only estimate two parameters in this case. 
+> */
+. 
+. 
+. scalar DeltaSb = (Beta[1,3] * (2191^Beta[1,1])) - Beta[1,2]
+{txt}
+{com}. scalar DeltaSw = (Beta[1,3] * (2051^Beta[1,1])) - Beta[1,2]
+{txt}
+{com}. 
+. /* To generate confidence intervals for these estimate, we generate a bootstrap sample of workers and 
+> restimating these parameters.*/ 
+. 
+. * Generating bootstrap sample
+. 
+. * Import cleaned data from experiment
+. 
+. use             "${c -(}rootdir{c )-}\Output\Analysis\CleanedData.dta", clear
+{txt}
+{com}. 
+. * Since each observation appear twice (once for each participant), we drop the employer observations
+. 
+. keep            if Role == 2
+{txt}(101 observations deleted)
+
+{com}. keep            if Treatment == "Race Salient"
+{txt}(54 observations deleted)
+
+{com}. 
+. replace                 EmployerRace = "Black" if EmployerRace == "Black or African-American"
+{txt}(11 real changes made)
+
+{com}. replace                 EmployerRace = "White" if EmployerRace == "White or Caucasian"
+{txt}(36 real changes made)
+
+{com}. 
+. save            "${c -(}tempdir{c )-}\RaceSalientData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\RaceSalientData.dta saved
+
+{com}. 
+. * Draw a bootstrap sample of 1000 means of observations for each treatment (Black Employer and White Employer)
+. 
+. clear
+{txt}
+{com}. set     obs `draws'
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. 
+. gen     PointsBlack = 0 
+{txt}
+{com}. gen     PointsWhite = 0
+{txt}
+{com}. 
+. count
+  {res}1,000
+{txt}
+{com}. forvalues i = 1/`r(N)' {c -(}
+{txt}  2{com}.                 foreach x in "Black" "White" {c -(}
+{txt}  3{com}.                         preserve
+{txt}  4{com}.                                 use             "${c -(}tempdir{c )-}\RaceSalientData", clear
+{txt}  5{com}.                                 quietly         count           if EmployerRace == "`x'"
+{txt}  6{com}.                                         
+.                                 quietly         bsample         `r(N)' if EmployerRace == "`x'"
+{txt}  7{com}.                                 quietly         summ Points
+{txt}  8{com}.                                 quietly         local           mean`x' = `r(mean)'
+{txt}  9{com}.                         restore 
+{txt} 10{com}. 
+.                         quietly                 replace Points`x' = round(`mean`x'') in `i'     
+{txt} 11{com}.                 {c )-}               
+{txt} 12{com}. {c )-}
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\BootstrapSampleRace", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Structural Estimation\BootstrapSampleRace.dta saved
+
+{com}. 
+. gen             DeltaSb = (Beta[1,3] * (PointsBlack^Beta[1,1])) - Beta[1,2]
+{txt}
+{com}. gen             DeltaSw = (Beta[1,3] * (PointsWhite^Beta[1,1])) - Beta[1,2]
+{txt}
+{com}. 
+. eststo          estRSParametersSD, title(): estpost summ DeltaSb DeltaSw
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:DeltaSb}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1000}}}{space 1}{space 1}{ralign 9:{res:{sf:     1000}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.197049}}}{space 1}{space 1}{ralign 9:{res:{sf: 274.5149}}}{space 1}{space 1}{ralign 9:{res:{sf: 16.56849}}}{space 1}{space 1}{ralign 9:{res:{sf: .0119181}}}{space 1}{space 1}{ralign 9:{res:{sf: 277.0395}}}{space 1}{space 1}{ralign 9:{res:{sf: 5197.049}}}{space 1}
+{space 0}{space 0}{ralign 12:DeltaSw}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1000}}}{space 1}{space 1}{ralign 9:{res:{sf:     1000}}}{space 1}{space 1}{ralign 9:{res:{sf: .7088112}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.040318}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.01996}}}{space 1}{space 1}{ralign 9:{res:{sf: .0020976}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.903627}}}{space 1}{space 1}{ralign 9:{res:{sf: 708.8112}}}{space 1}
+
+{com}. matrix          DeltasSD = e(sd)
+{txt}
+{com}. matrix          rownames DeltasSD = y1
+{txt}
+{com}. matrix          define Deltas = [DeltaSb, DeltaSw]
+{txt}
+{com}. 
+. estimates       restore estCostParametersSD
+{txt}(results {stata estimates replay estCostParametersSD:estCostParametersSD} are active now)
+
+{com}. 
+. estadd          matrix Deltas
+
+{txt}added matrix:
+             e(Deltas) :  {res}1 x 2
+{txt}
+{com}. matrix          colnames Deltas = DeltaSb DeltaSw
+{txt}
+{com}. matrix          rownames Deltas = y1
+{txt}
+{com}. 
+. estadd          matrix DeltasSD
+
+{txt}added matrix:
+           e(DeltasSD) :  {res}1 x 2
+{txt}
+{com}. 
+. matrix          Coef = [Beta, Deltas]
+{txt}
+{com}. estadd          matrix Coef, replace
+
+{txt}added matrix:
+               e(Coef) :  {res}1 x 5
+{txt}
+{com}. 
+. matrix          SDs = [e(sd), DeltasSD]
+{txt}
+{com}. estadd          matrix SDs, replace
+
+{txt}added matrix:
+                e(SDs) :  {res}1 x 5
+{txt}
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}.                 esttab  estCostParametersSD using "${c -(}outdir{c )-}\StructuralParameters.tex", 
+>                 label mtitles
+>                 main(Coef) b(2)
+>                 aux(SDs %8.3g)
+>                 stats(e6 N, labels("Implied effort at 6-cents (using baseline parameters)" "N")  fmt(0))
+>                 coeflabel(G  "\hspace{c -(}0.2cm{c )-}Curvature $\gamma$ of cost of effort function" S "\hspace{c -(}0.2cm{c )-}Level k of cost of effort function" 
+>                                                 K "\hspace{c -(}0.2cm{c )-}Intrinsic motivation s (cents per point)" DeltaSb "\hspace{c -(}0.2cm{c )-}Taste parameter towards Black employer $\Delta s_{c -(}.B{c )-}$"
+>                                                 DeltaSw "\hspace{c -(}0.2cm{c )-}Taste parameter towards White employer $\Delta s_{c -(}.W{c )-}$")
+>                 gap
+>                 nonotes
+>                 refcat(G "\emph{c -(}Baseline Parameters{c )-}" DeltaSb "\emph{c -(}Race Salient Parameters{c )-}", nolabel)
+>                 addnotes(standard errors in parenthesis)
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Structural Estimation\StructuralParameters.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. exit, clear

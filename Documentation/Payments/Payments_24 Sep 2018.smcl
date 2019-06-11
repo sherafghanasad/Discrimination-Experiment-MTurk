@@ -1,0 +1,251 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Payments\Payments_24 Sep 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}24 Sep 2018, 23:43:31
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-09-25.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,846 observations deleted)
+
+{com}. *drop   LastPage
+. 
+. replace SurveyCode = upper(SurveyCode)
+{txt}(160 real changes made)
+
+{com}. replace SurveyCode = trim(SurveyCode)
+{txt}(0 real changes made)
+
+{com}. 
+. replace WorkerID = upper(WorkerID)
+{txt}(3 real changes made)
+
+{com}. replace WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. isid    SurveyCode WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\SurveyData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Payments\SurveyData.dta saved
+
+{com}. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 LastPage = H
+>                 Bonus = AE
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-09-25.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(934 observations deleted)
+
+{com}. 
+. replace SurveyCode = upper(SurveyCode)
+{txt}(90 real changes made)
+
+{com}. replace SurveyCode = trim(SurveyCode)
+{txt}(0 real changes made)
+
+{com}. 
+. replace WorkerID = upper(WorkerID)
+{txt}(9 real changes made)
+
+{com}. replace WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. save    "${c -(}tempdir{c )-}\ExperimentData", replace
+{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Payments\ExperimentData.dta not found)
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Payments\ExperimentData.dta saved
+
+{com}. 
+. * Import data from MTurk
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  delimited 
+>                 "${c -(}rawdatadir{c )-}\Batch_3380463_batch_results.csv", 
+>                 clear
+>                 ;
+{res}{text}(30 vars, 138 obs)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. *keep   assignmentid workerid answersurveycode approve reject
+. 
+. ren     answersurveycode SurveyCode
+{res}{txt}
+{com}. ren     workerid WorkerID
+{res}{txt}
+{com}. 
+. replace SurveyCode = upper(SurveyCode)
+{txt}(136 real changes made)
+
+{com}. replace SurveyCode = trim(SurveyCode)
+{txt}(0 real changes made)
+
+{com}. 
+. replace WorkerID = upper(WorkerID)
+{txt}(0 real changes made)
+
+{com}. replace WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. isid    SurveyCode WorkerID
+{txt}
+{com}. 
+. merge   1:1 SurveyCode WorkerID using "${c -(}tempdir{c )-}\SurveyData", keep(1 3) keepusing(SurveyCode WorkerID)
+{res}{txt}{p 0 7 2}
+(note: variable
+WorkerID was 
+str14, now str26 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              91
+{txt}{col 9}from master{col 30}{res}              91{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}              47{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. 
+. stop
+{err}command {bf}stop{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. merge   1:1 SurveyCode WorkerID using "${c -(}tempdir{c )-}\ExperimentData", keep(1 3) keepusing(SurveyCode WorkerID) gen(_merge1)
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              57
+{txt}{col 9}from master{col 30}{res}              57{txt}  (_merge1==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge1==2)
+
+{col 5}matched{col 30}{res}              81{txt}  (_merge1==3)
+{col 5}{hline 41}
+
+{com}. 
+{txt}end of do-file
+
+{com}. tab _merge _merge1
+
+                      {txt}{c |}        _merge1
+               _merge {c |} master on  matched ( {c |}     Total
+{hline 22}{c +}{hline 22}{c +}{hline 10}
+      master only (1) {c |}{res}        10         81 {txt}{c |}{res}        91 
+{txt}          matched (3) {c |}{res}        47          0 {txt}{c |}{res}        47 
+{txt}{hline 22}{c +}{hline 22}{c +}{hline 10}
+                Total {c |}{res}        57         81 {txt}{c |}{res}       138 
+
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. replace approve = "x" if (_merge == 3 | _merge1 == 3)
+{err}type mismatch
+{txt}{search r(109):r(109);}
+
+end of do-file
+
+{search r(109):r(109);}
+
+{com}. desc approve
+
+              {txt}storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:approve        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Approve{p_end}
+
+{com}. tab approce
+{err}variable {bf}approce{sf} not found
+{txt}{search r(111):r(111);}
+
+{com}. tab approve
+{txt}no observations
+
+{com}. tostring approve, replace
+{txt}approve was {res:byte} now {res:str1}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. replace approve = "x" if (_merge == 3 | _merge1 == 3)
+{txt}(128 real changes made)
+
+{com}. 
+{txt}end of do-file
+
+{com}. br
+
+. br if _merge == 1 & _merge1 == 1
+
+. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Payments\VerifyingSurveyPayments.do"
+{txt}
+{com}. /* 
+> This file estimate the parameters of cost function using minimum distance 
+> estimation. 
+> Input: 
+>         Individual level raw data
+> Output:
+>         Table with paramter values
+>         
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

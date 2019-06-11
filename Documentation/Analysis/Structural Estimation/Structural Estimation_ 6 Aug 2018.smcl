@@ -1,0 +1,100 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Structural Estimation\Structural Estimation_ 6 Aug 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Aug 2018, 21:04:55
+{txt}
+{com}. 
+. * Import raw data
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 Visited = L
+>                 SessionCode = AR
+>                 GroupIDInSession = AG
+>                 Treatment = AH
+>                 PieceRate = AI
+>                 Points = AM
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-08-06.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Keep data from links that were used
+. 
+. keep    if Visited == 1
+{txt}(8 observations deleted)
+
+{com}. drop    Visited
+{txt}
+{com}. 
+. * Since each observation appear twice (once for each participant), we drop the duplicate observations
+. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(2 observations deleted)
+
+{com}. drop    SessionCode GroupIDInSession
+{txt}
+{com}. 
+. /* Generating dummy data for now. This code will be removed when the actual data
+>  will be collected */
+. 
+. set     obs 2000
+{txt}{p}
+number of observations (_N)  was 2,
+now 2,000
+{p_end}
+
+{com}. 
+. replace PieceRate = 0 in 1/500
+{txt}(500 real changes made)
+
+{com}. replace PieceRate = 3 in 501/1000
+{txt}(500 real changes made)
+
+{com}. replace PieceRate = 6 in 1001/1500
+{txt}(500 real changes made)
+
+{com}. replace PieceRate = 9 in 1501/2000
+{txt}(500 real changes made)
+
+{com}. 
+. replace Points = round(uniform(1000, 3000))
+{err}invalid syntax
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. /* 
+> This file estimate the parameters of cost function using minimum distance 
+> estimation. 
+> Input: 
+>         Individual level raw data
+> Output:
+>         Table with paramter values
+>         
+> Written by: Sher Afghan Asad
+> Date: 2018-08-06
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

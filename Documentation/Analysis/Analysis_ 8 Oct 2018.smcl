@@ -1,0 +1,538 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_ 8 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 8 Oct 2018, 23:28:53
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,529 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(152 observations deleted)
+
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. duplicates drop WorkerID Gender Race Age Education LastPage, force
+
+{p 0 4}{txt}Duplicates in terms of {res} WorkerID Gender Race Age Education LastPage{p_end}
+
+{txt}(6 observations deleted)
+
+{com}. isid    WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 Feedback = AB
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if GroupID == 1 & PieceRate == 0
+{txt}(2 observations deleted)
+
+{com}. drop    if LastPage == "" 
+{txt}(676 observations deleted)
+
+{com}. 
+. * Workers in following groups participated on phone so they couldn't do the button pressing task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 4 | GroupID == 18 | GroupID == 41 | GroupID == 53 |
+>                 GroupID == 71 | GroupID == 125
+>                 ;
+{txt}(12 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Workers in following groups dropped out before working on the task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 6 | GroupID == 8 | GroupID == 14 | GroupID == 16 | 
+>                 GroupID == 17 | GroupID == 21 | GroupID == 22 | GroupID == 24 |
+>                 GroupID == 32 | GroupID == 35 | GroupID == 38 | GroupID == 39 |
+>                 GroupID == 46 | GroupID == 49 | GroupID == 67 | GroupID == 77 |
+>                 GroupID == 78 | GroupID == 80 | GroupID == 82 | GroupID == 92 | 
+>                 GroupID == 95 | GroupID == 97 | GroupID == 105 | GroupID == 126 |
+>                 GroupID == 127 | GroupID == 134 | GroupID == 141 | GroupID == 145 |
+>                 GroupID == 149 | GroupID == 152 | GroupID == 154 | GroupID == 157 |
+>                 GroupID == 159 | GroupID == 165
+>                 ;
+{txt}(68 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Assigned to Multiple treatments
+. 
+. drop    if GroupID == 136 | GroupID == 131
+{txt}(4 observations deleted)
+
+{com}. 
+. * Drop subjects which did not provide M-Turk ID
+. 
+. gen             ID = _n
+{txt}
+{com}. tostring        ID, replace
+{txt}ID was {res:float} now {res:str3}
+
+{com}. replace         WorkerID = ID if WorkerID == "NOT PROVIDED"
+{txt}(15 real changes made)
+
+{com}. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(1 real change made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. *drop   if LastPage != "SurveyCode" // These guys didn't complete the survey
+. drop    LastPage
+{txt}
+{com}. *drop   if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(1 3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              20
+{txt}{col 9}from master{col 30}{res}              20{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}             226{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. tab             Race
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         27       11.95       11.95
+{txt}                   White or Caucasian {c |}{res}        199       88.05      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        226      100.00
+{txt}
+{com}. replace         Education = "College Graduate" if Education == "other_:Bachelors Degree"  
+{txt}(1 real change made)
+
+{com}. replace         Gender = "" if Gender == "Prefer not to answer" | Gender == "other_:transgender female"
+{txt}(2 real changes made)
+
+{com}. replace         Education = "Master's Degree" if Education == "Professional Degree"
+{txt}(4 real changes made)
+
+{com}. replace         Education = "High School or equivalent" if Education == "Vocational/Technical School"
+{txt}(13 real changes made)
+
+{com}. 
+. label           define education 1 "Less than high school" 2 "High School or equivalent" 3 "Some College" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree"
+{txt}
+{com}. encode          Education, gen(EducEnc) label(education) noextend
+{txt}
+{com}. drop            Education
+{txt}
+{com}. ren             EducEnc Education
+{res}{txt}
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution 8 Oct 2018.png written in PNG format)
+
+{com}.                 
+. * Demographics of Subjects
+. 
+. * Gender
+. 
+. gen     Male = (Gender == "Male") * 100
+{txt}
+{com}. gen     Female = (Gender == "Female") * 100
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Male 
+>                 (mean) Female, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.") 
+>                 legend(order(1 "Male" 2 "Female")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Gender", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Gender.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    Male Female
+{txt}
+{com}. 
+. /*
+> #d ;
+> graph   bar (mean), 
+>                 over(Male) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+> */
+. 
+. * Age
+. 
+. tabulate        Age, gen(Age)
+
+        {txt}Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}         26       11.50       11.50
+{txt}      25-30 {c |}{res}         61       26.99       38.50
+{txt}      31-40 {c |}{res}         88       38.94       77.43
+{txt}      41-50 {c |}{res}         25       11.06       88.50
+{txt}      51-64 {c |}{res}         23       10.18       98.67
+{txt} 65 or over {c |}{res}          3        1.33      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Age1-Age6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(26 real changes made)
+(61 real changes made)
+(88 real changes made)
+(25 real changes made)
+(23 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Age1 
+>                 (mean) Age2
+>                 (mean) Age3 
+>                 (mean) Age4
+>                 (mean) Age5 
+>                 (mean) Age6             , 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.") 
+>                 legend(order(1 "18-24" 2 "25-30" 3 "31-40" 4 "41-50" 5 "51-60" 6 "65 or over")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Age", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Age.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+> */
+. 
+. * Education
+. 
+. tabulate        Education, gen(Education)
+
+                {txt}Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+    Less than high school {c |}{res}          2        0.88        0.88
+{txt}High School or equivalent {c |}{res}         32       14.16       15.04
+{txt}             Some College {c |}{res}         69       30.53       45.58
+{txt}         College Graduate {c |}{res}         85       37.61       83.19
+{txt}          Master's Degree {c |}{res}         35       15.49       98.67
+{txt}          Doctoral Degree {c |}{res}          3        1.33      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Education1-Education6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(2 real changes made)
+(32 real changes made)
+(69 real changes made)
+(85 real changes made)
+(35 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Education1 
+>                 (mean) Education2
+>                 (mean) Education3 
+>                 (mean) Education4
+>                 (mean) Education5 
+>                 (mean) Education6, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.") 
+>                 legend(order(1 "Less than high school" 2 "High school or equivalent" 3 "Some college" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Education", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Education.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+> */
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 "${c -(}outdir{c )-}\Gender" "${c -(}outdir{c )-}\Age" "${c -(}outdir{c )-}\Education", 
+>                 title(Demographics of Overall Sample) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\Demographics.png", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Demographics.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png written in PNG format)
+
+{com}. 
+. drop    Age* Education*
+{txt}
+{com}. * Effort against different piece rates
+. 
+. *drop   if Points == 0 
+. tabstat Points if Role == 2 & Treatment == "Baseline", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}       10     900.1  1196.561
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       20    1488.2  899.0232
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       28  1734.571  963.9783
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        6      1926  644.7573
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       64  1545.141  988.1164
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. replace Race = "Black or African-American" if (length(WorkerID) == 2 | length(WorkerID) == 3)
+{txt}(15 real changes made)
+
+{com}. bysort GroupID (Role): gen EmployerRace = Race[1]
+{txt}(4 missing values generated)
+
+{com}. 
+. 
+. tabstat Points if Role == 2 & EmployerRace == "Black or African-American" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        8   1115.25  952.8404
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}        1      2133         .
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}        3  2823.667  918.5643
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       12  1627.167   1155.62
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. tabstat Points if Role == 2 & EmployerRace == "White or Caucasian" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        3       812  1312.274
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       18  1349.389  1163.935
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       20   1958.05  919.1897
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        4    1990.5  1410.572
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       45  1641.067  1113.845
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. twoway  (scatteri 900 0.00 1488 0.03 1735 0.06 1926 0.09, 
+>                 recast(connected)) 
+>                 (scatteri 1115 0.00 2133 0.03 2824 0.06, recast(connected)) 
+>                 (scatteri 812 0.00 1349 0.03 1958 0.06 1991 0.09, recast(connected)), 
+>                 ytitle(Average Effort (points)) 
+>                 xtitle(Piece Rate (cents)) 
+>                 title("Relation between piece rate and effort") 
+>                 legend(order(1 "Baseline" 2 "Black Employer" 3 "White Employer"))
+>                 ;
+{res}{txt}
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Results$S_DATE.png", replace
+{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Results 8 Oct 2018.png not found)
+(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Results 8 Oct 2018.png written in PNG format)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

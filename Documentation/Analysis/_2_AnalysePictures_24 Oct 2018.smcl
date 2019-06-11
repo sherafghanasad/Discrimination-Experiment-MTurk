@@ -1,0 +1,170 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_2_AnalysePictures_24 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}24 Oct 2018, 17:41:28
+{txt}
+{com}. 
+. use             "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. * First verify if the reported race match with observed race from hand
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import          excel 
+>                         WorkerID = A
+>                         HandRaceMatched = E
+>                         HandGenderMatched = F
+>                         using 
+>                         "${c -(}rawdatadir{c )-}\RaceVerification.xls", 
+>                         cellrange(A2) clear
+>                         ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. foreach         var of varlist HandRaceMatched HandGenderMatched {c -(}
+{txt}  2{com}.                         bysort  WorkerID (`var'): replace `var' = `var'[1] if `var'==.
+{txt}  3{com}.                         {c )-}
+{txt}(2 real changes made)
+(2 real changes made)
+
+{com}. duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(3 observations deleted)
+
+{com}.                         
+. isid            WorkerID
+{txt}
+{com}.                         
+. merge           1:1 WorkerID using "${c -(}outdir{c )-}\CleanedData", keep(2 3) 
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              15
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              15{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             187{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. isid            WorkerID
+{txt}
+{com}. drop            _merge
+{txt}
+{com}. save            "${c -(}tempdir{c )-}\CleanedDataWithHandPic", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\CleanedDataWithHandPic.dta saved
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. import          excel 
+>                         WorkerID = A
+>                         AmountVisible = H
+>                         FaceVisible = I
+>                         HandVisible = J
+>                         OtherInfoVisible = K
+>                         RaceSalient = L
+>                         GenderSalient = M
+>                         using 
+>                         "${c -(}rawdatadir{c )-}\PieceRatePicVerification.xls", 
+>                         cellrange(A2) clear
+>                         ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. foreach         var of varlist AmountVisible FaceVisible HandVisible OtherInfoVisible RaceSalient GenderSalient{c -(}
+{txt}  2{com}.                         bysort  WorkerID (`var'): replace `var' = `var'[1] if `var'==.
+{txt}  3{com}.                         {c )-}
+{txt}(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+(2 real changes made)
+
+{com}. duplicates      drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(3 observations deleted)
+
+{com}. isid            WorkerID
+{txt}
+{com}. 
+. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\CleanedDataWithHandPic", keep(2 3)
+{res}{txt}{p 0 7 2}
+(note: variable
+WorkerID was 
+str18, now str26 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             117
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             117{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}              85{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. tab Role Treatment if _merge == 2
+
+           {txt}{c |}       Treatment
+      Role {c |}  Baseline  Race Sa.. {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        11          5 {txt}{c |}{res}        16 
+{txt}         2 {c |}{res}        54         47 {txt}{c |}{res}       101 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}        65         52 {txt}{c |}{res}       117 
+
+
+{com}. br WorkerID Gender Race if Role == 1 & Treatment == "Race Salient" & _merge == 2
+
+. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Analysis\_2_AnalysePictures.do"
+{txt}
+{com}. /* 
+> This file uses data from pictures' inspections and combine that with other data. 
+> 
+> Input: 
+>         CleanedData
+> Output:
+>         Updated data with information from pictures
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

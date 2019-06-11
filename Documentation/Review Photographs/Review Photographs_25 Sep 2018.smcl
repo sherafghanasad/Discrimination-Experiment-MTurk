@@ -1,0 +1,166 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Review Photographs\Review Photographs_25 Sep 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Sep 2018, 23:57:58
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-09-26.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,767 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(78 observations deleted)
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. *isid   WorkerID
+. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Review Photographs\DemographicData.dta saved
+
+{com}. 
+. gen     FileName = substr(Race,1,1) + substr(Gender,1,1) + "_" + WorkerID
+{txt}
+{com}. 
+. keep    WorkerID Image FileName
+{txt}
+{com}. gen     Saved = ""
+{txt}(161 missing values generated)
+
+{com}. gen     RaceMatched = ""
+{txt}(161 missing values generated)
+
+{com}. gen     GenderMatched = "" 
+{txt}(161 missing values generated)
+
+{com}. 
+. export  excel using "${c -(}outdir{c )-}\RaceVerification_$S_DATE", replace firstrow(var)
+{res}{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Review Photographs\RaceVerification_25 Sep 2018.xls saved
+
+{com}. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRateImage = AC
+>                 PieceRate = AH
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-09-26.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(878 observations deleted)
+
+{com}. drop    if PieceRateImage == "0"
+{txt}(60 observations deleted)
+
+{com}. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:m WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(3) keepusing(Gender Race) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}              69{txt}  
+{col 5}{hline 41}
+
+{com}. drop            LastPage
+{txt}
+{com}. tostring        PieceRate, replace
+{txt}PieceRate was {res:double} now {res:str3}
+
+{com}. replace         PieceRate = subinstr(PieceRate, ".0","",.)
+{txt}(67 real changes made)
+
+{com}. 
+. gen             FileName = substr(Race,1,1) + substr(Gender,1,1) + "_" + PieceRate + "_" + WorkerID
+{txt}
+{com}. 
+. gen             Saved = ""
+{txt}(69 missing values generated)
+
+{com}. gen             AmountVisible = ""
+{txt}(69 missing values generated)
+
+{com}. gen             FaceVisible = ""
+{txt}(69 missing values generated)
+
+{com}. gen             HandVisible = ""
+{txt}(69 missing values generated)
+
+{com}. gen             OtherInfo = "" 
+{txt}(69 missing values generated)
+
+{com}. 
+. export  excel using "${c -(}outdir{c )-}\PieceRatePicVerification_$S_DATE", replace firstrow(var)
+{res}{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Review Photographs\PieceRatePicVerification_25 Sep 2018.xls saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Code\Review Photographs\ReviewPhotographs.do"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

@@ -1,0 +1,870 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{sansmathaccent}
+\pdfmapfile{+sansmathaccent.map}
+\usetheme{boxes}
+\usecolortheme{lily}
+\usepackage{lmodern}
+
+\author[Asad, Banerjee and Bhattacharya]{%
+  \texorpdfstring{%
+    \begin{columns}
+      \column{.5\linewidth}
+      \centering
+      Sher Afghan Asad \\ Iowa State University
+      \column{.5\linewidth}
+      \centering
+      Ritwik Banerjee \\ Indian Institute of Management
+    \end{columns}
+    \vspace{12pt}
+    \begin{columns}
+      \column{.33\linewidth}
+      \centering
+      Joydeep Bhattacharya \\ Iowa State University
+    \end{columns}
+ }
+ {Sher Afghan Asad, Ritwik Banerjee, Joydeep Bhattacharya}
+}
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\usepackage{multimedia}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Theory of Worker-Side Discrimination
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Outline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Worker-Side Model of Discrimination
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Employers learn about worker's ability and motivation towards employer's
+ group identity from the worker's group identity and use this information
+ to evaluate the quality of the worker's output.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Workers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Consider a worker who has 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+observable group identity 
+\begin_inset Formula $r_{w}\in\{B,W\}$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Itemize
+observable employer's group identity 
+\begin_inset Formula $r_{e}\in\{B,W\}$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Itemize
+unobservable ability 
+\begin_inset Formula $a\sim N(\mu_{r_{w}},1/\tau_{a})$
+\end_inset
+
+ with mean 
+\begin_inset Formula $\mu_{r_{w}}\in\mathbb{R}$
+\end_inset
+
+ and precision 
+\begin_inset Formula $\tau_{a}>0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+unobservable motivation towards the employer's group 
+\begin_inset Formula $m\sim N(\zeta_{r_{w}}^{r_{e}},1/\tau_{m})$
+\end_inset
+
+ with mean 
+\begin_inset Formula $\zeta_{r_{w}}^{r_{e}}\in\mathbb{R}$
+\end_inset
+
+ and precision 
+\begin_inset Formula $\tau_{m}>0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The worker completes a task with quality 
+\begin_inset Formula $q=a+m+\epsilon$
+\end_inset
+
+ where 
+\begin_inset Formula $\epsilon\sim N(0,1/\tau_{\epsilon})$
+\end_inset
+
+ is a random shock with precision 
+\begin_inset Formula $\tau_{\epsilon}>1$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Higher ability and higher motivation towards the employer's group generates
+ higher expected quality.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Employers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An employer evaluates the worker's performance on the task and reports evaluatio
+n of 
+\begin_inset Formula $v\in\mathbb{R}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $v$
+\end_inset
+
+ can be considered as the reward, promotion, decision to not fire the worker
+ etc.
+\end_layout
+
+\begin_layout Itemize
+Before evaluating the task, the employer observes the worker's identity
+ 
+\begin_inset Formula $r_{w}$
+\end_inset
+
+ and a signal 
+\begin_inset Formula $s=q+\eta$
+\end_inset
+
+ of the quality of the task where 
+\begin_inset Formula $\eta\sim N(0,1/\tau_{\eta})$
+\end_inset
+
+ with 
+\begin_inset Formula $\tau_{\eta}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Lower precision allows for greater uncertainty in the underlying quality,
+ conditional on the signal.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tau_{\eta}$
+\end_inset
+
+ can be interpreted as the amount of subjectivity in judgment involved in
+ the evaluation of the quality, with lower precision implying greater subjectivi
+ty.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Evaluation strategy by employer of group 
+\begin_inset Formula $r_{e}$
+\end_inset
+
+ is a mapping from the worker's group identity 
+\begin_inset Formula $r_{w}$
+\end_inset
+
+ and a signal 
+\begin_inset Formula $s$
+\end_inset
+
+ to the evaluation 
+\begin_inset Formula $v(r_{e},r_{w},s)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Payoffs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An employer's payoff depends on the quality of the task and the group identity
+ of the worker.
+ 
+\end_layout
+
+\begin_layout Itemize
+Employer of group 
+\begin_inset Formula $r_{e}$
+\end_inset
+
+ receives a payoff of 
+\begin_inset Formula $-(v-(q-c_{r_{w}}^{r_{e}}))^{2}$
+\end_inset
+
+ from giving evaluation 
+\begin_inset Formula $v$
+\end_inset
+
+ on a task of quality 
+\begin_inset Formula $q$
+\end_inset
+
+ from a worker of group 
+\begin_inset Formula $r_{w}$
+\end_inset
+
+, where 
+\begin_inset Formula $c_{r_{w}}^{r_{e}}$
+\end_inset
+
+is a taste parameter.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Partialities
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An employer is partial towards one group if she favors that group, 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+either directly through preferences, which we refer to as 
+\series bold
+preference-based partiality
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+a white employer has preference based partiality towards white workers if
+ 
+\begin_inset Formula $c_{B}^{W}>0$
+\end_inset
+
+.
+ Normalizing 
+\begin_inset Formula $c_{W}^{W}=0$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+or indirectly through her belief about the distribution of ability and motivatio
+n which we refer to as 
+\series bold
+belief-based partiality
+\series default
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+a white employer has belief based partiality towards white workers if 
+\begin_inset Formula $\hat{\mu}_{W}>\hat{\mu}_{B}$
+\end_inset
+
+ or 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\hat{\zeta}_{W}^{W}>\hat{\zeta}_{B}^{W}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+This partiality if unbiased if 
+\begin_inset Formula $\hat{\mu}_{W}=\mu_{W}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\mu}_{B}=\mu_{B}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\zeta}_{W}^{W}=\zeta_{W}^{W}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\zeta}_{B}^{W}=\zeta_{B}^{W}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Discrimination
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Discrimination is the disparate evaluation of workers based on the group
+ to which the worker belongs, rather than on individual attributes, i.e.
+ signal.
+ In contrast to partiality, which is a property of the primitives of the
+ model (preferences, beliefs), discrimination is a property of behavior.
+ 
+\end_layout
+
+\begin_layout Itemize
+Let 
+\begin_inset Formula 
+\[
+D(W,s)\equiv v(W,W,s)-v(W,B,s)
+\]
+
+\end_inset
+
+denote the difference between a white's and black's evaluation by the white
+ employer at signal s.
+ Analogously 
+\begin_inset Formula $D(B,s)\equiv v(B,W,s)-v(B,B,s)$
+\end_inset
+
+ denote the difference between a white and black's worker's evaluation by
+ the black employer at signal 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+A black (white) worker faces discrimination by white employer at signal
+ 
+\begin_inset Formula $s$
+\end_inset
+
+ if 
+\begin_inset Formula $D(W,s)>0$
+\end_inset
+
+ (
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $D(W,s)<0$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+A black (white) worker faces discrimination by black employer at signal
+ 
+\begin_inset Formula $s$
+\end_inset
+
+ if 
+\begin_inset Formula $D(B,s)>0$
+\end_inset
+
+ (
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $D(B,s)<0$
+\end_inset
+
+).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Heterogeneous Employers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Suppose each type of employer is characterized by a tuple 
+\begin_inset Formula $\theta^{W}=(\hat{\mu}_{B}^{\theta},\hat{\mu}_{W}^{\theta},\hat{\zeta}_{B}^{r_{e}},\hat{\zeta}_{W}^{r_{e}},c_{B}^{r_{e}},\hat{\pi}^{\theta})$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This specifies beliefs about the mean ability of black and white workers,
+ 
+\end_layout
+
+\begin_layout Itemize
+beliefs about mean motivation of black and white workers towards the employer's
+ race, 
+\end_layout
+
+\begin_layout Itemize
+a taste parameter for blacks, and 
+\end_layout
+
+\begin_layout Itemize
+a belief about the type distribution of other employers, 
+\begin_inset Formula $\hat{\pi}^{\theta}\in\Delta(\Theta)$
+\end_inset
+
+, where 
+\begin_inset Formula $\Theta$
+\end_inset
+
+ denotes the set of employer types, which we assume to be finite.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Let 
+\begin_inset Formula $\pi\in\Delta(\Theta)$
+\end_inset
+
+ denote the true measure over employer types.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Aggregation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There is aggregate preference based partiality towards white workers by
+ white employers if 
+\begin_inset Formula 
+\[
+E[c_{B}^{W}]>0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+There is aggregate belief based partiality towards white workers by white
+ employers if 
+\begin_inset Formula 
+\[
+E_{\pi}[\hat{\mu}_{W}]>E_{\pi}[\hat{\mu}_{B}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+or 
+\begin_inset Formula 
+\[
+E_{\pi}[\hat{\zeta}_{W}^{r_{e}}]>E_{\pi}[\hat{\zeta}_{B}^{r_{e}}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Aggregate partiality is unbiased if the expectation is equal to the true
+ value.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Huge Thank You!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\end_body
+\end_document

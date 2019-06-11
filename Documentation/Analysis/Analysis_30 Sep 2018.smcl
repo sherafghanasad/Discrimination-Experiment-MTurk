@@ -1,0 +1,346 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_30 Sep 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}30 Sep 2018, 05:06:52
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-09-30.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,621 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(124 observations deleted)
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. *isid   WorkerID
+. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-09-30.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(794 observations deleted)
+
+{com}. drop    LastPage
+{txt}
+{com}. isid            WorkerID
+{txt}
+{com}. merge           1:m WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             213{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution30 Sep 2018.png written in PNG format)
+
+{com}.                 
+. * Demographics of Subjects
+. 
+. * Gender
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count), 
+>                 over(Gender) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+{res}{txt}
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\GenderDistribution30 Sep 2018.png written in PNG format)
+
+{com}. 
+. * Age
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+{res}{txt}
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\AgeDistribution30 Sep 2018.png written in PNG format)
+
+{com}. 
+. * Education
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+{res}{txt}
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\EducationDistribution30 Sep 2018.png written in PNG format)
+
+{com}. 
+. * Effort against different piece rates
+. 
+. drop    if Points == 0 
+{txt}(60 observations deleted)
+
+{com}. tabstat Points if Role == 1 & Treatment == "Baseline", statistics( count sd mean ) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:.03} {...}
+{c |}{...}
+ {res}       16  644.5293  1825.188
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       22  567.9881  2113.045
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        3  852.6279  2084.667
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       41  617.4861  1998.634
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. tabstat Points if Role == 1 & Race == "Black or African-American" & Treatment == "Race Salient", statistics( count sd mean ) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:.06} {...}
+{c |}{...}
+ {res}        2  340.1184    3335.5
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}        2  340.1184    3335.5
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. tabstat Points if Role == 1 & Race == "White or Caucasian" & Treatment == "Race Salient", statistics( count sd mean ) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        1         .       109
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       11  972.4688  1753.091
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       12  413.5748  2212.583
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        2  760.1398    2519.5
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       26  829.5787  1960.885
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+. by Treatment, sort : tabstat Points if Role == 1, statistics( count sd mean ) by(PieceRate)
+
+{txt}{hline}
+-> Treatment = Baseline
+
+Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:.03} {...}
+{c |}{...}
+ {res}       16  644.5293  1825.188
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       22  567.9881  2113.045
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        3  852.6279  2084.667
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       41  617.4861  1998.634
+{txt}{hline 10}{c BT}{hline 30}
+
+{hline}
+-> Treatment = Race Salient
+
+Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        1         .       109
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       11  972.4688  1753.091
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       14  565.6025      2373
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        2  760.1398    2519.5
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       28   878.338  2059.071
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. by Race, sort : tabstat Points if Role == 1 & Treatment == "Race Salient", statistics( count sd mean ) by(PieceRate)
+
+{txt}{hline}
+-> Race = Black or African-American
+
+Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:.06} {...}
+{c |}{...}
+ {res}        2  340.1184    3335.5
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}        2  340.1184    3335.5
+{txt}{hline 10}{c BT}{hline 30}
+
+{hline}
+-> Race = White or Caucasian
+
+Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N        sd      mean
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        1         .       109
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       11  972.4688  1753.091
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       12  413.5748  2212.583
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        2  760.1398    2519.5
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       26  829.5787  1960.885
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. exit, clear

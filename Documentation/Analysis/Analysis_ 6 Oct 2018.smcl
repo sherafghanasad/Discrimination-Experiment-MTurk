@@ -1,0 +1,267 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_ 6 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Oct 2018, 10:04:30
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,529 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(152 observations deleted)
+
+{com}. 
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. *isid   WorkerID
+. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if LastPage != "SurveyCode" // These guys didn't complete the survey
+{txt}(746 observations deleted)
+
+{com}. drop    LastPage
+{txt}
+{com}. drop    if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+{txt}(1 observation deleted)
+
+{com}. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:m WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             258{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. tab             Race
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         32       12.40       12.40
+{txt}                   White or Caucasian {c |}{res}        226       87.60      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        258      100.00
+{txt}
+{com}. replace         Education = "College Graduate" if Education == "other_:Bachelors Degree"  
+{txt}(1 real change made)
+
+{com}. replace         Gender = "" if Gender == "Prefer not to answer" | Gender == "other_:transgender female"
+{txt}(2 real changes made)
+
+{com}. replace         Education = "Master's Degree" if Education == "Professional Degree"
+{txt}(4 real changes made)
+
+{com}. replace         Education = "High School or equivalent" if Education == "Vocational/Technical School"
+{txt}(16 real changes made)
+
+{com}. 
+. label           define education 1 "Less than high school" 2 "High School or equivalent" 3 "Some College" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree"
+{txt}
+{com}. encode          Education, gen(EducEnc) label(education) noextend
+{txt}
+{com}. drop            Education
+{txt}
+{com}. ren             EducEnc Education
+{res}{txt}
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(note: file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution 6 Oct 2018.png not found)
+(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution 6 Oct 2018.png written in PNG format)
+
+{com}.                 
+. 
+{txt}end of do-file
+
+{com}. tab Gender
+
+                   {txt}Gender {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+                   Female {c |}{res}        168       65.63       65.63
+{txt}                     Male {c |}{res}         88       34.38      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        256      100.00
+
+{com}. bysort Race: tab Gender
+
+{txt}{hline}
+-> Race = Black or African-American
+
+                   Gender {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+                   Female {c |}{res}         23       74.19       74.19
+{txt}                     Male {c |}{res}          8       25.81      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}         31      100.00
+
+{txt}{hline}
+-> Race = White or Caucasian
+
+                   Gender {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+                   Female {c |}{res}        145       64.44       64.44
+{txt}                     Male {c |}{res}         80       35.56      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        225      100.00
+
+
+{com}. dotplot Education
+{res}
+{com}. bysort Race: tab Education
+
+{txt}{hline}
+-> Race = Black or African-American
+
+                Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+High School or equivalent {c |}{res}          7       21.88       21.88
+{txt}             Some College {c |}{res}          9       28.13       50.00
+{txt}         College Graduate {c |}{res}         12       37.50       87.50
+{txt}          Master's Degree {c |}{res}          4       12.50      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}         32      100.00
+
+{txt}{hline}
+-> Race = White or Caucasian
+
+                Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+    Less than high school {c |}{res}          3        1.33        1.33
+{txt}High School or equivalent {c |}{res}         30       13.27       14.60
+{txt}             Some College {c |}{res}         68       30.09       44.69
+{txt}         College Graduate {c |}{res}         84       37.17       81.86
+{txt}          Master's Degree {c |}{res}         37       16.37       98.23
+{txt}          Doctoral Degree {c |}{res}          4        1.77      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        226      100.00
+
+
+{com}. bysort Race: tab Age
+
+{txt}{hline}
+-> Race = Black or African-American
+
+        Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}          5       15.63       15.63
+{txt}      25-30 {c |}{res}          7       21.88       37.50
+{txt}      31-40 {c |}{res}         13       40.63       78.13
+{txt}      41-50 {c |}{res}          5       15.63       93.75
+{txt}      51-64 {c |}{res}          2        6.25      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         32      100.00
+
+{txt}{hline}
+-> Race = White or Caucasian
+
+        Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}         24       10.62       10.62
+{txt}      25-30 {c |}{res}         65       28.76       39.38
+{txt}      31-40 {c |}{res}         83       36.73       76.11
+{txt}      41-50 {c |}{res}         26       11.50       87.61
+{txt}      51-64 {c |}{res}         23       10.18       97.79
+{txt} 65 or over {c |}{res}          5        2.21      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        226      100.00
+
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD00000000.tmp"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

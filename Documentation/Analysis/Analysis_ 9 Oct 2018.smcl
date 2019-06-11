@@ -1,0 +1,1103 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\Analysis_ 9 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Oct 2018, 17:49:58
+{txt}
+{com}. 
+. * Import raw data from demographic survey
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 SurveyCode = B
+>                 WorkerID = P
+>                 Gender =Q
+>                 Race = R
+>                 Age = S
+>                 Education = T
+>                 Image = U
+>                 LastPage = H
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\demographic_survey_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/6 // These obs are from testing session
+{txt}(6 observations deleted)
+
+{com}. drop    if LastPage == "Survey" | LastPage == "Consent" | LastPage == "" // These guys didn't complete the survey
+{txt}(3,529 observations deleted)
+
+{com}. keep    if LastPage == "Qualified"
+{txt}(152 observations deleted)
+
+{com}. 
+. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(0 real changes made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(6 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. duplicates drop WorkerID Gender Race Age Education LastPage, force
+
+{p 0 4}{txt}Duplicates in terms of {res} WorkerID Gender Race Age Education LastPage{p_end}
+
+{txt}(6 observations deleted)
+
+{com}. isid    WorkerID
+{txt}
+{com}. 
+. save    "${c -(}tempdir{c )-}\DemographicData", replace
+{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\DemographicData.dta saved
+
+{com}. 
+. 
+. * Import raw data from experiment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  excel 
+>                 WorkerID = P
+>                 LastPage = H
+>                 PieceRate = AH
+>                 Treatment = AG
+>                 Points = AL
+>                 GroupID = AF
+>                 Role = O
+>                 Feedback = AB
+>                 using 
+>                 "${c -(}rawdatadir{c )-}\experiment_2018-10-03.xlsx", 
+>                 sheet("Sheet1") 
+>                 cellrange(A2) clear
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    in 1/16
+{txt}(16 observations deleted)
+
+{com}. drop    if GroupID == 1 & PieceRate == 0
+{txt}(2 observations deleted)
+
+{com}. drop    if LastPage == "" 
+{txt}(676 observations deleted)
+
+{com}. 
+. * Workers in following groups participated on phone so they couldn't do the button pressing task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 4 | GroupID == 18 | GroupID == 41 | GroupID == 53 |
+>                 GroupID == 71 | GroupID == 125
+>                 ;
+{txt}(12 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Workers in following groups dropped out before working on the task
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. drop    if GroupID == 6 | GroupID == 8 | GroupID == 14 | GroupID == 16 | 
+>                 GroupID == 17 | GroupID == 21 | GroupID == 22 | GroupID == 24 |
+>                 GroupID == 32 | GroupID == 35 | GroupID == 38 | GroupID == 39 |
+>                 GroupID == 46 | GroupID == 49 | GroupID == 67 | GroupID == 77 |
+>                 GroupID == 78 | GroupID == 80 | GroupID == 82 | GroupID == 92 | 
+>                 GroupID == 95 | GroupID == 97 | GroupID == 105 | GroupID == 126 |
+>                 GroupID == 127 | GroupID == 134 | GroupID == 141 | GroupID == 145 |
+>                 GroupID == 149 | GroupID == 152 | GroupID == 154 | GroupID == 157 |
+>                 GroupID == 159 | GroupID == 165
+>                 ;
+{txt}(68 observations deleted)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Assigned to Multiple treatments
+. 
+. drop    if GroupID == 136 | GroupID == 131
+{txt}(4 observations deleted)
+
+{com}. 
+. * Drop subjects which did not provide M-Turk ID
+. 
+. gen             ID = _n
+{txt}
+{com}. tostring        ID, replace
+{txt}ID was {res:float} now {res:str3}
+
+{com}. replace         WorkerID = ID if WorkerID == "NOT PROVIDED"
+{txt}(15 real changes made)
+
+{com}. replace         WorkerID = subinstr(WorkerID, ": COPIED", "",.) 
+{txt}(1 real change made)
+
+{com}. replace         WorkerID = upper(WorkerID)
+{txt}(2 real changes made)
+
+{com}. replace         WorkerID = trim(WorkerID)
+{txt}(0 real changes made)
+
+{com}. 
+. *drop   if LastPage != "SurveyCode" // These guys didn't complete the survey
+. drop    LastPage
+{txt}
+{com}. *drop   if WorkerID == "AZ5ZYUCAQ0XDL" & Treatment == "Baseline"
+. 
+. isid            WorkerID
+{txt}
+{com}. merge           1:1 WorkerID using "${c -(}tempdir{c )-}\DemographicData", keep(1 3) keepusing(Gender Race Age Education) nogen
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}              20
+{txt}{col 9}from master{col 30}{res}              20{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}             226{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. tab             Race
+
+                                 {txt}Race {c |}      Freq.     Percent        Cum.
+{hline 38}{c +}{hline 35}
+            Black or African-American {c |}{res}         27       11.95       11.95
+{txt}                   White or Caucasian {c |}{res}        199       88.05      100.00
+{txt}{hline 38}{c +}{hline 35}
+                                Total {c |}{res}        226      100.00
+{txt}
+{com}. replace         Education = "College Graduate" if Education == "other_:Bachelors Degree"  
+{txt}(1 real change made)
+
+{com}. replace         Gender = "" if Gender == "Prefer not to answer" | Gender == "other_:transgender female"
+{txt}(2 real changes made)
+
+{com}. replace         Education = "Master's Degree" if Education == "Professional Degree"
+{txt}(4 real changes made)
+
+{com}. replace         Education = "High School or equivalent" if Education == "Vocational/Technical School"
+{txt}(13 real changes made)
+
+{com}. 
+. label           define education 1 "Less than high school" 2 "High School or equivalent" 3 "Some College" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree"
+{txt}
+{com}. encode          Education, gen(EducEnc) label(education) noextend
+{txt}
+{com}. drop            Education
+{txt}
+{com}. ren             EducEnc Education
+{res}{txt}
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution$S_DATE.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution 9 Oct 2018.png written in PNG format)
+
+{com}.                 
+. * Demographics of Subjects
+. 
+. * Gender
+. 
+. gen     Male = (Gender == "Male") * 100
+{txt}
+{com}. gen     Female = (Gender == "Female") * 100
+{txt}
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Male 
+>                 (mean) Female, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.") 
+>                 legend(order(1 "Male" 2 "Female")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Gender", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Gender.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. drop    Male Female
+{txt}
+{com}. 
+. /*
+> #d ;
+> graph   bar (mean), 
+>                 over(Male) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+> */
+. 
+. * Age
+. 
+. tabulate        Age, gen(Age)
+
+        {txt}Age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-24 {c |}{res}         26       11.50       11.50
+{txt}      25-30 {c |}{res}         61       26.99       38.50
+{txt}      31-40 {c |}{res}         88       38.94       77.43
+{txt}      41-50 {c |}{res}         25       11.06       88.50
+{txt}      51-64 {c |}{res}         23       10.18       98.67
+{txt} 65 or over {c |}{res}          3        1.33      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Age1-Age6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(26 real changes made)
+(61 real changes made)
+(88 real changes made)
+(25 real changes made)
+(23 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Age1 
+>                 (mean) Age2
+>                 (mean) Age3 
+>                 (mean) Age4
+>                 (mean) Age5 
+>                 (mean) Age6             , 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.") 
+>                 legend(order(1 "18-24" 2 "25-30" 3 "31-40" 4 "41-50" 5 "51-60" 6 "65 or over")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Age", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Age.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+> */
+. 
+. * Education
+. 
+. tabulate        Education, gen(Education)
+
+                {txt}Education {c |}      Freq.     Percent        Cum.
+{hline 26}{c +}{hline 35}
+    Less than high school {c |}{res}          2        0.88        0.88
+{txt}High School or equivalent {c |}{res}         32       14.16       15.04
+{txt}             Some College {c |}{res}         69       30.53       45.58
+{txt}         College Graduate {c |}{res}         85       37.61       83.19
+{txt}          Master's Degree {c |}{res}         35       15.49       98.67
+{txt}          Doctoral Degree {c |}{res}          3        1.33      100.00
+{txt}{hline 26}{c +}{hline 35}
+                    Total {c |}{res}        226      100.00
+{txt}
+{com}. foreach var of varlist Education1-Education6 {c -(}
+{txt}  2{com}. replace         `var' = `var'*100
+{txt}  3{com}. {c )-}
+{txt}(2 real changes made)
+(32 real changes made)
+(69 real changes made)
+(85 real changes made)
+(35 real changes made)
+(3 real changes made)
+
+{com}. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Education1 
+>                 (mean) Education2
+>                 (mean) Education3 
+>                 (mean) Education4
+>                 (mean) Education5 
+>                 (mean) Education6, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.") 
+>                 legend(order(1 "Less than high school" 2 "High school or equivalent" 3 "Some college" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Education", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Education.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+> */
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 "${c -(}outdir{c )-}\Gender" "${c -(}outdir{c )-}\Age" "${c -(}outdir{c )-}\Education", 
+>                 title(Demographics of Overall Sample) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\Demographics.png", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Demographics.png", replace
+{err}{p 0 4 2}
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png cannot be modified or erased;
+likely cause is read-only
+directory or file
+{p_end}
+{txt}{search r(608):r(608);}
+
+end of do-file
+
+{search r(608):r(608);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. drop    Age* Education*
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat Points if Role == 2 & Treatment == "Baseline", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}       10     900.1  1196.561
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       20    1488.2  899.0232
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       28  1734.571  963.9783
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        6      1926  644.7573
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       64  1545.141  988.1164
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. replace Race = "Black or African-American" if (length(WorkerID) == 2 | length(WorkerID) == 3)
+{txt}(15 real changes made)
+
+{com}. bysort GroupID (Role): gen EmployerRace = Race[1]
+{txt}(4 missing values generated)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat Points if Role == 2 & EmployerRace == "Black or African-American" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        8   1115.25  952.8404
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}        1      2133         .
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}        3  2823.667  918.5643
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       12  1627.167   1155.62
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. tabstat Points if Role == 2 & EmployerRace == "White or Caucasian" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        3       812  1312.274
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       18  1349.389  1163.935
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       20   1958.05  919.1897
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        4    1990.5  1410.572
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       45  1641.067  1113.845
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. *drop   if Points == 0 
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. drop    if Points == 0 
+{txt}(44 observations deleted)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat Points if Role == 2 & Treatment == "Baseline", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        8  1125.125  1245.585
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       17  1750.824  686.4713
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       23  2111.652  554.9694
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        6      1926  644.7573
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       54  1831.278  791.6515
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat Points if Role == 2 & EmployerRace == "Black or African-American" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        5    1784.4  310.3132
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}        1      2133         .
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}        3  2823.667  918.5643
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}        9  2169.556  715.8336
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. tabstat Points if Role == 2 & EmployerRace == "White or Caucasian" & Treatment == "Race Salient", statistics( count mean sd) by(PieceRate) 
+
+{txt}Summary for variables: Points
+{col 6}by categories of: PieceRate 
+
+{ralign 9:PieceRate} {...}
+{c |}         N      mean        sd
+{hline 10}{c +}{hline 30}
+{ralign 9:0} {...}
+{c |}{...}
+ {res}        3       812  1312.274
+{txt}{ralign 9:.03} {...}
+{c |}{...}
+ {res}       13  1868.385  932.0581
+{txt}{ralign 9:.06} {...}
+{c |}{...}
+ {res}       17  2303.588  396.9934
+{txt}{ralign 9:.09} {...}
+{c |}{...}
+ {res}        3      2654  585.8131
+{txt}{hline 10}{c +}{hline 30}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}       36  2051.333  833.0882
+{txt}{hline 10}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. cd C:\Users\asads\Dropbox\Discrimination\Literature\DellaVigna Pope REStud\CodeForPosting
+{err}invalid syntax
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. cd "C:\Users\asads\Dropbox\Discrimination\Literature\DellaVigna Pope REStud\CodeForPosting"
+{res}C:\Users\asads\Dropbox\Discrimination\Literature\DellaVigna Pope REStud\CodeForPosting
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. set more off
+{txt}
+{com}. capture mkdir "output"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. help estout
+
+. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. local tx_labels "No Payment" "1c PieceRate" "10c PieceRate" "4c PieceRate" "Very Low Pay" "1c RedCross" "10c RedCross" "Gift Exchange" "1c 2Wks" "1c 4Wks" "Gain 40c" "Loss 40c" "Gain 80c" "Prob.01 $1" "Prob.5 2c" "Social Comp" "Ranking" "Task Signif"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. use dtafiles/MTurkCleanedData, replace
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. eststo clear
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. eststo, title("Mean"): estpost sum buttonpresses duration_time_min
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:buttonpres~s}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: 1936.329}}}{space 1}{space 1}{ralign 9:{res:{sf: 446514.7}}}{space 1}{space 1}{ralign 9:{res:{sf: 668.2175}}}{space 1}
+{space 0}{space 0}{ralign 12:duration_~es}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: 12.90085}}}{space 1}{space 1}{ralign 9:{res:{sf: 30.50126}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.522795}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:buttonpres~s}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     3950}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.91e+07}}}{space 1}
+{space 0}{space 0}{ralign 12:duration_~es}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 2.916667}}}{space 1}{space 1}{ralign 9:{res:{sf:    372.6}}}{space 1}{space 1}{ralign 9:{res:{sf: 127215.3}}}{space 1}
+({res}est1{txt} stored)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. esttab using output/TableSumStat_Mturk_noDemo.csv, mtitles csv main(mean) b(2) nostar nogaps unstack replace
+{res}{txt}(output written to {browse  `"output/TableSumStat_Mturk_noDemo.csv"'})
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. use input/MTurkDataDemo, clear
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. keep if finished==1 & approved==1 & drop_flag==0
+{txt}(2,977 observations deleted)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. eststo clear
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. eststo, title("Mean"): estpost sum us_ip india_ip female ed_high ed_some_c ed_bach age_18 age_25 age_31 age_41 age_51 age_65 
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:us_ip}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .8465673}}}{space 1}{space 1}{ralign 9:{res:{sf: .1299043}}}{space 1}{space 1}{ralign 9:{res:{sf: .3604224}}}{space 1}
+{space 0}{space 0}{ralign 12:india_ip}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .1172295}}}{space 1}{space 1}{ralign 9:{res:{sf: .1034972}}}{space 1}{space 1}{ralign 9:{res:{sf: .3217099}}}{space 1}
+{space 0}{space 0}{ralign 12:female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .5435554}}}{space 1}{space 1}{ralign 9:{res:{sf: .2481281}}}{space 1}{space 1}{ralign 9:{res:{sf: .4981246}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_high_sc~s}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .0893419}}}{space 1}{space 1}{ralign 9:{res:{sf: .0813681}}}{space 1}{space 1}{ralign 9:{res:{sf:  .285251}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_some_co~e}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .3631478}}}{space 1}{space 1}{ralign 9:{res:{sf: .2312949}}}{space 1}{space 1}{ralign 9:{res:{sf: .4809313}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_bachelo~r}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .5475104}}}{space 1}{space 1}{ralign 9:{res:{sf: .2477679}}}{space 1}{space 1}{ralign 9:{res:{sf: .4977629}}}{space 1}
+{space 0}{space 0}{ralign 12:age_18_24}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .2148869}}}{space 1}{space 1}{ralign 9:{res:{sf: .1687276}}}{space 1}{space 1}{ralign 9:{res:{sf: .4107647}}}{space 1}
+{space 0}{space 0}{ralign 12:age_25_30}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .3004766}}}{space 1}{space 1}{ralign 9:{res:{sf: .2102117}}}{space 1}{space 1}{ralign 9:{res:{sf: .4584885}}}{space 1}
+{space 0}{space 0}{ralign 12:age_31_40}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .2675185}}}{space 1}{space 1}{ralign 9:{res:{sf: .1959722}}}{space 1}{space 1}{ralign 9:{res:{sf: .4426875}}}{space 1}
+{space 0}{space 0}{ralign 12:age_41_50}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .1226042}}}{space 1}{space 1}{ralign 9:{res:{sf: .1075833}}}{space 1}{space 1}{ralign 9:{res:{sf:  .327999}}}{space 1}
+{space 0}{space 0}{ralign 12:age_51_64}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf: .0816347}}}{space 1}{space 1}{ralign 9:{res:{sf: .0749781}}}{space 1}{space 1}{ralign 9:{res:{sf: .2738213}}}{space 1}
+{space 0}{space 0}{ralign 12:age_65more}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:     9861}}}{space 1}{space 1}{ralign 9:{res:{sf:  .012879}}}{space 1}{space 1}{ralign 9:{res:{sf: .0127144}}}{space 1}{space 1}{ralign 9:{res:{sf: .1127583}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:us_ip}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     8348}}}{space 1}
+{space 0}{space 0}{ralign 12:india_ip}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1156}}}{space 1}
+{space 0}{space 0}{ralign 12:female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     5360}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_high_sc~s}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      881}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_some_co~e}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     3581}}}{space 1}
+{space 0}{space 0}{ralign 12:ed_bachelo~r}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     5399}}}{space 1}
+{space 0}{space 0}{ralign 12:age_18_24}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2119}}}{space 1}
+{space 0}{space 0}{ralign 12:age_25_30}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2963}}}{space 1}
+{space 0}{space 0}{ralign 12:age_31_40}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2638}}}{space 1}
+{space 0}{space 0}{ralign 12:age_41_50}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1209}}}{space 1}
+{space 0}{space 0}{ralign 12:age_51_64}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      805}}}{space 1}
+{space 0}{space 0}{ralign 12:age_65more}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      127}}}{space 1}
+({res}est1{txt} stored)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. esttab using output/TableSumStat_Mturk_Demo.csv, mtitles csv main(mean) b(2) nostar nogaps unstack replace
+{res}{txt}(output written to {browse  `"output/TableSumStat_Mturk_Demo.csv"'})
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. use dtafiles/MTurkCleanedData, clear    
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. bys treatmentname: egen avg_buttonpresses = mean(buttonpresses)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. bys treatmentname: egen sd_buttonpresses = sd(buttonpresses)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. bys treatmentname: egen obs_buttonpresses = count(_N)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. list treatmentname avg_buttonpresses if treatmentname ~= treatmentname[_n-1]
+{txt}
+      {c TLC}{hline 15}{c -}{hline 10}{c TRC}
+      {c |} {res}treatmentname   avg_bu~s {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c RT}
+   1. {c |} {res}10c PieceRate   2174.618 {txt}{c |}
+ 567. {c |} {res} 10c RedCross   1918.415 {txt}{c |}
+1116. {c |} {res}      1c 2Wks   2004.206 {txt}{c |}
+1660. {c |} {res}      1c 4Wks   1970.365 {txt}{c |}
+2210. {c |} {res} 1c PieceRate   2029.444 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c RT}
+2768. {c |} {res}  1c RedCross   1906.995 {txt}{c |}
+3322. {c |} {res} 4c PieceRate   2131.858 {txt}{c |}
+3884. {c |} {res}     Gain 40c   2135.952 {txt}{c |}
+4429. {c |} {res}     Gain 80c   2187.857 {txt}{c |}
+4961. {c |} {res}Gift Exchange   1601.899 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c RT}
+5506. {c |} {res}     Loss 40c   2154.772 {txt}{c |}
+6038. {c |} {res}   No Payment    1520.68 {txt}{c |}
+6578. {c |} {res}   Prob.01 $1   1895.539 {txt}{c |}
+7133. {c |} {res}    Prob.5 2c   1977.144 {txt}{c |}
+7701. {c |} {res}      Ranking   1761.293 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c RT}
+8244. {c |} {res}  Social Comp   1848.365 {txt}{c |}
+8770. {c |} {res}  Task Signif   1739.536 {txt}{c |}
+9324. {c |} {res} Very Low Pay   1883.193 {txt}{c |}
+      {c BLC}{hline 15}{c -}{hline 10}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. sort avg_buttonpresses
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. list treatmentname avg_buttonpresses sd_buttonpresses obs_buttonpresses if treatmentname ~= treatmentname[_n-1]
+{txt}
+      {c TLC}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+      {c |} {res}treatmentname   avg_bu~s   sd_but~s   obs_bu~s {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+   1. {c |} {res}   No Payment    1520.68   725.6491        540 {txt}{c |}
+ 541. {c |} {res}Gift Exchange   1601.899     694.92        545 {txt}{c |}
+1086. {c |} {res}  Task Signif   1739.536   676.9047        554 {txt}{c |}
+1640. {c |} {res}      Ranking   1761.293   713.8233        543 {txt}{c |}
+2183. {c |} {res}  Social Comp   1848.365   737.1965        526 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+2709. {c |} {res} Very Low Pay   1883.193   663.6439        538 {txt}{c |}
+3247. {c |} {res}   Prob.01 $1   1895.539   669.9219        555 {txt}{c |}
+3802. {c |} {res}  1c RedCross   1906.995    632.067        554 {txt}{c |}
+4356. {c |} {res} 10c RedCross   1918.415   607.5864        549 {txt}{c |}
+4905. {c |} {res}      1c 4Wks   1970.365   672.4991        550 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+5455. {c |} {res}    Prob.5 2c   1977.144   589.4723        568 {txt}{c |}
+6023. {c |} {res}      1c 2Wks   2004.206   638.6904        544 {txt}{c |}
+6567. {c |} {res} 1c PieceRate   2029.444   648.8939        558 {txt}{c |}
+7125. {c |} {res} 4c PieceRate   2131.858   626.2335        562 {txt}{c |}
+7687. {c |} {res}     Gain 40c   2135.952   575.6501        545 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+8232. {c |} {res}     Loss 40c   2154.772    532.494        532 {txt}{c |}
+8764. {c |} {res}10c PieceRate   2174.618   577.7483        566 {txt}{c |}
+9330. {c |} {res}     Gain 80c   2187.857    530.209        532 {txt}{c |}
+      {c BLC}{hline 15}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. egen presses_order_tx = group(avg_buttonpresses)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. labmask presses_order_tx, value(treatmentname)
+{err}command {bf}labmask{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. ssc install labutil
+{txt}checking {hilite:labutil} consistency and verifying not already installed...
+installing into c:\ado\plus\...
+installation complete.
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. labmask presses_order_tx, value(treatmentname)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. help labmask
+
+. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat buttonpresses, by(presses_order_tx) stat(n mean semean)
+
+{txt}Summary for variables: buttonpresses
+{col 6}by categories of: presses_order_tx (group(avg_buttonpresses))
+
+{ralign 16:presses_order_tx} {...}
+{c |}         N      mean  se(mean)
+{hline 17}{c +}{hline 30}
+{ralign 16:No Payment} {...}
+{c |}{...}
+ {res}      540   1520.68  31.22697
+{txt}{ralign 16:Gift Exchange} {...}
+{c |}{...}
+ {res}      545  1601.899   29.7671
+{txt}{ralign 16:Task Signif} {...}
+{c |}{...}
+ {res}      554  1739.536  28.75892
+{txt}{ralign 16:Ranking} {...}
+{c |}{...}
+ {res}      543  1761.293  30.63309
+{txt}{ralign 16:Social Comp} {...}
+{c |}{...}
+ {res}      526  1848.365  32.14329
+{txt}{ralign 16:Very Low Pay} {...}
+{c |}{...}
+ {res}      538  1883.193  28.61172
+{txt}{ralign 16:Prob.01 $1} {...}
+{c |}{...}
+ {res}      555  1895.539   28.4366
+{txt}{ralign 16:1c RedCross} {...}
+{c |}{...}
+ {res}      554  1906.995  26.85396
+{txt}{ralign 16:10c RedCross} {...}
+{c |}{...}
+ {res}      549  1918.415  25.93116
+{txt}{ralign 16:1c 4Wks} {...}
+{c |}{...}
+ {res}      550  1970.365  28.67546
+{txt}{ralign 16:Prob.5 2c} {...}
+{c |}{...}
+ {res}      568  1977.144  24.73371
+{txt}{ralign 16:1c 2Wks} {...}
+{c |}{...}
+ {res}      544  2004.206  27.38362
+{txt}{ralign 16:1c PieceRate} {...}
+{c |}{...}
+ {res}      558  2029.444  27.46987
+{txt}{ralign 16:4c PieceRate} {...}
+{c |}{...}
+ {res}      562  2131.858  26.41607
+{txt}{ralign 16:Gain 40c} {...}
+{c |}{...}
+ {res}      545  2135.952  24.65814
+{txt}{ralign 16:Loss 40c} {...}
+{c |}{...}
+ {res}      532  2154.773  23.08654
+{txt}{ralign 16:10c PieceRate} {...}
+{c |}{...}
+ {res}      566  2174.618  24.28457
+{txt}{ralign 16:Gain 80c} {...}
+{c |}{...}
+ {res}      532  2187.857  22.98747
+{txt}{hline 17}{c +}{hline 30}
+{ralign 16:Total} {...}
+{c |}{...}
+ {res}     9861  1936.329  6.729106
+{txt}{hline 17}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. help tabstat
+
+. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. histogram buttonpresses, width(25) start(0) xtitle("Button Presses") ytitle("Frequency") ///
+>         freq title("Distribution of Button Presses - All Treatments") graphregion(color(white)) lcolor(black) fcolor(black) ///
+>         xlabel(0(500)4000) xmtick(0(100)4000,grid) gap(75) ylabel(,nogrid)
+{txt}(bin={res}158{txt}, start={res}0{txt}, width={res}25{txt})
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. graph export "output/Dist Button Presses All Treatments.png", replace
+{txt}(file output/Dist Button Presses All Treatments.png written in PNG format)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. tabstat buttonpresses, by(tx_order) stat(n mean semean)
+
+{txt}Summary for variables: buttonpresses
+{col 6}by categories of: tx_order 
+
+{ralign 13:tx_order} {...}
+{c |}         N      mean  se(mean)
+{hline 14}{c +}{hline 30}
+{ralign 13:No Payment} {...}
+{c |}{...}
+ {res}      540   1520.68  31.22697
+{txt}{ralign 13:1c PieceRate} {...}
+{c |}{...}
+ {res}      558  2029.444  27.46987
+{txt}{ralign 13:10c PieceRate} {...}
+{c |}{...}
+ {res}      566  2174.618  24.28457
+{txt}{ralign 13:4c PieceRate} {...}
+{c |}{...}
+ {res}      562  2131.858  26.41607
+{txt}{ralign 13:Very Low Pay} {...}
+{c |}{...}
+ {res}      538  1883.193  28.61172
+{txt}{ralign 13:1c RedCross} {...}
+{c |}{...}
+ {res}      554  1906.995  26.85396
+{txt}{ralign 13:10c RedCross} {...}
+{c |}{...}
+ {res}      549  1918.415  25.93116
+{txt}{ralign 13:Gift Exchange} {...}
+{c |}{...}
+ {res}      545  1601.899   29.7671
+{txt}{ralign 13:1c 2Wks} {...}
+{c |}{...}
+ {res}      544  2004.206  27.38362
+{txt}{ralign 13:1c 4Wks} {...}
+{c |}{...}
+ {res}      550  1970.365  28.67546
+{txt}{ralign 13:Gain 40c} {...}
+{c |}{...}
+ {res}      545  2135.952  24.65814
+{txt}{ralign 13:Loss 40c} {...}
+{c |}{...}
+ {res}      532  2154.773  23.08654
+{txt}{ralign 13:Gain 80c} {...}
+{c |}{...}
+ {res}      532  2187.857  22.98747
+{txt}{ralign 13:Prob.01 $1} {...}
+{c |}{...}
+ {res}      555  1895.539   28.4366
+{txt}{ralign 13:Prob.5 2c} {...}
+{c |}{...}
+ {res}      568  1977.144  24.73371
+{txt}{ralign 13:Social Comp} {...}
+{c |}{...}
+ {res}      526  1848.365  32.14329
+{txt}{ralign 13:Ranking} {...}
+{c |}{...}
+ {res}      543  1761.293  30.63309
+{txt}{ralign 13:Task Signif} {...}
+{c |}{...}
+ {res}      554  1739.536  28.75892
+{txt}{hline 14}{c +}{hline 30}
+{ralign 13:Total} {...}
+{c |}{...}
+ {res}     9861  1936.329  6.729106
+{txt}{hline 14}{c BT}{hline 30}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. 
+. collapse (count) n = buttonpresses (mean) mean_effort = buttonpresses ///
+>     (semean) se_mean = buttonpresses (sd) sd_effort = buttonpresses, by(tx_order treatmentname)
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. label values tx_order
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. export excel using output/TableSumStatByTreatment_c34.xlsx, firstrow(variables) replace
+{res}{txt}file output/TableSumStatByTreatment_c34.xlsx saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\asads\AppData\Local\Temp\STD01000000.tmp"
+{txt}
+{com}. /* 
+> This file generates an excel file which will be used to convert picture codes to graphic files
+> Input: 
+>         Demographic Survey Data
+>         Experiment Data
+> Output:
+>         Approvals (file which is uploaded in MTurk to approve/reject submissions)
+>         Bonus Payments (file which gives the code to use in CLI for bonus payments)
+> 
+> Written by: Sher Afghan Asad
+> Date: 2018-09-24
+>         
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

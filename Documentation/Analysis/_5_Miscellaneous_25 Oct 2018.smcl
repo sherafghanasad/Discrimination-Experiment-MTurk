@@ -1,0 +1,146 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_5_Miscellaneous_25 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Oct 2018, 21:56:57
+{txt}
+{com}. 
+. use     "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. * Distribution of points scored
+. 
+. histogram Points if Role ==1, width(25) start(0) xtitle("Points") ytitle("Frequency") ///
+>                 freq title("Distribution of Points - All Treatments") graphregion(color(white)) lcolor(black) fcolor(black) ///
+>                 xlabel(0(500)4000) xmtick(0(100)4000,grid) gap(75) ylabel(,nogrid)
+{txt}(bin={res}144{txt}, start={res}0{txt}, width={res}25{txt})
+{res}{txt}
+{com}. graph   export "${c -(}outdir{c )-}\PointsDist.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PointsDist.png written in PNG format)
+
+{com}. 
+. * Variation in piece rates
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar (count) if Role == 1, 
+>                 over(PieceRate) over(Race)
+>                 ytitle(Frequency) 
+>                 title("Piece-Rate Distribution") 
+>                 note("Note: This graph represents the distribution of piece rates (in dollars per 100 points) as selected" "by Black and White Employers. ", 
+>                 margin(zero)) 
+>                 graphregion(color(white))
+>                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}.                 
+. graph   export "${c -(}outdir{c )-}\PieceRateDistribution.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateDistribution.png written in PNG format)
+
+{com}.                 
+. * CDF of Effort by piece rate
+. 
+. gen                     PR = 0  if              PieceRate == 0
+{txt}(168 missing values generated)
+
+{com}. replace                 PR = 3  if              PieceRate == 0.03
+{txt}(62 real changes made)
+
+{com}. replace                 PR = 6  if              PieceRate == 0.06
+{txt}(88 real changes made)
+
+{com}. replace                 PR = 9  if              PieceRate == 0.09
+{txt}(18 real changes made)
+
+{com}. 
+. gen                     RowID = _n
+{txt}
+{com}. 
+. levelsof PR, local(PR)
+{txt}0 3 6 9
+
+{com}. 
+. foreach p of local PR {c -(}
+{txt}  2{com}.         preserve
+{txt}  3{com}.                 keep    if PR == `p'
+{txt}  4{com}.                 cumul   Points,  generate(cdfPoints`p') 
+{txt}  5{com}. *               twoway (connected cdfPoints Points, sort msymbol(none)) 
+. *               graph   export "${c -(}outdir{c )-}\CDF`p'", replace
+.                 save            "${c -(}tempdir{c )-}\Points`p'.dta", replace
+{txt}  6{com}.         restore
+{txt}  7{com}.         merge           1:1 RowID using "${c -(}tempdir{c )-}\Points`p'.dta",  keepusing(cdfPoints`p') nogen
+{txt}  8{com}.         {c )-}
+{txt}(168 observations deleted)
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Points0.dta saved
+{res}{txt}(label education already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             168
+{txt}{col 9}from master{col 30}{res}             168{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}              34{txt}  
+{col 5}{hline 41}
+(140 observations deleted)
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Points3.dta saved
+{res}{txt}(label education already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             140
+{txt}{col 9}from master{col 30}{res}             140{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}              62{txt}  
+{col 5}{hline 41}
+(114 observations deleted)
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Points6.dta saved
+{res}{txt}(label education already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             114
+{txt}{col 9}from master{col 30}{res}             114{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}              88{txt}  
+{col 5}{hline 41}
+(184 observations deleted)
+file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Temp\Analysis\Points9.dta saved
+{res}{txt}(label education already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             184
+{txt}{col 9}from master{col 30}{res}             184{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}matched{col 30}{res}              18{txt}  
+{col 5}{hline 41}
+
+{com}.         
+. #d ;
+{txt}delimiter now ;
+{com}. twoway  (connected cdfPoints0 Points, sort msymbol(none)) 
+>                                 (connected cdfPoints3 Points, sort msymbol(none)) 
+>                                 (connected cdfPoints6 Points, sort msymbol(none)) 
+>                                 (connected cdfPoints9 Points, sort msymbol(none)), 
+>                                 ytitle(Cumulative Fraction) 
+>                                 xtitle(Points scored) 
+>                                 legend(order(1 "0 cents for 100" 2 "3 cents for 100"  3 "6 cents for 100" 4 "9 cents for 100")) 
+>                                 graphregion(color(white))
+>                                 ;
+{res}{txt}
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\PieceRateCDFs.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\PieceRateCDFs.png written in PNG format)
+
+{com}. 
+{txt}end of do-file
+
+{com}. exit, clear

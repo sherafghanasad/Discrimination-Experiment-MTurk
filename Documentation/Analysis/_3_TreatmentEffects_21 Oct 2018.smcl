@@ -1,0 +1,280 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_3_TreatmentEffects_21 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Oct 2018, 16:26:11
+{txt}
+{com}. 
+. use     "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. 
+. * Effort against different piece rates
+. 
+. eststo clear
+{txt}
+{com}. eststo estBaseline, title(Baseline): estpost tabstat Points if Role == 2 & Treatment == "Baseline", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}{space 1}{ralign 9:{res:{sf: 1125.125}}}{space 1}{space 1}{ralign 9:{res:{sf: 1245.585}}}{space 1}{space 1}{ralign 9:{res:{sf: 440.3809}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}{space 1}{ralign 9:{res:{sf: 1750.824}}}{space 1}{space 1}{ralign 9:{res:{sf: 686.4713}}}{space 1}{space 1}{ralign 9:{res:{sf: 166.4937}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       23}}}{space 1}{space 1}{ralign 9:{res:{sf: 2111.652}}}{space 1}{space 1}{ralign 9:{res:{sf: 554.9694}}}{space 1}{space 1}{ralign 9:{res:{sf: 115.7191}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}{space 1}{ralign 9:{res:{sf:     1926}}}{space 1}{space 1}{ralign 9:{res:{sf: 644.7573}}}{space 1}{space 1}{ralign 9:{res:{sf: 263.2211}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       54}}}{space 1}{space 1}{ralign 9:{res:{sf: 1831.278}}}{space 1}{space 1}{ralign 9:{res:{sf: 791.6515}}}{space 1}{space 1}{ralign 9:{res:{sf: 107.7301}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. eststo estBlack, title(Black Employer): estpost tabstat Points if Role == 2 & Treatment == "Race Salient" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}{space 1}{ralign 9:{res:{sf: 1912.833}}}{space 1}{space 1}{ralign 9:{res:{sf: 419.5309}}}{space 1}{space 1}{ralign 9:{res:{sf: 171.2728}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2133}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:  2623.25}}}{space 1}{space 1}{ralign 9:{res:{sf: 850.3965}}}{space 1}{space 1}{ralign 9:{res:{sf: 425.1983}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}{space 1}{ralign 9:{res:{sf: 2191.182}}}{space 1}{space 1}{ralign 9:{res:{sf: 653.0343}}}{space 1}{space 1}{ralign 9:{res:{sf: 196.8972}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estWhite, title(White Employer): estpost tabstat Points if Role == 2 & Treatment == "Race Salient" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PieceRate) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PieceRate
+
+{space 0}{space 0}{ralign 12:PieceRate}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:      812}}}{space 1}{space 1}{ralign 9:{res:{sf: 1312.274}}}{space 1}{space 1}{ralign 9:{res:{sf: 757.6417}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}{space 1}{ralign 9:{res:{sf: 1868.385}}}{space 1}{space 1}{ralign 9:{res:{sf: 932.0581}}}{space 1}{space 1}{ralign 9:{res:{sf: 258.5064}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}{space 1}{ralign 9:{res:{sf: 2303.588}}}{space 1}{space 1}{ralign 9:{res:{sf: 396.9934}}}{space 1}{space 1}{ralign 9:{res:{sf: 96.28504}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:     2654}}}{space 1}{space 1}{ralign 9:{res:{sf: 585.8131}}}{space 1}{space 1}{ralign 9:{res:{sf: 338.2194}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       36}}}{space 1}{space 1}{ralign 9:{res:{sf: 2051.333}}}{space 1}{space 1}{ralign 9:{res:{sf: 833.0882}}}{space 1}{space 1}{ralign 9:{res:{sf:  138.848}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estBaseline estBlack estWhite using "${c -(}outdir{c )-}\EffortByTreatments.tex", 
+>                 label mtitles
+>                 cells("count(fmt(0) label(N\?))  mean(fmt(2) label(Mean (s.e)\?))" "b(label(\hspace{c -(}0.01cm{c )-})) semean(fmt(2) par label(\hspace{c -(}0.01cm{c )-}))")
+>                 noobs
+>                 coeflabels(1 "0.00" 2 "0.03" 3 "0.06" 4 "0.09")
+>                 nostar gaps
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\EffortByTreatments.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. 
+. * Figure of incentive effect by treatment
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. twoway  (fpfit Points PieceRate if Treatment == "Baseline") 
+>                 (fpfit Points PieceRate if Treatment == "Race Salient" & 
+>                 EmployerRace == "Black or African-American") 
+>                 (fpfit Points PieceRate if Treatment == "Race Salient" & 
+>                 EmployerRace == "White or Caucasian"), 
+>                 ytitle(Points Scored) xtitle(Piece Rate (in cents)) 
+>                 title("Incentive effect by treatment") 
+>                 legend(order(1 "Baseline" 2 "Black Employers" 3 "White Employers"))
+>                 graphregion(color(white)) 
+>                 ;
+{res}{txt}
+{com}. #d cr   
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\IncentiveEffectByTreatment.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\IncentiveEffectByTreatment.png written in PNG format)
+
+{com}.         
+. 
+. * Treatment Effect Regression
+. 
+. encode  Treatment, gen(Treat)
+{txt}
+{com}. gen     lPoints = ln(Points)
+{txt}
+{com}. gen     lPieceRate = ln(PieceRate + 1)
+{txt}
+{com}. gen     Fair = (PieceRate >= FairPieceRate)
+{txt}
+{com}. gen     Fair1 = (PieceRate == FairPieceRate)
+{txt}
+{com}. encode  EmployerRace, gen(EmpRace)
+{txt}
+{com}. label   def EmpRace 1 "Black Employer" 2 "White Employer", replace
+{txt}
+{com}.         
+. eststo  clear
+{txt}
+{com}. 
+. eststo  estTE,          title(Model 1): reg     lPoints lPieceRate ib2.Treat if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(2, 98)        = {res}    10.12
+{txt}       Model {c |} {res} 23.0675916         2  11.5337958   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 111.667869        98  1.13946805   {txt}R-squared       ={res}    0.1712
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1543
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0675
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lPoints{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}lPieceRate {c |}{col 14}{res}{space 2} 18.94392{col 26}{space 2} 4.229034{col 37}{space 1}    4.48{col 46}{space 3}0.000{col 54}{space 4} 10.55154{col 67}{space 3}  27.3363
+{txt}{space 12} {c |}
+{space 7}Treat {c |}
+{space 3}Baseline  {c |}{col 14}{res}{space 2}-.1535525{col 26}{space 2} .2134174{col 37}{space 1}   -0.72{col 46}{space 3}0.474{col 54}{space 4}-.5770724{col 67}{space 3} .2699675
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 6.585989{col 26}{space 2} .2309736{col 37}{space 1}   28.51{col 46}{space 3}0.000{col 54}{space 4} 6.127629{col 67}{space 3} 7.044348
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEInt,       title(Model 2): reg     lPoints lPieceRate ib2.Treat ib2.Treat#b2.EmpRace  if Role == 2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(4, 96)        = {res}     6.87
+{txt}       Model {c |} {res} 29.9694066         4  7.49235164   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 104.766054        96  1.09131306   {txt}R-squared       ={res}    0.2224
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1900
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0447
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                     lPoints{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 18}lPieceRate {c |}{col 30}{res}{space 2} 18.65732{col 42}{space 2} 5.080841{col 53}{space 1}    3.67{col 62}{space 3}0.000{col 70}{space 4} 8.571929{col 83}{space 3} 28.74271
+{txt}{space 28} {c |}
+{space 23}Treat {c |}
+{space 19}Baseline  {c |}{col 30}{res}{space 2} .1193739{col 42}{space 2} .2390068{col 53}{space 1}    0.50{col 62}{space 3}0.619{col 70}{space 4}-.3550507{col 83}{space 3} .5937986
+{txt}{space 28} {c |}
+{space 15}Treat#EmpRace {c |}
+{space 4}Baseline#Black Employer  {c |}{col 30}{res}{space 2}-.4161136{col 42}{space 2} .4198754{col 53}{space 1}   -0.99{col 62}{space 3}0.324{col 70}{space 4} -1.24956{col 83}{space 3} .4173326
+{txt}Race Salient#Black Employer  {c |}{col 30}{res}{space 2} .7998544{col 42}{space 2} .3761017{col 53}{space 1}    2.13{col 62}{space 3}0.036{col 70}{space 4} .0532984{col 83}{space 3}  1.54641
+{txt}{space 28} {c |}
+{space 23}_cons {c |}{col 30}{res}{space 2}  6.41035{col 42}{space 2} .2888873{col 53}{space 1}   22.19{col 62}{space 3}0.000{col 70}{space 4} 5.836913{col 83}{space 3} 6.983787
+{txt}{hline 29}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEFair,      title(Model 3): reg     lPoints lPieceRate ib2.Treat ib2.Treat#b2.EmpRace Fair  if Role ==2
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       101
+{txt}{hline 13}{c +}{hline 34}   F(5, 95)        = {res}     5.44
+{txt}       Model {c |} {res}  29.973335         5  5.99466699   {txt}Prob > F        ={res}    0.0002
+{txt}    Residual {c |} {res} 104.762125        95  1.10275921   {txt}R-squared       ={res}    0.2225
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1815
+{txt}       Total {c |} {res}  134.73546       100   1.3473546   {txt}Root MSE        =   {res} 1.0501
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                     lPoints{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 18}lPieceRate {c |}{col 30}{res}{space 2} 18.88066{col 42}{space 2} 6.331467{col 53}{space 1}    2.98{col 62}{space 3}0.004{col 70}{space 4} 6.311104{col 83}{space 3} 31.45021
+{txt}{space 28} {c |}
+{space 23}Treat {c |}
+{space 19}Baseline  {c |}{col 30}{res}{space 2} .1182908{col 42}{space 2} .2409413{col 53}{space 1}    0.49{col 62}{space 3}0.625{col 70}{space 4}-.3600382{col 83}{space 3} .5966198
+{txt}{space 28} {c |}
+{space 15}Treat#EmpRace {c |}
+{space 4}Baseline#Black Employer  {c |}{col 30}{res}{space 2}-.4150032{col 42}{space 2} .4224814{col 53}{space 1}   -0.98{col 62}{space 3}0.328{col 70}{space 4}-1.253735{col 83}{space 3} .4237284
+{txt}Race Salient#Black Employer  {c |}{col 30}{res}{space 2} .8008799{col 42}{space 2} .3784592{col 53}{space 1}    2.12{col 62}{space 3}0.037{col 70}{space 4} .0495435{col 83}{space 3} 1.552216
+{txt}{space 28} {c |}
+{space 24}Fair {c |}{col 30}{res}{space 2}-.0166109{col 42}{space 2} .2783074{col 53}{space 1}   -0.06{col 62}{space 3}0.953{col 70}{space 4}-.5691209{col 83}{space 3} .5358992
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} 6.408523{col 42}{space 2} .2920083{col 53}{space 1}   21.95{col 62}{space 3}0.000{col 70}{space 4} 5.828813{col 83}{space 3} 6.988232
+{txt}{hline 29}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo  estTEFE,        title(Model 4): reg     lPoints lPieceRate ib2.Treat ib2.Treat#ib2.EmpRace Fair Female Education2-Education6 Race1 Age2-Age6 if Role ==2
+{p 0 6 2}{txt}note: Education6 omitted because of collinearity{p_end}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        99
+{txt}{hline 13}{c +}{hline 34}   F(16, 82)       = {res}     1.38
+{txt}       Model {c |} {res} 25.7054234        16  1.60658897   {txt}Prob > F        ={res}    0.1750
+{txt}    Residual {c |} {res} 95.8082465        82  1.16839325   {txt}R-squared       ={res}    0.2115
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0577
+{txt}       Total {c |} {res}  121.51367        98  1.23993541   {txt}Root MSE        =   {res} 1.0809
+
+{txt}{hline 29}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}                     lPoints{col 30}{c |}      Coef.{col 42}   Std. Err.{col 54}      t{col 62}   P>|t|{col 70}     [95% Con{col 83}f. Interval]
+{hline 29}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 18}lPieceRate {c |}{col 30}{res}{space 2} 17.61757{col 42}{space 2}  7.13125{col 53}{space 1}    2.47{col 62}{space 3}0.016{col 70}{space 4} 3.431244{col 83}{space 3}  31.8039
+{txt}{space 28} {c |}
+{space 23}Treat {c |}
+{space 19}Baseline  {c |}{col 30}{res}{space 2} .0881307{col 42}{space 2} .2694763{col 53}{space 1}    0.33{col 62}{space 3}0.744{col 70}{space 4}-.4479434{col 83}{space 3} .6242049
+{txt}{space 28} {c |}
+{space 15}Treat#EmpRace {c |}
+{space 4}Baseline#Black Employer  {c |}{col 30}{res}{space 2}-.2159185{col 42}{space 2} .4706713{col 53}{space 1}   -0.46{col 62}{space 3}0.648{col 70}{space 4}-1.152234{col 83}{space 3} .7203967
+{txt}Race Salient#Black Employer  {c |}{col 30}{res}{space 2} .6943699{col 42}{space 2} .4305874{col 53}{space 1}    1.61{col 62}{space 3}0.111{col 70}{space 4}-.1622055{col 83}{space 3} 1.550945
+{txt}{space 28} {c |}
+{space 24}Fair {c |}{col 30}{res}{space 2} .0669162{col 42}{space 2} .3015736{col 53}{space 1}    0.22{col 62}{space 3}0.825{col 70}{space 4}-.5330097{col 83}{space 3} .6668421
+{txt}{space 22}Female {c |}{col 30}{res}{space 2}-.0003042{col 42}{space 2} .0024592{col 53}{space 1}   -0.12{col 62}{space 3}0.902{col 70}{space 4}-.0051963{col 83}{space 3}  .004588
+{txt}{space 18}Education2 {c |}{col 30}{res}{space 2}-.0005964{col 42}{space 2} .0119265{col 53}{space 1}   -0.05{col 62}{space 3}0.960{col 70}{space 4}-.0243221{col 83}{space 3} .0231292
+{txt}{space 18}Education3 {c |}{col 30}{res}{space 2}-.0016126{col 42}{space 2} .0119848{col 53}{space 1}   -0.13{col 62}{space 3}0.893{col 70}{space 4}-.0254543{col 83}{space 3}  .022229
+{txt}{space 18}Education4 {c |}{col 30}{res}{space 2}-.0026969{col 42}{space 2} .0120032{col 53}{space 1}   -0.22{col 62}{space 3}0.823{col 70}{space 4}-.0265751{col 83}{space 3} .0211814
+{txt}{space 18}Education5 {c |}{col 30}{res}{space 2}-.0026566{col 42}{space 2} .0119882{col 53}{space 1}   -0.22{col 62}{space 3}0.825{col 70}{space 4} -.026505{col 83}{space 3} .0211917
+{txt}{space 18}Education6 {c |}{col 30}{res}{space 2}        0{col 42}{txt}  (omitted)
+{space 23}Race1 {c |}{col 30}{res}{space 2}  .329126{col 42}{space 2} .3434547{col 53}{space 1}    0.96{col 62}{space 3}0.341{col 70}{space 4}-.3541149{col 83}{space 3} 1.012367
+{txt}{space 24}Age2 {c |}{col 30}{res}{space 2}-.0002984{col 42}{space 2} .0038335{col 53}{space 1}   -0.08{col 62}{space 3}0.938{col 70}{space 4}-.0079244{col 83}{space 3} .0073277
+{txt}{space 24}Age3 {c |}{col 30}{res}{space 2} .0010046{col 42}{space 2} .0036689{col 53}{space 1}    0.27{col 62}{space 3}0.785{col 70}{space 4}-.0062941{col 83}{space 3} .0083032
+{txt}{space 24}Age4 {c |}{col 30}{res}{space 2} .0000484{col 42}{space 2} .0048109{col 53}{space 1}    0.01{col 62}{space 3}0.992{col 70}{space 4}-.0095221{col 83}{space 3} .0096189
+{txt}{space 24}Age5 {c |}{col 30}{res}{space 2} .0010931{col 42}{space 2} .0046925{col 53}{space 1}    0.23{col 62}{space 3}0.816{col 70}{space 4}-.0082418{col 83}{space 3} .0104279
+{txt}{space 24}Age6 {c |}{col 30}{res}{space 2} .0068489{col 42}{space 2} .0115955{col 53}{space 1}    0.59{col 62}{space 3}0.556{col 70}{space 4}-.0162182{col 83}{space 3} .0299161
+{txt}{space 23}_cons {c |}{col 30}{res}{space 2} 6.594118{col 42}{space 2} 1.219258{col 53}{space 1}    5.41{col 62}{space 3}0.000{col 70}{space 4} 4.168626{col 83}{space 3} 9.019611
+{txt}{hline 29}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. label   var lPieceRate "Piece Rate"
+{txt}
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estTE estTEInt estTEFair estTEFE using "${c -(}outdir{c )-}\TreatmentEffect.tex", 
+>                 drop(2.Treat 1.Treat#1.EmpRace 2.Treat#2.EmpRace )
+>                 indicate(Fixed Effects = Female Education2 Education3 Education4 Education5 Race1 Age2 Age3 Age4 Age5 Age6)
+>                 label mtitles 
+>                 main() b(2) 
+>                 p
+>                 noomitted
+>                 gap
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\TreatmentEffect.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. 
+. * Effort by worker's group identity
+. 
+. do                      "${c -(}codedir{c )-}\_4_EffortByWorkerGroups.do"
+{txt}
+{com}. /* 
+> This file calculates effort choices by worker's racial groups for each treatment. 
+> 
+> Input: 
+>         Cleaned Data
+> Output:
+>         Table 4: EffortByWorkerGroup
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

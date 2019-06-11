@@ -1,0 +1,30 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular*}{\hsize}{@{\hskip\tabcolsep\extracolsep\fill}l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Model 1}&\multicolumn{1}{c}{Model 2}&\multicolumn{1}{c}{Model 3}&\multicolumn{1}{c}{Model 4}\\
+\hline
+Piece Rate          &       18.94\sym{***}&       18.66\sym{***}&       18.88\sym{**} &       17.62\sym{*}  \\
+                    &     (0.000)         &     (0.000)         &     (0.004)         &     (0.016)         \\
+[1em]
+Baseline            &       -0.15         &        0.12         &        0.12         &        0.09         \\
+                    &     (0.474)         &     (0.619)         &     (0.625)         &     (0.744)         \\
+[1em]
+Race Salient $\times$ Black Employer&                     &        0.80\sym{*}  &        0.80\sym{*}  &        0.69         \\
+                    &                     &     (0.036)         &     (0.037)         &     (0.111)         \\
+[1em]
+Fair                &                     &                     &       -0.02         &        0.07         \\
+                    &                     &                     &     (0.953)         &     (0.825)         \\
+[1em]
+Constant            &        6.59\sym{***}&        6.41\sym{***}&        6.41\sym{***}&        6.59\sym{***}\\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+[1em]
+Fixed Effects       &          No         &          No         &          No         &         Yes         \\
+\hline
+Observations        &         101         &         101         &         101         &          99         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize \textit{p}-values in parentheses}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+\end{tabular*}
+}

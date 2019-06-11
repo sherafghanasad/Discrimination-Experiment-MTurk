@@ -1,0 +1,348 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_2_SummarizeDemographicData_21 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Oct 2018, 16:26:00
+{txt}
+{com}. 
+. use     "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. * Demographics of Subjects
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Male 
+>                 (mean) Female, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.") 
+>                 legend(order(1 "Male" 2 "Female")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Gender", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Gender.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. *drop   Male Female
+. 
+. /*
+> #d ;
+> graph   bar (mean), 
+>                 over(Male) over(Race) 
+>                 asyvars  
+>                 title("Gender Distribution") 
+>                 note("Note: This graph represents the gender distribution of subjects by racial groups.",margin(zero)) 
+>                 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\GenderDistribution$S_DATE.png", replace
+> */
+. 
+. * Age
+. 
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Age1 
+>                 (mean) Age2
+>                 (mean) Age3 
+>                 (mean) Age4
+>                 (mean) Age5 
+>                 (mean) Age6             , 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.") 
+>                 legend(order(1 "18-24" 2 "25-30" 3 "31-40" 4 "41-50" 5 "51-60" 6 "65 or over")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Age", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Age.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Age) over(Race) 
+>                 asyvars  
+>                 title("Age Distribution") 
+>                 note("Note: This graph represents the age distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\AgeDistribution$S_DATE.png", replace
+> */
+. 
+. * Education
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   bar 
+>                 (mean) Education1 
+>                 (mean) Education2
+>                 (mean) Education3 
+>                 (mean) Education4
+>                 (mean) Education5 
+>                 (mean) Education6, 
+>                 over(Race) 
+>                 ytitle(Percentage) 
+>                 title("Overall Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.") 
+>                 legend(order(1 "Less than high school" 2 "High school or equivalent" 3 "Some college" 4 "College Graduate" 5 "Master's Degree" 6 "Doctoral Degree")) 
+>                 scheme(s2mono)
+>                 saving("${c -(}outdir{c )-}\Education", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Education.gph saved)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. /*
+> #d ;
+> graph   bar (count), 
+>                 over(Education) over(Race) 
+>                 asyvars  
+>                 title("Education Distribution") 
+>                 note("Note: This graph represents the education distribution of subjects by racial groups.",margin(zero)) 
+>                 ;
+> #d cr           
+> 
+> graph   export "${c -(}outdir{c )-}\EducationDistribution$S_DATE.png", replace
+> */
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. graph   combine 
+>                 "${c -(}outdir{c )-}\Gender" "${c -(}outdir{c )-}\Age" "${c -(}outdir{c )-}\Education", 
+>                 title(Demographics of Overall Sample) 
+>                 iscale(*0.69) saving("${c -(}outdir{c )-}\Demographics.png", replace)
+>                 ;
+{res}{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png saved)
+
+{com}. #d cr           
+{txt}delimiter now cr
+{com}. 
+. graph   export "${c -(}outdir{c )-}\Demographics.png", replace
+{txt}(file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographics.png written in PNG format)
+
+{com}. 
+. *drop   Age? Education?
+. 
+. * Generate a table of demographic information
+. 
+. foreach var of varlist Male Female Age1-Age6 Education1-Education6 {c -(}
+{txt}  2{com}.         replace `var' = `var'/100
+{txt}  3{com}. {c )-}
+{txt}(81 real changes made)
+(119 real changes made)
+(21 real changes made)
+(54 real changes made)
+(70 real changes made)
+(20 real changes made)
+(19 real changes made)
+(3 real changes made)
+(2 real changes made)
+(24 real changes made)
+(55 real changes made)
+(73 real changes made)
+(30 real changes made)
+(3 real changes made)
+
+{com}. 
+. label   var Male "\hspace{c -(}0.5cm{c )-}Male"
+{txt}
+{com}. label   var Female "\hspace{c -(}0.5cm{c )-}Female"
+{txt}
+{com}. 
+. label   var Age1 "\hspace{c -(}0.5cm{c )-}18-24"
+{txt}
+{com}. label   var Age2 "\hspace{c -(}0.5cm{c )-}25-30"
+{txt}
+{com}. label   var Age3 "\hspace{c -(}0.5cm{c )-}31-40"
+{txt}
+{com}. label   var Age4 "\hspace{c -(}0.5cm{c )-}41-50"
+{txt}
+{com}. label   var Age5 "\hspace{c -(}0.5cm{c )-}51-64"
+{txt}
+{com}. label   var Age6 "\hspace{c -(}0.5cm{c )-}65 and over"
+{txt}
+{com}. 
+. label   var Education1 "\hspace{c -(}0.5cm{c )-}Less than high school"
+{txt}
+{com}. label   var Education2 "\hspace{c -(}0.5cm{c )-}High school or equivalent"
+{txt}
+{com}. label   var Education3 "\hspace{c -(}0.5cm{c )-}Some college"
+{txt}
+{com}. label   var Education4 "\hspace{c -(}0.5cm{c )-}College graduate"
+{txt}
+{com}. label   var Education5 "\hspace{c -(}0.5cm{c )-}Master's degree"
+{txt}
+{com}. label   var Education6 "\hspace{c -(}0.5cm{c )-}Doctoral degree"
+{txt}
+{com}. 
+. label   var Race1 "\hspace{c -(}0.5cm{c )-}Black or African American"
+{txt}
+{com}. label   var Race2 "\hspace{c -(}0.5cm{c )-}White or Caucasian"
+{txt}
+{com}. 
+. eststo  clear
+{txt}
+{com}. 
+. eststo estBlacks, title(Blacks): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Race == "Black or African-American"
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf: .5405405}}}{space 1}{space 1}{ralign 9:{res:{sf: .2552553}}}{space 1}{space 1}{ralign 9:{res:{sf: .5052279}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       20}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf: .4324324}}}{space 1}{space 1}{ralign 9:{res:{sf: .2522523}}}{space 1}{space 1}{ralign 9:{res:{sf: .5022472}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       16}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .0909091}}}{space 1}{space 1}{ralign 9:{res:{sf: .0865801}}}{space 1}{space 1}{ralign 9:{res:{sf: .2942449}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .2272727}}}{space 1}{space 1}{ralign 9:{res:{sf: .1839827}}}{space 1}{space 1}{ralign 9:{res:{sf:  .428932}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       .5}}}{space 1}{space 1}{ralign 9:{res:{sf: .2619048}}}{space 1}{space 1}{ralign 9:{res:{sf: .5117663}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1363636}}}{space 1}{space 1}{ralign 9:{res:{sf: .1233766}}}{space 1}{space 1}{ralign 9:{res:{sf: .3512501}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .0454545}}}{space 1}{space 1}{ralign 9:{res:{sf: .0454545}}}{space 1}{space 1}{ralign 9:{res:{sf: .2132007}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1363636}}}{space 1}{space 1}{ralign 9:{res:{sf: .1233766}}}{space 1}{space 1}{ralign 9:{res:{sf: .3512501}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}{space 1}{ralign 9:{res:{sf: .2077922}}}{space 1}{space 1}{ralign 9:{res:{sf: .4558423}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .4090909}}}{space 1}{space 1}{ralign 9:{res:{sf: .2532468}}}{space 1}{space 1}{ralign 9:{res:{sf: .5032363}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        9}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf: .1818182}}}{space 1}{space 1}{ralign 9:{res:{sf: .1558442}}}{space 1}{space 1}{ralign 9:{res:{sf:  .394771}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{com}. eststo estWhites, title(Whites): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Race == "White or Caucasian"
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:  .369697}}}{space 1}{space 1}{ralign 9:{res:{sf:  .234442}}}{space 1}{space 1}{ralign 9:{res:{sf: .4841921}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       61}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .6242424}}}{space 1}{space 1}{ralign 9:{res:{sf: .2359941}}}{space 1}{space 1}{ralign 9:{res:{sf: .4857922}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      103}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1151515}}}{space 1}{space 1}{ralign 9:{res:{sf: .1025129}}}{space 1}{space 1}{ralign 9:{res:{sf: .3201764}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .2969697}}}{space 1}{space 1}{ralign 9:{res:{sf: .2100517}}}{space 1}{space 1}{ralign 9:{res:{sf:  .458314}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       49}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .3575758}}}{space 1}{space 1}{ralign 9:{res:{sf:  .231116}}}{space 1}{space 1}{ralign 9:{res:{sf: .4807453}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       59}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1030303}}}{space 1}{space 1}{ralign 9:{res:{sf: .0929786}}}{space 1}{space 1}{ralign 9:{res:{sf: .3049239}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       17}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1090909}}}{space 1}{space 1}{ralign 9:{res:{sf: .0977827}}}{space 1}{space 1}{ralign 9:{res:{sf: .3127023}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       18}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0181818}}}{space 1}{space 1}{ralign 9:{res:{sf: .0179601}}}{space 1}{space 1}{ralign 9:{res:{sf: .1340153}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0121212}}}{space 1}{space 1}{ralign 9:{res:{sf: .0120473}}}{space 1}{space 1}{ralign 9:{res:{sf: .1097602}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1272727}}}{space 1}{space 1}{ralign 9:{res:{sf: .1117517}}}{space 1}{space 1}{ralign 9:{res:{sf: .3342928}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       21}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .2969697}}}{space 1}{space 1}{ralign 9:{res:{sf: .2100517}}}{space 1}{space 1}{ralign 9:{res:{sf:  .458314}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       49}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .3878788}}}{space 1}{space 1}{ralign 9:{res:{sf: .2388766}}}{space 1}{space 1}{ralign 9:{res:{sf:   .48875}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       64}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .1575758}}}{space 1}{space 1}{ralign 9:{res:{sf: .1335551}}}{space 1}{space 1}{ralign 9:{res:{sf: .3654519}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       26}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}{space 1}{ralign 9:{res:{sf: .0181818}}}{space 1}{space 1}{ralign 9:{res:{sf: .0179601}}}{space 1}{space 1}{ralign 9:{res:{sf: .1340153}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. eststo estAll, title("All Subjects"): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .4009901}}}{space 1}{space 1}{ralign 9:{res:{sf:  .241392}}}{space 1}{space 1}{ralign 9:{res:{sf: .4913166}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       81}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .5891089}}}{space 1}{space 1}{ralign 9:{res:{sf: .2432639}}}{space 1}{space 1}{ralign 9:{res:{sf: .4932179}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      119}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .1831683}}}{space 1}{space 1}{ralign 9:{res:{sf: .1503621}}}{space 1}{space 1}{ralign 9:{res:{sf: .3877655}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       37}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf:      202}}}{space 1}{space 1}{ralign 9:{res:{sf: .8168317}}}{space 1}{space 1}{ralign 9:{res:{sf: .1503621}}}{space 1}{space 1}{ralign 9:{res:{sf: .3877655}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      165}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1122995}}}{space 1}{space 1}{ralign 9:{res:{sf: .1002243}}}{space 1}{space 1}{ralign 9:{res:{sf: .3165821}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       21}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .2887701}}}{space 1}{space 1}{ralign 9:{res:{sf: .2064861}}}{space 1}{space 1}{ralign 9:{res:{sf: .4544074}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       54}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .3743316}}}{space 1}{space 1}{ralign 9:{res:{sf: .2354666}}}{space 1}{space 1}{ralign 9:{res:{sf:  .485249}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       70}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1069519}}}{space 1}{space 1}{ralign 9:{res:{sf: .0960267}}}{space 1}{space 1}{ralign 9:{res:{sf: .3098817}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       20}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1016043}}}{space 1}{space 1}{ralign 9:{res:{sf: .0917716}}}{space 1}{space 1}{ralign 9:{res:{sf: .3029383}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0160428}}}{space 1}{space 1}{ralign 9:{res:{sf: .0158703}}}{space 1}{space 1}{ralign 9:{res:{sf: .1259773}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0106952}}}{space 1}{space 1}{ralign 9:{res:{sf: .0106377}}}{space 1}{space 1}{ralign 9:{res:{sf: .1031392}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1283422}}}{space 1}{space 1}{ralign 9:{res:{sf:  .112472}}}{space 1}{space 1}{ralign 9:{res:{sf: .3353684}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       24}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .2941176}}}{space 1}{space 1}{ralign 9:{res:{sf: .2087287}}}{space 1}{space 1}{ralign 9:{res:{sf: .4568683}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       55}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .3903743}}}{space 1}{space 1}{ralign 9:{res:{sf: .2392617}}}{space 1}{space 1}{ralign 9:{res:{sf: .4891438}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       73}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .1604278}}}{space 1}{space 1}{ralign 9:{res:{sf: .1354149}}}{space 1}{space 1}{ralign 9:{res:{sf: .3679876}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf:      187}}}{space 1}{space 1}{ralign 9:{res:{sf: .0160428}}}{space 1}{space 1}{ralign 9:{res:{sf: .0158703}}}{space 1}{space 1}{ralign 9:{res:{sf: .1259773}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. eststo estWorkers, title(Workers): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Role == 2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .3861386}}}{space 1}{space 1}{ralign 9:{res:{sf: .2394059}}}{space 1}{space 1}{ralign 9:{res:{sf: .4892913}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       39}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .5940594}}}{space 1}{space 1}{ralign 9:{res:{sf: .2435644}}}{space 1}{space 1}{ralign 9:{res:{sf: .4935224}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       60}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1485149}}}{space 1}{space 1}{ralign 9:{res:{sf: .1277228}}}{space 1}{space 1}{ralign 9:{res:{sf: .3573832}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .8514851}}}{space 1}{space 1}{ralign 9:{res:{sf: .1277228}}}{space 1}{space 1}{ralign 9:{res:{sf: .3573832}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       86}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1313131}}}{space 1}{space 1}{ralign 9:{res:{sf:  .115234}}}{space 1}{space 1}{ralign 9:{res:{sf: .3394613}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3030303}}}{space 1}{space 1}{ralign 9:{res:{sf: .2133581}}}{space 1}{space 1}{ralign 9:{res:{sf:  .461907}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3535354}}}{space 1}{space 1}{ralign 9:{res:{sf: .2308802}}}{space 1}{space 1}{ralign 9:{res:{sf:    .4805}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       35}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .0917337}}}{space 1}{space 1}{ralign 9:{res:{sf: .3028757}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .0917337}}}{space 1}{space 1}{ralign 9:{res:{sf: .3028757}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1005038}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf:  .010101}}}{space 1}{space 1}{ralign 9:{res:{sf: .1005038}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1313131}}}{space 1}{space 1}{ralign 9:{res:{sf:  .115234}}}{space 1}{space 1}{ralign 9:{res:{sf: .3394613}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       13}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}{space 1}{ralign 9:{res:{sf: .2003711}}}{space 1}{space 1}{ralign 9:{res:{sf: .4476283}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       27}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .3939394}}}{space 1}{space 1}{ralign 9:{res:{sf: .2411874}}}{space 1}{space 1}{ralign 9:{res:{sf: .4911083}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       39}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .1919192}}}{space 1}{space 1}{ralign 9:{res:{sf: .1566687}}}{space 1}{space 1}{ralign 9:{res:{sf:  .395814}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       19}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+
+{com}. eststo estEmployers, title(Employers): estpost sum Male Female Race1 Race2 Age1-Age6 Education1-Education6 if Role == 1
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Male}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .4158416}}}{space 1}{space 1}{ralign 9:{res:{sf: .2453465}}}{space 1}{space 1}{ralign 9:{res:{sf: .4953247}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       42}}}{space 1}
+{space 0}{space 0}{ralign 12:Female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .5841584}}}{space 1}{space 1}{ralign 9:{res:{sf: .2453465}}}{space 1}{space 1}{ralign 9:{res:{sf: .4953247}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       59}}}{space 1}
+{space 0}{space 0}{ralign 12:Race1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .2178218}}}{space 1}{space 1}{ralign 9:{res:{sf: .1720792}}}{space 1}{space 1}{ralign 9:{res:{sf: .4148243}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       22}}}{space 1}
+{space 0}{space 0}{ralign 12:Race2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf:      101}}}{space 1}{space 1}{ralign 9:{res:{sf: .7821782}}}{space 1}{space 1}{ralign 9:{res:{sf: .1720792}}}{space 1}{space 1}{ralign 9:{res:{sf: .4148243}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       79}}}{space 1}
+{space 0}{space 0}{ralign 12:Age1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0909091}}}{space 1}{space 1}{ralign 9:{res:{sf: .0835946}}}{space 1}{space 1}{ralign 9:{res:{sf: .2891272}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}
+{space 0}{space 0}{ralign 12:Age2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .2727273}}}{space 1}{space 1}{ralign 9:{res:{sf:  .200627}}}{space 1}{space 1}{ralign 9:{res:{sf:  .447914}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       24}}}{space 1}
+{space 0}{space 0}{ralign 12:Age3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3977273}}}{space 1}{space 1}{ralign 9:{res:{sf: .2422936}}}{space 1}{space 1}{ralign 9:{res:{sf: .4922333}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       35}}}{space 1}
+{space 0}{space 0}{ralign 12:Age4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .1136364}}}{space 1}{space 1}{ralign 9:{res:{sf: .1018809}}}{space 1}{space 1}{ralign 9:{res:{sf: .3191878}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}
+{space 0}{space 0}{ralign 12:Age5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .1022727}}}{space 1}{space 1}{ralign 9:{res:{sf: .0928683}}}{space 1}{space 1}{ralign 9:{res:{sf: .3047431}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        9}}}{space 1}
+{space 0}{space 0}{ralign 12:Age6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0227273}}}{space 1}{space 1}{ralign 9:{res:{sf:  .022466}}}{space 1}{space 1}{ralign 9:{res:{sf: .1498868}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}
+{space 0}{space 0}{ralign 12:Education1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0113636}}}{space 1}{space 1}{ralign 9:{res:{sf: .0113636}}}{space 1}{space 1}{ralign 9:{res:{sf: .1066004}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:Education2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:     .125}}}{space 1}{space 1}{ralign 9:{res:{sf: .1106322}}}{space 1}{space 1}{ralign 9:{res:{sf: .3326142}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Education3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3181818}}}{space 1}{space 1}{ralign 9:{res:{sf: .2194357}}}{space 1}{space 1}{ralign 9:{res:{sf: .4684397}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       28}}}{space 1}
+{space 0}{space 0}{ralign 12:Education4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .3863636}}}{space 1}{space 1}{ralign 9:{res:{sf: .2398119}}}{space 1}{space 1}{ralign 9:{res:{sf: .4897059}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       34}}}{space 1}
+{space 0}{space 0}{ralign 12:Education5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:     .125}}}{space 1}{space 1}{ralign 9:{res:{sf: .1106322}}}{space 1}{space 1}{ralign 9:{res:{sf: .3326142}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       11}}}{space 1}
+{space 0}{space 0}{ralign 12:Education6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf:       88}}}{space 1}{space 1}{ralign 9:{res:{sf: .0340909}}}{space 1}{space 1}{ralign 9:{res:{sf: .0333072}}}{space 1}{space 1}{ralign 9:{res:{sf: .1825026}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estAll estBlacks estWhites estEmployers estWorkers using "${c -(}outdir{c )-}\Demographic.tex", 
+>                 label mtitles 
+>                 main(mean) b(2) 
+>                 nostar nonote nogap
+>                 width(\hsize)
+>                 refcat(Male "Gender" Race1 "Race" Age1 "Age" Education1 "Education",nolabel)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\Demographic.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. 
+. * Treatment Effects 
+. 
+. do                      "${c -(}codedir{c )-}\_3_TreatmentEffects.do"
+{txt}
+{com}. /* 
+> This file summarize the treatment effects for the paper. 
+> 
+> Input: 
+>         Cleaned Data
+> Output:
+>         Table 2: Effort choices by treatment
+>         Table 3: OLS Regression results for effort
+>         Figure 1: Piece rate and effort
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

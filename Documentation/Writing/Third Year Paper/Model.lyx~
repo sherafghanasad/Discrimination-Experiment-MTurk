@@ -1,0 +1,1120 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing other 1.5
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 4cm
+\rightmargin 4cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Discrimination in an Online Labor Market
+\end_layout
+
+\begin_layout Author
+Sher Afghan Asad
+\end_layout
+
+\begin_layout Section
+Model and Treatments
+\end_layout
+
+\begin_layout Standard
+Assuming risk neutrality, a worker 
+\begin_inset Formula $i\in\left\{ B,W\right\} $
+\end_inset
+
+ solves the following problem when working for an employer 
+\begin_inset Formula $j\in\left\{ B,W\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+ denote the black or white race of an agent (employer or worker) respectively;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{i}+d_{ij}+p_{j})e_{ij}+\rho_{ij}\zeta_{ij}(p_{j})\sigma_{ij}(e_{ij})-c(e_{ij})\right)\label{eq:utility}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ is the number of points (on a button-pressing task) scored by worker 
+\begin_inset Formula $i$
+\end_inset
+
+ when working for employer 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $F$
+\end_inset
+
+ is the fixed money paid for participating in the experiment, 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ (as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+) captures the sense of duty, norm, intrinsic motivation, and competitiveness
+ of worker towards the task.
+ 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ is the the taste (like or dislike) of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the employer 
+\begin_inset Formula $j$
+\end_inset
+
+ per unit of effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ a' la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ is the piece rate chosen by the employer 
+\begin_inset Formula $j$
+\end_inset
+
+, we allow employers to select piece rate between 0 cents and 10 cents per
+ 100 points (in increments of 3 cents).
+ The term 
+\begin_inset Formula $\rho_{ij}\zeta_{ij}(p_{j})\sigma_{ij}(e_{ij})$
+\end_inset
+
+ models reciprocity a' al 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Falk2006"
+
+\end_inset
+
+.
+\begin_inset Formula $\rho_{ij}$
+\end_inset
+
+ is the sensitivity of reciprocity by worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\zeta_{ij}(p_{j})$
+\end_inset
+
+ is the kindness term that associates kindness perception to the piece rate
+ 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ by the worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\sigma(e_{ij})$
+\end_inset
+
+ is the reciprocity term that capture the reciprocal response by worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards employer 
+\begin_inset Formula $j$
+\end_inset
+
+ given the kindness of the employer.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ These terms are defined as follows; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\zeta_{ij}(p_{j})=\underbrace{\left(F+(s_{i}+d_{ij}+p_{j})e_{ij}^{\prime\prime}-c(e_{ij}^{\prime\prime})\right)}_{\begin{array}{c}
+\text{ }\text{Worker's belief about employer's }\\
+\text{belief of worker's payoff.}
+\end{array}}-\underbrace{\left((v-p_{j})e_{ij}^{\prime\prime}\right)}_{\begin{array}{c}
+\text{Worker's belief about employer's}\\
+\text{belief of employer's payoff. }
+\end{array}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sigma_{ij}(e_{ij})=\underbrace{\left((v-p_{j})e_{ij}\right)}_{\text{Employer's payoff}}-\underbrace{\left((v-p_{j})e_{ij}^{\prime\prime}\right)}_{\begin{array}{c}
+\text{Worker's belief about employer's}\\
+\text{belief of employer's payoff. }
+\end{array}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ij}^{\prime\prime}$
+\end_inset
+
+ denote the second order belief of worker about the effort i.e.
+ worker's belief about employer's belief of worker's effort.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+These beliefs can be elicited directly from workers by asking questions
+ such as 
+\shape italic
+
+\begin_inset Quotes eld
+\end_inset
+
+How many points do you think your employer expects you to score in this
+ task?
+\begin_inset Quotes erd
+\end_inset
+
+.
+ And to incentive such elicitation we can say 
+\begin_inset Quotes eld
+\end_inset
+
+Your employer already revealed his/her guess of points that you will score,
+ if your guess is within 100 points of the employer's guess, you will be
+ paid extra 10 cents.
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Obviously, we will collect data on employer's belief from employer when
+ they choose piece rate.
+ 
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $v$
+\end_inset
+
+ is the exogenous per unit return (value) to employer from worker's effort.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $c(e_{ij})$
+\end_inset
+
+ is the cost of effort, which is assumed to be same for all workers 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ We assume the regularity conditions 
+\begin_inset Formula $C'()>0$
+\end_inset
+
+, 
+\begin_inset Formula $C''()>0$
+\end_inset
+
+, and 
+\begin_inset Formula $lim_{e\rightarrow\infty}C'(e)=\infty.$
+\end_inset
+
+ Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ we assume cost function to be a power function or exponential function
+ i.e.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}\label{eq:Power Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or 
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{kexp^{\gamma e}}{\gamma}\label{eq:Exponential Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These functions differ in their elasticity of effort with respect to the
+ value of effort.
+ Power cost function 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Power Cost Function"
+
+\end_inset
+
+characterize a constant elasticity of effort given by 
+\begin_inset Formula $1/\gamma$
+\end_inset
+
+ while exponential cost function 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Exponential Cost Function"
+
+\end_inset
+
+ implies a decreasing elasticity as effort increases.
+ Both functions requires the estimation of unknowns 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ which we will back out using observed effort at different piece rates.
+\end_layout
+
+\begin_layout Standard
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ leads to following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+d_{ij}+p_{j}+\rho_{ij}(v-p_{j})\zeta_{ij}(p_{j})\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With power cost function this translates to; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\left(\frac{s_{i}+d_{ij}+p_{j}+\rho_{ij}(v-p_{j})\zeta_{ij}(p_{j})}{k}\right)^{1/\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While exponential cost function lead to the solution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\frac{1}{\gamma}log\left(\frac{s_{i}+d_{ij}+p_{j}+\rho_{ij}(v-p_{j})\zeta_{ij}(p_{j})}{k}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given the above set-up, we design our treatments to be able to identify
+ 
+\begin_inset Formula $k,$
+\end_inset
+
+ 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+, and 
+\begin_inset Formula $\rho_{ij}$
+\end_inset
+
+.
+ We make a simplifying assumption that the workers of type 
+\begin_inset Formula $i$
+\end_inset
+
+ are homogeneous given a treatment i.e.
+ they will make the same effort choice in a given treatment.
+ 
+\end_layout
+
+\begin_layout Subsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+We design baseline treatment to identify baseline parameters of the above
+ model (i.e.
+ 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, 
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+).
+ So to ensure that other parameter values are set to zero, we do following;
+ 
+\end_layout
+
+\begin_layout Standard
+1) Employer's identity is not revealed to worker ensuring 
+\begin_inset Formula $d_{ij}=0$
+\end_inset
+
+, 2) Employer do not choose piece rate for worker and rather piece rate
+ is given exogenously to the worker ensuring 
+\begin_inset Formula $\rho_{ij}=0$
+\end_inset
+
+.
+ This implied that the effort in this treatment is given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+p_{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using 3 values for piece rate, we can exactly identify the 3 unknown parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+In the baseline treatment an employer chooses a wage, worker observes the
+ wage and then work on the task.
+ We allow employers to select a wage between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $10$
+\end_inset
+
+ cents while workers work on a simple button-pressing task for 10 minutes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We use the exact same task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ From the M-Turk standards this variation in piece rates is substantial
+ for the 10 minute task.
+ Employers also offer a flat fee (
+\begin_inset Formula $F$
+\end_inset
+
+) of 
+\begin_inset Formula $\$1$
+\end_inset
+
+ to each worker.
+\end_layout
+
+\begin_layout Standard
+These piece rates provide evidence on the responsiveness of effort to incentives
+ for this particular task and hence allow us to estimate parameters of cost
+ function which will be used to estimate other behavioral parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+Formally, in the baseline treatment, employer 
+\begin_inset Formula $j$
+\end_inset
+
+ selects a piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ for worker 
+\begin_inset Formula $i$
+\end_inset
+
+, worker observe the piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ and then choose effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+.
+ Worker do no observe the identity of the employer which implies that for
+ any worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $s_{iW}=s_{iB}=s_{i}$
+\end_inset
+
+.
+ The equilibrium effort 
+\begin_inset Formula $e_{i}^{\star}$
+\end_inset
+
+ in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{\star}=c'^{-1}\left(s_{i}+p\right)\text{ for }i\in\left\{ B,W\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This treatment will give us the baseline measure of effort of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ for the given piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ For each 
+\begin_inset Formula $i$
+\end_inset
+
+, the solution of effort has one behavioral unknown (
+\begin_inset Formula $s_{i}$
+\end_inset
+
+), and two unknowns from cost function (
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+).
+ To back out these parameters we use effort corresponding to three different
+ piece rates which gives us three equations to identify three parameters.
+ 
+\end_layout
+
+\begin_layout Subsection
+Race Salient Treatments
+\end_layout
+
+\begin_layout Standard
+In the race salient treatment, workers will observe the race of the matched
+ employer along with the selected piece rate and then work on a task.
+ In the presence of group biases i.e.
+ when workers derive different level of social preference for different
+ employer's group then;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{RS}=c'^{-1}\left(\left(s_{i}+\Delta s_{ij}^{p}\right)+p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are implicitly assuming 
+\begin_inset Formula $s_{ij}=s_{i}+\Delta s_{ij}$
+\end_inset
+
+ i.e.
+ the parameter 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ can be separated into two components 1) 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+, which is independent of the employer type and include everything such
+ as sense of duty, norm, intrinsic motivation, competitiveness of worker
+ etc.
+ and 2) 
+\begin_inset Formula $\Delta s_{ij}$
+\end_inset
+
+, which represents additional utility or dis-utility from working for the
+ employer of type 
+\begin_inset Formula $j$
+\end_inset
+
+ which we interpret as taste towards the employer a' la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Delta s_{ij}^{RS}>0$
+\end_inset
+
+ 
+\begin_inset Formula $\left(\Delta s_{ij}^{RS}<0\right)$
+\end_inset
+
+ will represent the increase (decrease) in effort because of taste of worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards (against) the employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $j\neq i$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta s_{ij}^{RS}<0$
+\end_inset
+
+ will be interpreted as the decrease in effort due to taste bias of worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the opposite group employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ In other words, the difference in provided effort between the white employer
+ and black employer 
+\begin_inset Formula $\left(e_{iW}^{RS}-e_{iB}^{RS}\right)$
+\end_inset
+
+ for a given piece rate is construed as a difference which is only driven
+ by the taste bias of the workers of group 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ The main goal of this research is to identify the parameter 
+\begin_inset Formula $\Delta s_{ij}^{RS}$
+\end_inset
+
+ at different piece rates which we do in Section 6.
+ 
+\end_layout
+
+\begin_layout Section
+Experiment Design
+\end_layout
+
+\begin_layout Standard
+The main goal of this study is to document the evidence of discrimination
+ in the online labor market.
+ We designed the experiment to allow for the possibility of discrimination
+ in effort by workers towards the employers.
+ Our experiment is carefully designed to ensure that observed difference
+ in effort could only realize because of the taste bias of workers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Recruitment of Subjects
+\end_layout
+
+\begin_layout Standard
+The subjects for this experiment were recruited from an online labor market,
+ Amazon's Mechanical Turk.
+ Mechanical Turk is a crowd-sourcing web-service that allows employers (called
+ requester) to get tasks (called Human Intelligence Tasks (HITs)) executed
+ by employees (called workers) in exchange for a wage (called reward).
+ Mechanical Turk is a widely used platform in research in economics and
+ give access to large pool of applicants at a much affordable rate hence
+ allowing for the well powered study.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2010"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2014"
+
+\end_inset
+
+ for discussion on demographic characteristics and representation of subjects
+ from Mechanical Turk.
+ 
+\end_layout
+
+\begin_layout Standard
+To recruit subjects we posted the screen-er survey as the HIT on Mechanical
+ Turk with the following description 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Fill out this 2-minutes screener survey to qualify for the immediate second
+ study (that study will take ~15 minutes and pay 1 dollar plus bonus).
+ You MUST use your webcam and take a picture (following guidelines) to be
+ considered for the study.
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\emph default
+The screen-er survey is given in the Appendix A.
+ 
+\end_layout
+
+\begin_layout Standard
+Based on the responses in the screen-er survey, we invited participants
+ above the age of 18 who reported their race as 
+\begin_inset Quotes eld
+\end_inset
+
+Black or African American
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+White or Caucasian
+\begin_inset Quotes erd
+\end_inset
+
+ to participate in the experiment.
+ Everyone else was shown the exit screen.
+ 
+\end_layout
+
+\begin_layout Standard
+Since our choice of task is same as 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+, we can use results from their study to determine the sample size that
+ can achieve sufficient power for our study.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ found that the points scored in each treatment have a standard deviation
+ of around 660 points.
+ Assuming this standard deviation for each treatment and assuming a minimum
+ detectable effect of 185 points between two treatments, we will need around
+ 200 observations in each sub-treatment to have a power of 80 percent.
+ This implies that we will need 200 x 12= 2,400 observations in total for
+ all 12 sub-treatments.
+ In our design one observation constitute two subjects - one employer and
+ one worker - therefore we need to recruit around 400 subjects in each treatment
+ implying a total sample of size 4,800.
+ These calculations are obviously for the full study, and they assume that
+ we have control on the number of subjects in each treatment.
+ As we learned from the pilot, we need to recruit 10 white employers to
+ find one black employer and thus these sub-treatments are not going to
+ have balanced sample sizes.
+ In the light of this, we will be revising our design for the full study.
+\end_layout
+
+\begin_layout Subsection
+Task
+\end_layout
+
+\begin_layout Standard
+We designed this experiment to observe whether workers discriminate in their
+ effort when working for different employer types and then to back out the
+ behavioral parameter of distaste.
+ For this purpose we needed a task which is costly to workers.
+ We settled on a button-pressing task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+.
+ The task involves alternating presses of 
+\begin_inset Quotes eld
+\end_inset
+
+a
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+b
+\begin_inset Quotes erd
+\end_inset
+
+ on keyboard for 10 minutes.
+ We settled on this task because it is simple to understand and have features
+ that parallel clerical jobs: it involves repetition and it gets tiring,
+ thus testing the motivation of the workers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Experiment Flow
+\end_layout
+
+\begin_layout Standard
+The experiment proceeded as follows: (1) HIT was posted on Mechanical Turk
+ for a screen-er survey, (2) subjects were presented with the consent form,
+ (3) those who consented and met the criteria were shown a screen to initiate
+ the experiment, (4) upon initiation a subject was randomly assigned to
+ one of the treatment groups and then to the role of employer or worker.
+ The first person to initiate the experiment was always assigned the role
+ of employer while the second person was made the worker.
+ One employer and one worker formed a group for this experiment.
+ The flow of the screenshots of the screens that subjects saw are given
+ in Appendix A.
+ The application for the experiment was designed using oTree 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Chen2016}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The instructions to the employers and workers for each treatment are given
+ in Appendix A.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+In the baseline treatment employers were informed (truthfully) that they
+ will be paid 10 cents for every 100 points scored by the randomly matched
+ worker and they can choose if they want to transfer part of 10 cents to
+ workers as piece rate.
+ Employers were allowed to select a piece rate of 0, 3, 6 or 9 cents for
+ the matched worker.
+ Employers did not know the identity of worker for whom the piece rate was
+ selected neither did worker observe the identity of employer before starting
+ to work.
+ Once an employer selected a piece rate, a matched workers was informed
+ of the selected piece rate and was given 10 minutes to work on the task.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Race Salient Treatment
+\end_layout
+
+\begin_layout Standard
+The race salient treatment was identical to baseline treatment except that
+ when a worker observed the selected piece rate, he/she also saw the picture
+ that was taken by the matched employer when he/she selected the piece rate.
+ When employers selected the piece rate they were instructed to write the
+ selected piece rate on a piece of paper and take a picture with only the
+ part of their hand showing in the picture.
+ Showing hand with piece rate is a subtle way of revealing the race 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Doleac2013}
+\end_layout
+
+\end_inset
+
+ and avoid psychological confounds which are associated with facial pictures
+ such as attractiveness and trustworthiness 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Eckel2011}
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "C:/Users/asads/Dropbox/References/Discrimination"
+options "bibtotoc,apacitex"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

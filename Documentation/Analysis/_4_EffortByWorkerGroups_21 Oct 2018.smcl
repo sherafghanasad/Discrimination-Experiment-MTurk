@@ -1,0 +1,141 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Analysis\_4_EffortByWorkerGroups_21 Oct 2018.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Oct 2018, 16:26:15
+{txt}
+{com}. 
+. use     "${c -(}outdir{c )-}\CleanedData", clear
+{txt}
+{com}. 
+. * Effort by the identity of worker in the Race Salient treatment
+. 
+. keep            if Treatment == "Race Salient"
+{txt}(108 observations deleted)
+
+{com}. tostring        PieceRate, gen(PR)
+{txt}PR generated as {res:str3}
+
+{com}. replace         PR = "0.00" if PR == "0"
+{txt}variable {bf}PR{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str4{sf}
+{txt}(18 real changes made)
+
+{com}. replace         PR = "0.03" if PR == ".03"
+{txt}(28 real changes made)
+
+{com}. replace         PR = "0.06" if PR == ".06"
+{txt}(42 real changes made)
+
+{com}. replace         PR = "0.09" if PR == ".09"
+{txt}(6 real changes made)
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. eststo estBB, title(Black-Black): estpost tabstat Points if Role == 2 & Race == "Black or African-American" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2070}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2070}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estBW, title(Black-White): estpost tabstat Points if Role == 2 & Race == "Black or African-American" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      109}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2395}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:     2175}}}{space 1}{space 1}{ralign 9:{res:{sf: 374.7666}}}{space 1}{space 1}{ralign 9:{res:{sf:      265}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:   1713.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 1096.248}}}{space 1}{space 1}{ralign 9:{res:{sf: 548.1238}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. eststo estWB, title(White-Black): estpost tabstat Points if Role == 2 & Race == "White or Caucasian" & EmployerRace == "Black or African-American", statistics(count mean sd semean) by(PR) 
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}{space 1}{ralign 9:{res:{sf:   1881.4}}}{space 1}{space 1}{ralign 9:{res:{sf: 461.0827}}}{space 1}{space 1}{ralign 9:{res:{sf: 206.2025}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2133}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}{space 1}{ralign 9:{res:{sf:        .}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:  2623.25}}}{space 1}{space 1}{ralign 9:{res:{sf: 850.3965}}}{space 1}{space 1}{ralign 9:{res:{sf: 425.1983}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}{space 1}{ralign 9:{res:{sf:   2203.3}}}{space 1}{space 1}{ralign 9:{res:{sf: 687.0536}}}{space 1}{space 1}{ralign 9:{res:{sf: 217.2654}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. eststo estWW, title(White-White): estpost tabstat Points if Role == 2 & Race == "White or Caucasian" & EmployerRace == "White or Caucasian", statistics(count mean sd semean) by(PR)
+
+{txt}Summary statistics: count mean sd semean
+     for variables: Points
+  by categories of: PR
+
+{space 0}{space 0}{ralign 12:PR}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(semean)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:   1163.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 1644.023}}}{space 1}{space 1}{ralign 9:{res:{sf:   1162.5}}}{space 1}
+{space 0}{space 0}{ralign 12:2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       12}}}{space 1}{space 1}{ralign 9:{res:{sf:   1824.5}}}{space 1}{space 1}{ralign 9:{res:{sf: 959.3726}}}{space 1}{space 1}{ralign 9:{res:{sf:  276.947}}}{space 1}
+{space 0}{space 0}{ralign 12:3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}{space 1}{ralign 9:{res:{sf: 2320.733}}}{space 1}{space 1}{ralign 9:{res:{sf: 409.1569}}}{space 1}{space 1}{ralign 9:{res:{sf: 105.6439}}}{space 1}
+{space 0}{space 0}{ralign 12:4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:     2654}}}{space 1}{space 1}{ralign 9:{res:{sf: 585.8131}}}{space 1}{space 1}{ralign 9:{res:{sf: 338.2194}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       32}}}{space 1}{space 1}{ralign 9:{res:{sf: 2093.563}}}{space 1}{space 1}{ralign 9:{res:{sf: 806.6735}}}{space 1}{space 1}{ralign 9:{res:{sf: 142.6011}}}{space 1}
+
+category labels saved in macro e(labels)
+
+{com}. 
+. #d ;  
+{txt}delimiter now ;
+{com}. esttab  estWW estBW estWB  estBB using "${c -(}outdir{c )-}\EffortByWorkerGroup.tex", 
+>                 label mtitles
+>                 cells("count(fmt(0) label(N\?))  mean(fmt(2) label(Mean (s.e)\?))" "b(label(\hspace{c -(}0.01cm{c )-})) semean(fmt(2) par label(\hspace{c -(}0.01cm{c )-}))")
+>                 noobs
+>                 coeflabels(1 "0.00" 2 "0.03" 3 "0.06" 4 "0.09")
+>                 nostar gaps
+>                 width(\hsize)
+>                 replace
+>                 ;
+{res}{txt}(output written to {browse  `"C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Analysis\EffortByWorkerGroup.tex"'})
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. 
+. * Fairness and effort choices
+. 
+. do                      "${c -(}codedir{c )-}\_5_FairnessAndEffort.do"
+{txt}
+{com}. /* 
+> This file analyses effort choices and fairness perceptions in all the data. 
+> 
+> Input: 
+>         Cleaned Data
+> Output:
+>         Figure 2: Chosen piece rate vs. fair piece rate
+>         Figure 3: Fairness Perception
+> */      
+. 
+. clear           all
+{txt}
+{com}. set                     more off
+{txt}
+{com}. capture         log close
+{smcl}
+{com}{sf}{ul off}

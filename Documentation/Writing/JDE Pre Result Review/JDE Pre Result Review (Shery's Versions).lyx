@@ -1,0 +1,2127 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\usepackage{bbm}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing other 1.5
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 4cm
+\rightmargin 4cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Do workers discriminate against their out-group employers? Evidence from
+ an online labor market
+\end_layout
+
+\begin_layout Author
+Sher Afghan Asad, Ritwik Banerjee, and Joydeep Bhattacharya
+\end_layout
+
+\begin_layout Abstract
+A large body of literature in economics has demonstrated that prejudice
+ or bias of the majority group towards members of an out-group identity
+ – whether it be racial, religious, ethnic or gender in origin – is widespread
+ in labor markets.
+ Such biases often lead to discrimination when, all else same, a less-favorable
+ treatment is systematically meted out to the out-group relative to the
+ majority group.
+ Such prejudicial treatment may reveal itself on either the extensive margin
+ (the decision-to-hire stage) or the intensive margin (how much to pay,
+ what sort of job conditions and work hours to offer existing employees,
+ etc.).
+ It is commonly believed that labor market discrimination is one-sided:
+ driven by employers toward their out-group employees.
+ In this research, we restrict attention to racial identity and seek to
+ study possible discrimination on the intensive margin in the reverse direction,
+ i.e., we ask, do workers discriminate on the intensive margin (say, by shirking
+ or under-providing effort) for an out-race employer relative to an otherwise-id
+entical, own-race one?
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Section
+Model and Treatments
+\end_layout
+
+\begin_layout Standard
+We closely follow the model of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ for the worker side and modify it to incorporate the possibility of discriminat
+ion from the worker side.
+ Assuming risk neutrality, a worker 
+\begin_inset Formula $i\in\left\{ B,W\right\} $
+\end_inset
+
+ solves the following problem when working for an employer 
+\begin_inset Formula $j\in\left\{ U,B,W\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $U$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+ denote the unknown, black or white race of an agent (employer or worker)
+ respectively;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{i}+\rho_{ij}\mathbbm{1}_{Gift}+\alpha_{ij}v_{j}+p)e_{ij}-c(e_{ij})\right)\label{eq:utility}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ is the number of points (on a button-pressing task) scored by worker 
+\begin_inset Formula $i$
+\end_inset
+
+ when working for an employer 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $F$
+\end_inset
+
+ is the fixed money paid for participating in the experiment, 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ captures the sense of duty, norm, intrinsic motivation, and competitiveness
+ of worker towards the task which is independent of the employer.
+ 
+\begin_inset Formula $\rho_{ij}$
+\end_inset
+
+ is the reciprocity parameter per unit of effort which is kicked in whenever
+ an employer 
+\begin_inset Formula $j$
+\end_inset
+
+ awards gift to the worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+`a
+\end_layout
+
+\end_inset
+
+ la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gneezy2006"
+
+\end_inset
+
+.
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbbm{1}_{Gift}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ is an indicator function which assumes a value 
+\begin_inset Formula $1$
+\end_inset
+
+ when a gift is rewarded by the employer, 
+\begin_inset Formula $0$
+\end_inset
+
+ otherwise.
+ 
+\begin_inset Formula $\alpha_{ij}$
+\end_inset
+
+ captures the altruistic preference of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards employer 
+\begin_inset Formula $j$
+\end_inset
+
+ per unit of effort 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+`a
+\end_layout
+
+\end_inset
+
+ la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1974"
+
+\end_inset
+
+ given that 
+\begin_inset Formula $v_{j}$
+\end_inset
+
+ is the value of the unit of effort to the employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ is the piece rate per unit of effort.
+ 
+\begin_inset Formula $c(e_{ij})$
+\end_inset
+
+ is the cost of effort, which is assumed to be the same for all workers
+ 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ We assume the regularity conditions 
+\begin_inset Formula $C'()>0$
+\end_inset
+
+, 
+\begin_inset Formula $C''()>0$
+\end_inset
+
+, and 
+\begin_inset Formula $lim_{e\rightarrow\infty}C'(e)=\infty.$
+\end_inset
+
+ Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "DellaVigna2016"
+
+\end_inset
+
+ we assume the cost function to be either a power function or an exponential
+ function i.e.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}\label{eq:Power Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or 
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{kexp^{\gamma e}}{\gamma}\label{eq:Exponential Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Power cost function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Power Cost Function"
+
+\end_inset
+
+) characterizes a constant elasticity of effort with respect to return to
+ effort given by 
+\begin_inset Formula $1/\gamma$
+\end_inset
+
+, while exponential function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Exponential Cost Function"
+
+\end_inset
+
+) represents decreasing elasticity of effort with respect to return to effort
+ given by 
+\begin_inset Formula $1/log(r/k)$
+\end_inset
+
+ where 
+\begin_inset Formula $r$
+\end_inset
+
+ is the return to the effort.
+ Both functional forms require the estimation of unknowns 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ which we will back out using observed effort at different piece rates.
+ 
+\end_layout
+
+\begin_layout Standard
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ leads to the following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+\rho_{ij}\mathbbm{1}_{Gift}+\alpha_{ij}v_{j}+p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With power cost function this translates to; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\left(\frac{s_{i}+\rho_{ij}\mathbbm{1}_{Gift}+\alpha_{ij}v_{j}+p}{k}\right)^{1/\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While exponential cost function leads to the solution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\frac{1}{\gamma}log\left(\frac{s_{i}+\rho_{ij}\mathbbm{1}_{Gift}+\alpha_{ij}v_{j}+p}{k}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We make a simplifying assumption that the workers of type 
+\begin_inset Formula $i$
+\end_inset
+
+ are homogeneous given a treatment i.e.
+ they will make the same effort choice in a given treatment.
+ We later relax this assumption to account for heterogeneity in effort within
+ a treatment.
+ 
+\end_layout
+
+\begin_layout Subsection
+Piece Rate Treatments
+\end_layout
+
+\begin_layout Standard
+In the piece rate treatments, each worker works on a task at a given piece
+ rate.
+ We assign four different piece rates between 0 and 10 cents.
+ In the first treatment, workers are paid no piece rate.
+ In the next three treatments, piece rates are 3, 6 and 9 cents per unit
+ of effort.
+ From the M-Turk standards, this variation in piece rates is substantial
+ and is likely to elicit significant change in effort.
+ The piece rates are earned on top of $1 fixed participation fee.
+ These four treatments differ only in the piece rates, everything else remains
+ exactly the same.
+\end_layout
+
+\begin_layout Standard
+These piece rates provide evidence on the responsiveness of effort to incentives
+ for our particular task and hence allow us to estimate the baseline parameters
+ (
+\begin_inset Formula $s_{i},$
+\end_inset
+
+ 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+) which will be used to estimate other behavioral parameters.
+ Formally, in the piece rate treatments, worker 
+\begin_inset Formula $i$
+\end_inset
+
+ observes the piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ and then chooses effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+.
+ There is no employer 
+\begin_inset Formula $j$
+\end_inset
+
+ in these treatments which implies that for any worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha_{ij}=0$
+\end_inset
+
+ and there is no gift from the employer implying 
+\begin_inset Formula $\mathbbm{1}_{Gift}=0$
+\end_inset
+
+.
+ The equilibrium efforts 
+\begin_inset Formula $e_{i}^{\star}$
+\end_inset
+
+ in these treatments is thus given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{\star}=c'^{-1}\left(s_{i}+p\right)\text{ for }i\in\left\{ B,W\right\} \text{ and \ensuremath{p\in\{0,3,6,9\}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For each 
+\begin_inset Formula $i$
+\end_inset
+
+, the solution of effort has one behavioral unknown (
+\begin_inset Formula $s_{i}$
+\end_inset
+
+), and two unknowns from the cost function (
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+).
+ To back out these parameters we use effort corresponding to three different
+ piece rates which gives us three equations to identify these three parameters.
+ 
+\end_layout
+
+\begin_layout Subsection
+Altruism Treatments
+\end_layout
+
+\begin_layout Standard
+In the altruism treatments, each worker is matched to an employer (truthfully)
+ and observes the (true) value of the effort to the matched employer.
+ Each employer earns 1 cent for every 100 points scored by the matched worker.
+ We set the piece rate to 0.
+ There are three treatments under altruism treatments.
+ In the first treatment (altruism baseline) a worker does not observe the
+ identity of the matched employer.
+ In the 'altruism black' and 'altruism white' treatment the matched employer
+ is black and white respectively.
+ Note that we only model 
+\begin_inset Quotes eld
+\end_inset
+
+pure altruism
+\begin_inset Quotes erd
+\end_inset
+
+ in the above setup, the 
+\begin_inset Quotes eld
+\end_inset
+
+warm glow
+\begin_inset Quotes erd
+\end_inset
+
+ of the workers, if any, is captured in the 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+ parameter, which we don't aim to disentangle.
+ 
+\end_layout
+
+\begin_layout Standard
+Formally, in the altruism treatments, worker 
+\begin_inset Formula $i$
+\end_inset
+
+ observes the zero piece rate (
+\begin_inset Formula $p=0$
+\end_inset
+
+), the value of the unit of effort to the employer 
+\begin_inset Formula $j$
+\end_inset
+
+ (
+\begin_inset Formula $v=0.01$
+\end_inset
+
+), and then chooses effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+.
+ There is no gift from the employer implying 
+\begin_inset Formula $\mathbbm{1}_{Gift}=0$
+\end_inset
+
+.
+ The equilibrium efforts 
+\begin_inset Formula $e_{ij}^{\star}$
+\end_inset
+
+ in these treatments is thus given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+\alpha_{ij}v_{j}\right)\text{ for }i\in\{B,W\}\text{ and \ensuremath{j\in\left\{ U,B,W\right\} }}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are implicitly assuming 
+\begin_inset Formula $\alpha_{ij}=\alpha_{i}+\Delta\alpha_{ij}$
+\end_inset
+
+, i.e.
+ the parameter 
+\begin_inset Formula $\alpha_{ij}$
+\end_inset
+
+ can be separated into two components 1) 
+\begin_inset Formula $\alpha_{i}$
+\end_inset
+
+, which is independent of employer racial identity, identified when 
+\begin_inset Formula $j=U$
+\end_inset
+
+ and 2) 
+\begin_inset Formula $\Delta\alpha_{ij}$
+\end_inset
+
+, which represents the difference in altruistic preferences which are driven
+ solely by the race of the employer.
+ 
+\begin_inset Formula $\Delta\alpha_{iW}>\Delta\alpha_{iB}$
+\end_inset
+
+ (
+\begin_inset Formula $\Delta\alpha_{iW}<\Delta\alpha_{iB}$
+\end_inset
+
+) represents the higher (lower) effort for whites as compared to blacks
+ because of greater (lesser) altruistic preference towards the former as
+ compared to latter.
+ In other words, the difference in effort between the treatments `altruism
+ white' and `altruism black' is interpreted as resulting from the differential
+ altruistic preferences of the workers.
+ The three altruism treatments help us identify 
+\begin_inset Formula $\alpha_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta\alpha_{iB}$
+\end_inset
+
+, and 
+\begin_inset Formula $\Delta\alpha_{iW}$
+\end_inset
+
+ given the baseline parameters.
+ 
+\end_layout
+
+\begin_layout Subsection
+Reciprocity Treatments
+\end_layout
+
+\begin_layout Standard
+Reciprocity treatments build on from the altruism treatments and add a positive
+ monetary gift (20 cents) from the employer to the worker.
+ Rest of the details are exactly the same as in altruism treatments.
+ The equilibrium effort is thus given as; 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{i}+\alpha_{ij}v_{j}+\rho_{ij}\right)\text{ for }i\in\{B,W\}\text{ and \ensuremath{j\in\left\{ U,B,W\right\} }}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once again we are implicitly assuming 
+\begin_inset Formula $\rho_{ij}=\rho_{i}+\Delta\rho_{ij}$
+\end_inset
+
+, i.e.
+ the parameter 
+\begin_inset Formula $\rho_{ij}$
+\end_inset
+
+ can be separated into two components 1) 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+, which is independent of employer racial identity, identified when 
+\begin_inset Formula $j=U$
+\end_inset
+
+ and 2) 
+\begin_inset Formula $\Delta\rho_{ij}$
+\end_inset
+
+, which represents the difference in reciprocal preferences which are driven
+ solely by the race of the employer.
+ 
+\begin_inset Formula $\Delta\rho_{iW}>\Delta\rho_{iB}$
+\end_inset
+
+ (
+\begin_inset Formula $\Delta\rho_{iW}<\Delta\rho_{iB}$
+\end_inset
+
+) represents the higher (lower) effort for whites as compared to blacks
+ because of greater (lesser) reciprocal preference towards the former as
+ compared to latter.
+ In other words, the difference in effort between the treatments `reciprocity
+ white' and `reciprocity black' is interpreted as resulting from the differentia
+l reciprocal preferences of the workers.
+ The three reciprocity treatments help us identify 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta\rho_{iB}$
+\end_inset
+
+, and 
+\begin_inset Formula $\Delta\rho_{iW}$
+\end_inset
+
+ given the baseline parameters and the altruism parameters.
+ 
+\end_layout
+
+\begin_layout Section
+Experiment Design
+\end_layout
+
+\begin_layout Standard
+The main goal of this study is to investigate the possibility of discrimination
+ from the worker side in an online labor market.
+ We designed the experiment to allow for the possibility of discrimination
+ in the effort by workers towards the employers.
+ Our experiment is carefully designed to ensure that observed difference
+ in the effort towards the employers could only realize because of the social
+ preferences of workers, i.e., we shut down the possibility of statistical
+ discrimination (the employers did not get to make any strategic choices
+ such as wage offer, minutes of work, etc.).
+ 
+\end_layout
+
+\begin_layout Subsection
+Pre-registration 
+\end_layout
+
+\begin_layout Standard
+We pre-registered the design on AEA RCT registry as AEARCTR-0003885.
+ Since our choice of the task is the same as 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+, we can use results from their study to determine the sample size that
+ can achieve sufficient power for our study.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ found that the points scored across all treatments have a standard deviation
+ of around 660 points.
+ Assuming this standard deviation for each treatment and assuming a minimum
+ detectable effect of 0.2 standard deviations between two treatments, we
+ will need around 400 subjects in each treatment to have a power of 80 percent.
+ This implies that we will need 400 x 10= 4,000 observations in total for
+ all ten treatments.
+ We pre-registered the rule for sample size: we aimed to recruit 6,000 participa
+nts from the United States within the first three weeks of posting the experimen
+t.
+ We were able to recruit ____ subjects within the first three weeks.
+ 
+\end_layout
+
+\begin_layout Subsection
+Recruitment of Subjects
+\end_layout
+
+\begin_layout Standard
+Since this study involves the understanding of worker's motivation towards
+ their employers, we needed to recruit both employers and workers for this
+ experiment.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Recruitment of Employers 
+\end_layout
+
+\begin_layout Standard
+To recruit employers, we invited male student subjects, above the age of
+ 18, from Iowa State University, who racially identified as either African
+ American or Caucasian.
+ We randomly assigned each employer subject to one of the six social preference
+ treatments.
+ Based on the assigned treatment, subjects read from the script and demonstrated
+ the task on a video.
+ Each subject was paid $5 for showing up to our lab and an average additional
+ amount of ___ based on matched workers performance.
+ Our final sample included six employers in each social preference treatment
+ (36 employers).
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Recruitment of Workers
+\end_layout
+
+\begin_layout Standard
+We recruited the workers for this experiment from an online labor market,
+ Amazon's Mechanical Turk.
+ Mechanical Turk is a crowd-sourcing web-service that allows employers (called
+ requester) to get tasks (called Human Intelligence Tasks (HITs)) executed
+ by employees (called workers) in exchange for a wage (called reward).
+ Mechanical Turk is a widely used platform in research in economics and
+ gives access to a large pool of applicants at a much affordable rate hence
+ allowing for the well-powered study.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2010"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2014"
+
+\end_inset
+
+ for a discussion on demographic characteristics and representation of subjects
+ from Mechanical Turk.
+ 
+\end_layout
+
+\begin_layout Standard
+To recruit subjects we posted the screen-er survey as the HIT on Mechanical
+ Turk with the following description “Fill out this 2-minute screener survey
+ to qualify for a study that starts immediately, take up to 15 minutes,
+ and pays participation bonus $1 with scope to earn extra.
+ You will be required to watch and listen to a video.
+ Do NOT take this study on mobile.”.
+ Based on the responses in the screener survey; we invited participants
+ above the age of 18 who reported their race as “Black or African American”
+ or “White or Caucasian” to participate in the experiment.
+ We paid five cents to each subject who did not meet the criteria.
+ 
+\end_layout
+
+\begin_layout Subsection
+Task
+\end_layout
+
+\begin_layout Standard
+We designed this experiment to observe whether workers discriminate in their
+ effort when working for different employer types and then to back out the
+ behavioral parameters of distaste.
+ For this purpose, we needed a task which is costly to workers and is not
+ meaningful to any particular race.
+ We settled on a button-pressing task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+.
+ The task involves alternating presses of “a” and “b” on a keyboard for
+ 10 minutes.
+ We settled on this task because it is simple to understand and has features
+ that parallel clerical jobs: it involves repetition, and it gets tiring,
+ thus testing the motivation of the workers.
+\end_layout
+
+\begin_layout Subsection
+Race Revelation
+\end_layout
+
+\begin_layout Standard
+We took the approach of revealing race via the revelation of skin-color
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Doleac2013}
+\end_layout
+
+\end_inset
+
+.
+ To that end, we recorded videos of employers while they read off a script
+ explaining and demonstrating the task.
+ The camera placement only captured the hand of the employer along with
+ the movement of the fingers alternating ‘a’ and ‘b’ button presses.
+ Other identifiers, such as the face, were not captured in the video to
+ avoid psychological confounds which are associated with faces, such as
+ attractiveness and trustworthiness 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Eckel2011}
+\end_layout
+
+\end_inset
+
+.
+ The employer’s hand was bare or covered (with full sleeves and latex gloves)
+ depending on the assigned treatment.
+ For black employers, we only restricted to participants with dark skin
+ tone to avoid any ambiguity about the race of the person.
+ We used the digital voice for the videos in the piece rate treatments.
+ 
+\end_layout
+
+\begin_layout Subsection
+Experiment Flow
+\end_layout
+
+\begin_layout Standard
+The experiment proceeded as follows: (1) We recruited employers from Iowa
+ State University and recorded videos of them explaining the task, 2) we
+ then posted a HIT on Amazon's Mechanical Turk for a screener survey for
+ the recruitment of workers, (3) we invited subjects who consented and met
+ the recruitment criteria (undisclosed) to initiate the experiment, (4)
+ upon initiation we assigned each subject to one of the treatment groups.
+ Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Czibor2019"
+
+\end_inset
+
+, we used the blocked randomization design to assign subjects to treatments.
+ We defined blocks based on demographic information collected in the screener
+ survey (Gender, Age, Race, Education, Income, Political Party Affiliation,
+ and the Most-lived US State),
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cavaille2018"
+
+\end_inset
+
+ for instructions on implementing sequential blocked randomization for online
+ experiments.
+ 
+\end_layout
+
+\end_inset
+
+ (4) we presented instructions to each subject in a pre-recorded video (based
+ on the assigned treatment).
+ We programmed our study to require each worker to watch a video before
+ proceeding to the task, and (5) each worker worked on a task for 10 minutes
+ and then answered some questions aimed at elicitation of their beliefs
+ about the matched employer.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-of-treatments"
+
+\end_inset
+
+Summary of treatments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size scriptsize
+\begin_inset Tabular
+<lyxtabular version="3" rows="14" columns="4">
+<features tabularvalignment="middle" tabularwidth="100text%">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="6cm">
+<column alignment="left" valignment="top" width="1.5cm">
+<column alignment="left" valignment="top" width="1.5cm">
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+Category
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+Treatment Wording 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+Voice 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+Skin Color 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+(1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+(2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+(3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+(4)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Piece Rate 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Digital
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+As a bonus, you will be paid an extra 3 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Digital
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+As a bonus, you will be paid an extra 6 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Digital
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+As a bonus, you will be paid an extra 9 cents for every 100 points that
+ you score.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Digital
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Altruism
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black & White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+White
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Reciprocity 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ In appreciation to you for performing this task, I have decided to pay
+ you extra 20 cents as a bonus.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black & White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Concealed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ In appreciation to you for performing this task, I have decided to pay
+ you extra 20 cents as a bonus.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Black
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+I will earn 1 cent for every 100 points that you score.
+ In appreciation to you for performing this task, I have decided to pay
+ you extra 20 cents as a bonus.
+ Your score will not affect your payment in any way.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+White
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+White
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The table list all the treatments in this study.
+ Each piece rate treatment differs just in the last line of the script,
+ used the digital voice, and concealed the skin color of the hand.
+ Social preference treatments (altruism and reciprocity) begin with the
+ introduction of the employer (in the first person), explain the task using
+ the same script as in piece rate treatments and then differ only in the
+ last paragraph of the script.
+ Both altruism and reciprocity categories have three treatments, each with
+ black, white, and concealed skin tone of the employer.
+ In the social preference treatments of concealed skin tone, the ratio of
+ black and white employers was 1:1.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Piece Rate Treatments
+\end_layout
+
+\begin_layout Standard
+In the piece rate treatments, each worker saw a video demonstrating a task
+ with a script: 
+\begin_inset Quotes eld
+\end_inset
+
+
+\shape italic
+On the next page, you will play a simple button-pressing task.
+ The object of the task is to alternately press the `a' and `b' buttons
+ on your keyboard as quickly as possible for ten minutes.
+ Every time you successfully press the `a' and then the `b' button, you
+ will receive a point.
+ Note that points will only be rewarded when you alternate button pushes:
+ just pressing the `a' or `b' button without alternating between the two
+ will not result in points.
+ Buttons must be pressed by hand only (key-bindings or automated button-pushing
+ programs/scripts cannot be used), or task will not be approved.
+ Feel free to score as many points as you can.
+\shape default
+” Then the last line was based on the assigned treatment (0, 3, 6 or 9 cents).
+ The wording is provided in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-treatments"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Social Preference Treatments
+\end_layout
+
+\begin_layout Standard
+In the altruism and reciprocity treatments, each video started with the
+ introduction by the employer: “
+\shape italic
+Hi, I am another participant in this study who is matched to you.
+ In this study, you will work on a simple button-pressing task, and I will
+ earn some money depending on how well you do on the task
+\shape default
+.” Then the script followed the same instructions as in piece rate treatments
+ with the last paragraph being the only difference.
+ The wording is provided in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-treatments"
+
+\end_inset
+
+.
+ There were three treatments each in the category of altruism and reciprocity.
+ Altruism baseline and reciprocity baseline concealed the skin color of
+ the employer using latex gloves.
+ Although the voice in the baseline treatments can reveal some racial markers,
+ we recruited an equal number of black and white employers in these treatments,
+ therefore, on average, the effect of race from voice, if any, should cancel
+ out in the baseline treatments.
+ The videos showed in the altruism black (white), and reciprocity black
+ (white) revealed the black (white) skin of the employers.
+\end_layout
+
+\begin_layout Section
+Planned Analysis
+\end_layout
+
+\begin_layout Standard
+For the analysis of data, we envision three main sections.
+ In the first section, we will describe the collected data from M-Turkers
+ including data cleaning and balance checks on the demographic data across
+ treatments.
+ The second section will present the treatment effects for all the ten treatment
+s including the heterogeneity of the treatment effects.
+ In the third section, we will estimate our structural model and get the
+ estimates of the behavioral parameters.
+ 
+\end_layout
+
+\begin_layout Subsection
+Data Cleaning and Summary Statistics
+\end_layout
+
+\begin_layout Standard
+To prepare data for the analysis, we will apply some cleaning to the collected
+ data.
+ Specifically, we will apply following restrictions to the collected data:
+ 1) we will only analyze the data of M-Turkers who complete the experiment
+ i.e.
+ we will not analyze the data of participants who drop out before working
+ on the task, 2) we will drop all the observation that score above 4,000
+ points since this is physically impossible in 10 minutes and these users
+ would have used some automated script to score these points or they may
+ have experienced some technical problem, 3) we will drop all the observations
+ with zero points as this may reflect some malfunction or technical problem
+ in points recording, 4) we will drop data of users who stop the task and
+ login again as these people may be trying to game the experiment by trying
+ to be assigned to most rewarding treatment.
+ 
+\end_layout
+
+\begin_layout Standard
+We are using blocked randomization design to assign subjects to treatments,
+ so our treatments should be balanced on the blocked variables (gender,
+ age, education, income, most-lived US state, and party affiliation).
+ Nevertheless, we will present plots to test whether we get balanced treatments
+ on these covariates.
+ We will use Kolmogorov–Smirnov test to compare the distribution of demographics
+ in these treatments.
+ 
+\end_layout
+
+\begin_layout Standard
+We will present the summary statistics on the information collected from
+ the M-Turkers to assess the representativeness of our sample as compared
+ to US population.
+ 
+\end_layout
+
+\begin_layout Subsection
+Treatment Effects
+\end_layout
+
+\begin_layout Standard
+We will first present a table of average efforts (points scored) along with
+ standard errors for each of the ten treatments.
+ This table will give a sense of how the effort varies from one treatment
+ to another.
+ We will also plot the mean and standard deviation to document the variance
+ of effort across treatments.
+ This will capture in a snapshot the motivation of workers regarding the
+ impact of different behavioral levers in our setting.
+ For example, do the workers respond to incentives? Are the workers altruistic
+ towards their employers? Do they exhibit any reciprocity? Do the race of
+ the employer effects worker's performance?
+\end_layout
+
+\begin_layout Standard
+The data will provide us with some qualitative answers on the questions
+ above by comparing the effort choices in the behavioral treatment to the
+ relevant control treatment.
+ For example, the comparison between `Altruism - Baseline' and `Piece Rate
+ - 0 cents' will answer whether workers are altruistic towards their employers.
+ Similarly comparison of effort choices in `Altruism - Baseline' and `Reciprocit
+y - Baseline' will suggest evidence of reciprocity towards the employer,
+ if any.
+ 
+\end_layout
+
+\begin_layout Standard
+The main theme of this paper is to test the difference in motivation towards
+ black and white employers.
+ We will use data from `Altruism - Black' and `Altruism - White' to test
+ whether workers are more or less altruistic towards black versus white
+ employers.
+ Similarly, comparison of `Reciprocity - Black' and `Reciprocity - White'
+ will reveal any differential reciprocal preferences towards blacks versus
+ white employers.
+ Assuming normality and equal variance of distributions for each treatment,
+ we may employ t-test to test for the differences in average effort.
+ 
+\end_layout
+
+\begin_layout Standard
+Comparisons between `Piece Rate - 0 cents', `Piece Rate - 3 cents', `Piece
+ Rate - 6 cents' and `Piece Rate - 9 cents' will answer whether worker's
+ effort increase with increase in the incentive for work.
+ These piece rate treatments will help us calculate the elasticity of effort
+ (as explained below).
+ 
+\end_layout
+
+\begin_layout Standard
+We will also compare the cumulative distribution of effort (points scored)
+ across these treatments to get the better understanding of how the effort
+ choices change in each of these treatments.
+ We will use Kolmogorov-Smirnov test as a statistical measure of comparison
+ among these treatments.
+ As another piece of our reduced form analysis, we will analyze the evolution
+ of effort over the 10-mintues period across all these treatments.
+ 
+\end_layout
+
+\begin_layout Standard
+Having compared the overall effort choices to examine the treatment effects,
+ we can compare the treatment effects for different groups - males versus
+ females, high income versus low income, highly educated versus less educated,
+ blue states versus red states, and young versus old.
+ Since we used the blocked randomization on these covariates to assign treatment
+s, we can make these comparisons with high enough power.
+ 
+\end_layout
+
+\begin_layout Subsection
+Estimation of Structural Model
+\end_layout
+
+\begin_layout Standard
+We designed our experiment with the structural model given in Section 2.
+ The advantage of designing field experiments on the basis of model of behavior
+ is that it allows researchers to estimate the nuisance parameters in the
+ environment that is relevant to the decision making 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{DellaVigna2017}
+\end_layout
+
+\end_inset
+
+.
+ Because of the simplicity of our task, there are only three nuisance parameters
+ that we need to estimate.
+ We will thus use data from the piece rate treatments to identify these
+ parameters.
+ Once we have the estimate of these nuisance parameters, we can estimate
+ behavioral parameters using data from the social preference treatments.
+ We closely follow the estimation procedure in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ to estimate our model.
+ 
+\end_layout
+
+\begin_layout Standard
+We will first use minimum distance estimation method to estimate these parameter
+s.
+ In the minimum distance estimation one identifies the set of moments in
+ data (average effort) and then find the set of model parameters that minimizes
+ the distance between the empirical moments and the theory-predicted moments.
+ To estimate nuisance parameters, we will use data from the piece rate treatment
+s.
+ Specifically, we will use the average effort corresponding to three piece
+ rates (0 cents, 3 cents and 9 cents), to estimate 
+\begin_inset Formula $\hat{\gamma}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{s}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{k}$
+\end_inset
+
+.
+ Once these parameters are estimated, we will use average effort corresponding
+ to altruism treatment to estimate behavioral parameter 
+\begin_inset Formula $\alpha$
+\end_inset
+
+.
+ Having estimated nuisance parameters and baseline altruism parameter, we
+ will use average effort in `Altruism - Black' and `Altruism - White' to
+ estimate 
+\begin_inset Formula $\alpha_{Black}$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha_{White}$
+\end_inset
+
+ respectively.
+ Similarly, to calculate baseline reciprocity parameter 
+\begin_inset Formula $\rho$
+\end_inset
+
+, we will use average effort from `Recprocity - Baseline' treatment while
+ taking the nuisance and altruism parameters as given.
+ Finally, we will estimate 
+\begin_inset Formula $\rho_{Black}$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{White}$
+\end_inset
+
+ using average effort in `Reciprocity - Black' and `Recirpocity - White'
+ respectively, taking other parameters as given.
+ We will derive confidence interval for these parameters using a bootstrap
+ procedure.
+ 
+\end_layout
+
+\begin_layout Standard
+The minimum distance estimator just relies on the moment and hence does
+ not use all the variation in the data.
+ There are methods such as maximum likelihood and non-linear least squares
+ that can be used to estimate these parameters using all the variation in
+ the data.
+ We will use non-linear least square method to estimate these parameters
+ allowing for the heterogeneous cost of effort.
+ 
+\end_layout
+
+\begin_layout Standard
+As explained in section 2, we will use both the power and the exponential
+ cost function to estimate these parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "C:/Users/asads/Dropbox/References/Discrimination"
+options "bibtotoc,apacitex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Experiment Material Appendix
+\end_layout
+
+\end_body
+\end_document

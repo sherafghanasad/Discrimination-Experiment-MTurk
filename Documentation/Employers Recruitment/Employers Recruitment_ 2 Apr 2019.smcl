@@ -1,0 +1,90 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Documentation\Employers Recruitment\Employers Recruitment_ 2 Apr 2019.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 2 Apr 2019, 17:47:38
+{txt}
+{com}. 
+. * Import raw data from participation interest form
+. 
+. #d ;
+{txt}delimiter now ;
+{com}. import  delimited 
+>                         "${c -(}rawdatadir{c )-}\Employers Recruitment\Participation interest form.csv", 
+>                         varnames(1) 
+>                         case(preserve) 
+>                         ;
+{res}{text}(6 vars, 248 obs)
+
+{com}. #d cr
+{txt}delimiter now cr
+{com}. 
+. * Drop people who don't meet the eligibility criteria
+. 
+. drop    if Abovetheageof18 == "No" | Gender  != "Male"  | (Raciallyidentifyas != "Black or African American" & Raciallyidentifyas != "White or Caucasian") |  Speakenglishasyourfirstlanguage != "Yes"
+{txt}(8 observations deleted)
+
+{com}. 
+. * We need to select 25 blacks and 25 whites to participate in the study. 
+. 
+. count   if Raciallyidentifyas == "Black or African American"
+  {res}16
+{txt}
+{com}. 
+. preserve 
+{txt}
+{com}.         keep    if Raciallyidentifyas == "Black or African American"
+{txt}(224 observations deleted)
+
+{com}.         tempfile Blacks
+{txt}
+{com}.         save            `Blacks'
+{txt}file C:\Users\asads\AppData\Local\Temp\ST_00000002.tmp saved
+
+{com}. restore
+{txt}
+{com}.         
+. * Since there are not enough Blacks we will recruit all of them
+. 
+. count   if Raciallyidentifyas == "White or Caucasian"
+  {res}224
+{txt}
+{com}. 
+. * We will randomly select 25 people from White group. 
+. preserve
+{txt}
+{com}.         set                     seed 12345
+{txt}
+{com}.         keep            if Raciallyidentifyas == "White or Caucasian"
+{txt}(16 observations deleted)
+
+{com}.         gen                     Random = runiform()
+{txt}
+{com}.         sort                    Random
+{txt}
+{com}.         keep            in 1/25
+{txt}(199 observations deleted)
+
+{com}.         
+.         tempfile        Whites
+{txt}
+{com}.         save                    `Whites'
+{txt}file C:\Users\asads\AppData\Local\Temp\ST_00000004.tmp saved
+
+{com}. restore
+{txt}
+{com}. 
+. use             `Blacks', clear 
+{txt}
+{com}. append using `Whites'
+{txt}
+{com}.         
+. export  excel using "${c -(}outdir{c )-}\EmployersToBeInvited", firstrow(var) replace
+{res}{txt}file C:\Users\asads\Dropbox\Discrimination\Intensive Margin\Output\Employers Recruitment\EmployersToBeInvited.xls saved
+
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. exit, clear

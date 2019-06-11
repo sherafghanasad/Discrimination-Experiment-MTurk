@@ -1,0 +1,2665 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage[natbibapa]{apacite}
+\def\?#1{}
+\usepackage{pdfpages}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing other 1.5
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 4cm
+\rightmargin 4cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Discrimination in an Online Labor Market
+\end_layout
+
+\begin_layout Author
+Sher Afghan Asad
+\end_layout
+
+\begin_layout Abstract
+The issue of discrimination is explored at great length in economic literature
+ however almost all the literature has tend to investigate the issue on
+ the premise that discrimination is always driven by the employers.
+ In the present study we investigate the issue from a different angle and
+ investigate whether discrimination can run in an opposite direction i.e.
+ whether workers from one group may exhibit biases towards the employers
+ from the other group when working for opposite group employers.
+ To our knowledge the possibility of racial bias from the worker side has
+ not been explored in the economic literature.
+ We design a model based real effort experiment on Amazon Mechanical Turk
+ to answer our research questions.
+ This study serves as a pilot for the full study that will be implemented
+ based on the learning from this exercise.
+ 
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+A large body of literature in economics has demonstrated that discrimination
+ – whether it be racial, religious, ethnic or gender in origin – is widespread
+ in labor markets
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Riach2002"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rich2014"
+
+\end_inset
+
+ for a survey of evidence of discrimination using field experiments.
+ 
+\end_layout
+
+\end_inset
+
+.
+ However, almost all the literature has tend to investigate the issue on
+ the premise that discrimination is driven by the employers i.e.
+ employers have some animus 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Becker1957}
+\end_layout
+
+\end_inset
+
+ or beliefs about the productivity of workers 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Phelps1972a,Arrow1973c} 
+\end_layout
+
+\end_inset
+
+ from disadvantaged group and that leads them to discriminate against the
+ equally productive workers from the disadvantaged group in favor of workers
+ from the advantaged group.
+ In this study we investigate the issue from a different angle and see whether
+ discrimination can run in opposite direction i.e.
+ whether a worker from the advantaged (disadvantaged) group may exhibit
+ bias towards the employer from the disadvantaged (advantaged) group.
+ To be specific, we explore whether workers exhibit bias when providing
+ effort based on employer's racial identity? To our knowledge the possibility
+ of discrimination from this direction has not been explored in the economics
+ literature.
+ 
+\end_layout
+
+\begin_layout Standard
+It is important to understand what we mean by discrimination from the worker
+ side and why is it an important issue that merits investigation.
+ We define worker discrimination as when employers from one group are treated
+ differently (less favorably) than employers from another group with identical
+ characteristics.
+ For example, workers discriminate when they under-provide effort to employers
+ from one group as compared to the other group with otherwise identical
+ characteristics (such as wages, job conditions etc.).
+ The investigation of this issue is important for several reasons.
+ First, in the absence of perfectly enforceable contracts, this form of
+ discrimination directly affects the profitability of the employers because
+ of workers under-performance.
+ Second, it can provide partial explanation for why employers tend to have
+ lower callbacks for workers from the opposite group as shown in the studies
+ such as 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bertrand2004"
+
+\end_inset
+
+.
+ That is, if employers expect that workers from particular group are going
+ to under-provide effort then it is rational for even unbiased employers
+ to not hire from that group.
+ Finally, this line of research can also explain why discrimination, even
+ after various affirmative action policies by governments all over the world,
+ continue to exist in one form or another 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Bayer2017}
+\end_layout
+
+\end_inset
+
+.
+ One possible explanation for why those policies haven't achieved the discrimina
+tion free society could be that those policies were aimed at employers and
+ they were perceived as the only entity responsible for causing discrimination.
+ However, our research aims to identify that discrimination can also be
+ driven by those who are traditionally "discriminated against" and if one
+ is to tackle the issue it needs to target both sides of market i.e.
+ employers and workers 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Craig2018}
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Fundamentally, economists view discrimination as arising in one of two ways.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+ introduced the notion of taste-based discrimination postulating that discrimina
+tion exists because of prejudice/animus of the advantaged group toward the
+ disadvantaged group.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Phelps1972a"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Arrow1973c"
+
+\end_inset
+
+ instead view discrimination as statistical, in which, say, an advantaged-group
+ employer, lacking information, say, on a disadvantaged-group worker, forms
+ rational beliefs about the worker in terms of the aggregate distribution
+ of group traits.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fang2011"
+
+\end_inset
+
+ for the nice review of models of discrimination.
+\end_layout
+
+\end_inset
+
+ For the purpose of our research, we make the similar distinction about
+ the discrimination from worker side.
+ We define taste-based discrimination as the discrimination that results
+ because of animus or prejudice of workers towards the employer's group
+ identity.
+ For example, if a White worker prefers working for a White employer as
+ compared to the equally rewarding opportunity from a Black employer, then
+ we call this taste-based discrimination against the Black employer.
+ Statistical discrimination from the worker side would be the discrimination
+ that results when a worker, lacking information on the employer, forms
+ beliefs about the desirability of the job with the employer using stereotypes
+ about the group of employer.
+ For example, a White worker may believe (correctly or incorrectly) that
+ Blacks employers are generally less generous (in compensations; monetary
+ or otherwise) towards their workers as compared to White employers and
+ therefore the worker may discriminate against the Black employer in favor
+ of the equally desirable job from the White employer.
+ 
+\end_layout
+
+\begin_layout Standard
+Our research question is close to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Glover2015b"
+
+\end_inset
+
+; in their study the authors found that workers from disadvantaged group
+ under-provide effort when working under the biased managers.
+ However, our study is different in a sense that we argue that workers may
+ under-provide effort even in the absence of bias from the employer.
+ Ours is the only study which explore the possibility of bias driven from
+ the worker side in the absence of any discrimination or anticipation of
+ discrimination from the employer.
+ Another closely related study is 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Craig2018"
+
+\end_inset
+
+, in which the authors build a theoretical model allowing for the possibility
+ of statistical discrimination from both worker and employer side.
+ However, the authors do not allow for the possibility of taste bias from
+ worker side.
+ They also do not provide any empirical evidence to support the claim.
+ Ours is the first study to explore the possibility of taste bias from worker
+ side and presents an experimental evidence to test the claim.
+ 
+\end_layout
+
+\begin_layout Standard
+The discrimination by workers can be on various margins, however, in this
+ paper we explore the discrimination in productivity by the workers towards
+ the employer's racial identity.
+ Specifically, we are interested in answering whether workers provide more/less
+ effort for White employers as compared to Black employers given that they
+ are already working for the employer and thus there is no option of choosing
+ an employer.
+ So we need a setting in which 1) workers work on a task in which productivity
+ can be measured 2) they do not choose their employer and 3) employer identity
+ can be revealed to workers in an unobtrusive way
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We need to reveal race in an unobtrusive way, so that workers are not primed
+ for race of the employer.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Benjamin2010"
+
+\end_inset
+
+ for discussion on how identity priming can affect behavior.
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+As we explain in section 2, our experiment design for this pilot study is
+ based on a model of behavior to identify the parameters of taste.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "DellaVigna2017"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Low2017"
+
+\end_inset
+
+for motivation on using structural models for design of experiments.
+\end_layout
+
+\end_inset
+
+ Based on the model, we come up with two set of treatments: Baseline and
+ Race Salient Treatments.
+ In the baseline treatments, workers do not observe the identity of the
+ employer and only observe the selected wage by the employer before starting
+ to work on the task.
+ In race salient treatments, each worker observe the race of the employer
+ along with the chosen wage rate before starting to work on the task.
+ In either of these treatments, an employer select a wage offer for a worker,
+ the worker observe the selected wage and then work on the task.
+ 
+\end_layout
+
+\begin_layout Standard
+To test whether workers exhibit taste bias in providing effort to the employer,
+ we run an artefactual field experiment 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Harrison2004}
+\end_layout
+
+\end_inset
+
+ using subjects from Amazon's Mechanical Turk (M-Turk).
+ Here is how the experiment is implemented; 1) we post an assignment for
+ demographic survey on M-Turk, 2) subjects who report their race as either
+ Black or White in the survey are asked to initiate the experiment 3) upon
+ initiation a subject is randomly assigned to one of the treatment groups
+ and to the role of employer or worker a' la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fehr1993"
+
+\end_inset
+
+.
+ Each employer is (truthfully) matched with a unique worker.
+ Each employer select a wage rate for the matched workers (the choice is
+ framed such that higher wage for worker mean lower return for the employer),
+ the worker observe the chosen wage by his/her matched employer and then
+ work on the simple button-pressing task for up-to ten minutes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The button-pressing task is adopted from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ in which workers press 'a' followed by 'b' on their keyboard to score a
+ point.
+ 
+\end_layout
+
+\end_inset
+
+.
+ The wage rate serves as incentive for working on the task for worker.
+ Worker is also informed of the return to employer from his/her effort.
+ In the baseline treatment, workers do not observe the race of the matched
+ employer while in race salient treatments the race is revealed using the
+ picture of the hand of the employer, which was taken by the employer using
+ his/her web-camera 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Doleac2013}
+\end_layout
+
+\end_inset
+
+.
+ Worker's identity is never revealed to the matched employer.
+ We give four wage options to employers, therefore baseline treatment consist
+ of 4 sub-treatments.
+ In the race salient treatment, a wage is chosen by either Black or White
+ employer so there are 8 sub-treatments in this treatment.
+ Therefore, we basically have 12 sub-treatments which are endogenously determine
+d by the racial composition of the sample and the wage choices by the employers.
+ 
+\end_layout
+
+\begin_layout Standard
+Our final sample for this pilot study consists of 202 subjects (37 Blacks
+ and 165 Whites).
+ Overall we do not observe significant differences in effort choices for
+ black employers versus white employers at any of the possible wage levels
+ because of the very limited sample that we collect.
+ We observe the positive correlation between wage rate and the effort in
+ both baseline and race salient treatments however we remain unable to test
+ for this wage-effort relationship on the basis of employer's race.
+ 
+\end_layout
+
+\begin_layout Standard
+Using the data from baseline treatment, we estimate the parameters of cost
+ of effort function which are then taken as given for the estimation of
+ taste parameters towards black or white employers.
+ We find that taste parameter for black employers is higher in magnitude
+ than white employers implying that workers derive higher satisfaction from
+ working for the black employer as compared to the white employer.
+ However, these parameters have enormous standard errors and therefore we
+ do not have any confidence in these estimates.
+ 
+\end_layout
+
+\begin_layout Standard
+This research relates to broad literature on discrimination in the labor
+ markets.
+ As explained earlier we specifically look at worker's vertical discrimination
+ towards their employers, complementing a larger literature about horizontal
+ discrimination between co-workers (e.g.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sasaki1999"
+
+\end_inset
+
+).
+ This pilot study is specifically related to experimental literature on
+ discrimination.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Neumark2018"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bertrand2016"
+
+\end_inset
+
+ for review of experimental research on discrimination.
+ 
+\end_layout
+
+\begin_layout Standard
+This research also relates to literature on identity and social preferences
+ at work 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Akerlof2005a,Chen2009a,Benjamin2010}
+\end_layout
+
+\end_inset
+
+.
+ The main contribution of this study in this context is the novel design
+ that can estimate the social preference towards the employer's group in
+ a unique environment of an online labor market.
+ 
+\end_layout
+
+\begin_layout Standard
+The rest of the paper proceeds as follows.
+ In Section 2 we present the model of behavior and come up with the treatments
+ to identify the parameters of interest.
+ In Section 3 we present the experiment design.
+ Section 4 and 5 presents the data and results respectively.
+ In Section 6 we estimate the model from Section 2 and presents estimate
+ of structural parameters.
+ Section 7 conclude this pilot study.
+ 
+\end_layout
+
+\begin_layout Section
+Model and Treatments
+\end_layout
+
+\begin_layout Standard
+We closely follow the model of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ for the worker side and modify it to incorporate employer side and the
+ possibility of discrimination from worker side.
+ Assuming risk neutrality, a worker 
+\begin_inset Formula $i\in\left\{ B,W\right\} $
+\end_inset
+
+ solves the following problem when working for an employer 
+\begin_inset Formula $j\in\left\{ B,W\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+ denote the black or white race of an agent (employer or worker) respectively;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{max}_{e_{ij}\geq0}U_{ij}=\underbrace{max}_{e_{ij}\geq0}\left(F+(s_{ij}+p)e_{ij}-c(e_{ij})\right)\label{eq:utility}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ is the number of points (on a button-pressing task) scored by worker 
+\begin_inset Formula $i$
+\end_inset
+
+ when working for employer 
+\begin_inset Formula $j$
+\end_inset
+
+, 
+\begin_inset Formula $F$
+\end_inset
+
+ is the fixed money paid for participating in the experiment, 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ (as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+) captures the sense of duty, norm, intrinsic motivation, and competitiveness
+ of worker towards the task.
+ We argue that 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ also include the taste (like or dislike) of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the employer 
+\begin_inset Formula $j$
+\end_inset
+
+ per unit of effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ is the piece rate chosen by the employer 
+\begin_inset Formula $j$
+\end_inset
+
+, we allow employers to select piece rate from anywhere between 0 cents
+ and 10 cents per 100 points (in increments of 3 cents).
+ 
+\begin_inset Formula $c(e_{ij})$
+\end_inset
+
+ is the cost of effort, which is assumed to be same for all workers 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ We assume the regularity conditions 
+\begin_inset Formula $C'()>0$
+\end_inset
+
+, 
+\begin_inset Formula $C''()>0$
+\end_inset
+
+, and 
+\begin_inset Formula $lim_{e\rightarrow\infty}C'(e)=\infty.$
+\end_inset
+
+ Following 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ we assume cost function to be a power function i.e.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{ke^{1+\gamma}}{1+\gamma}\label{eq:Power Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+or 
+\begin_inset Formula 
+\begin{equation}
+c(e)=\frac{kexp^{\gamma e}}{\gamma}\label{eq:Exponential Cost Function}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Power cost function (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Power Cost Function"
+
+\end_inset
+
+) characterize a constant elasticity of effort given by 
+\begin_inset Formula $1/\gamma$
+\end_inset
+
+.
+ The function requires the estimation of unknowns 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ which we will back out using observed effort at different piece rates.
+ 
+\end_layout
+
+\begin_layout Standard
+Solving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+ leads to following solution (when interior); 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=c'^{-1}\left(s_{ij}+p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With power cost function this translates to; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\left(\frac{s_{ij}+p}{k}\right)^{1/\gamma}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+While exponential cost function lead to the solution
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+e_{ij}^{\star}=\frac{1}{\gamma}log\left(\frac{s_{ij}+p}{k}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We make a simplifying assumption that the workers of type 
+\begin_inset Formula $i$
+\end_inset
+
+ are homogeneous given a treatment i.e.
+ they will make the same effort choice in a given treatment.
+ 
+\end_layout
+
+\begin_layout Subsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+In the baseline treatment an employer chooses a wage, worker observes the
+ wage and then work on the task.
+ We allow employers to select a wage between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $10$
+\end_inset
+
+ cents while workers work on a simple button-pressing task for 10 minutes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We use the exact same task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ From the M-Turk standards this variation in piece rates is substantial
+ for the 10 minute task.
+ Employers also offer a flat fee (
+\begin_inset Formula $F$
+\end_inset
+
+) of 
+\begin_inset Formula $\$1$
+\end_inset
+
+ to each worker.
+\end_layout
+
+\begin_layout Standard
+These piece rates provide evidence on the responsiveness of effort to incentives
+ for this particular task and hence allow us to estimate parameters of cost
+ function which will be used to estimate other behavioral parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+Formally, in the baseline treatment, employer 
+\begin_inset Formula $j$
+\end_inset
+
+ selects a piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ for worker 
+\begin_inset Formula $i$
+\end_inset
+
+, worker observe the piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+ and then choose effort 
+\begin_inset Formula $e_{ij}$
+\end_inset
+
+ by maximizing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:utility"
+
+\end_inset
+
+.
+ Worker do no observe the identity of the employer which implies that for
+ any worker 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $s_{iW}=s_{iB}=s_{i}$
+\end_inset
+
+.
+ The equilibrium effort 
+\begin_inset Formula $e_{i}^{\star}$
+\end_inset
+
+ in this treatment will be given as; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{i}^{\star}=c'^{-1}\left(s_{i}+p\right)\text{ for }i\in\left\{ B,W\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This treatment will give us the baseline measure of effort of worker 
+\begin_inset Formula $i$
+\end_inset
+
+ for the given piece rate 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ For each 
+\begin_inset Formula $i$
+\end_inset
+
+, the solution of effort has one behavioral unknown (
+\begin_inset Formula $s_{i}$
+\end_inset
+
+), and two unknowns from cost function (
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+).
+ To back out these parameters we use effort corresponding to three different
+ piece rates which gives us three equations to identify three parameters.
+ 
+\end_layout
+
+\begin_layout Subsection
+Race Salient Treatments
+\end_layout
+
+\begin_layout Standard
+In the race salient treatment, workers will observe the race of the matched
+ employer along with the selected piece rate and then work on a task.
+ In the presence of group biases i.e.
+ when workers derive different level of social preference for different
+ employer's group then;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{ij}^{RS}=c'^{-1}\left(\left(s_{i}+\Delta s_{ij}^{p}\right)+p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are implicitly assuming 
+\begin_inset Formula $s_{ij}=s_{i}+\Delta s_{ij}$
+\end_inset
+
+ i.e.
+ the parameter 
+\begin_inset Formula $s_{ij}$
+\end_inset
+
+ can be separated into two components 1) 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+, which is independent of the employer type and include everything such
+ as sense of duty, norm, intrinsic motivation, competitiveness of worker
+ etc.
+ and 2) 
+\begin_inset Formula $\Delta s_{ij}$
+\end_inset
+
+, which represents additional utility or dis-utility from working for the
+ employer of type 
+\begin_inset Formula $j$
+\end_inset
+
+ which we interpret as taste towards the employer a' la 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Becker1957"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Delta s_{ij}^{RS}>0$
+\end_inset
+
+ 
+\begin_inset Formula $\left(\Delta s_{ij}^{RS}<0\right)$
+\end_inset
+
+ will represent the increase (decrease) in effort because of taste of worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards (against) the employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $j\neq i$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta s_{ij}^{RS}<0$
+\end_inset
+
+ will be interpreted as the decrease in effort due to taste bias of worker
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ towards the opposite group employer 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ In other words, the difference in provided effort between the white employer
+ and black employer 
+\begin_inset Formula $\left(e_{iW}^{RS}-e_{iB}^{RS}\right)$
+\end_inset
+
+ for a given piece rate is construed as a difference which is only driven
+ by the taste bias of the workers of group 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ The main goal of this research is to identify the parameter 
+\begin_inset Formula $\Delta s_{ij}^{RS}$
+\end_inset
+
+ at different piece rates which we do in Section 6.
+ 
+\end_layout
+
+\begin_layout Section
+Experiment Design
+\end_layout
+
+\begin_layout Standard
+The main goal of this study is to document the evidence of discrimination
+ in the online labor market.
+ We designed the experiment to allow for the possibility of discrimination
+ in effort by workers towards the employers.
+ Our experiment is carefully designed to ensure that observed difference
+ in effort could only realize because of the taste bias of workers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Recruitment of Subjects
+\end_layout
+
+\begin_layout Standard
+The subjects for this experiment were recruited from an online labor market,
+ Amazon's Mechanical Turk.
+ Mechanical Turk is a crowd-sourcing web-service that allows employers (called
+ requester) to get tasks (called Human Intelligence Tasks (HITs)) executed
+ by employees (called workers) in exchange for a wage (called reward).
+ Mechanical Turk is a widely used platform in research in economics and
+ give access to large pool of applicants at a much affordable rate hence
+ allowing for the well powered study.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2010"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Paolacci2014"
+
+\end_inset
+
+ for discussion on demographic characteristics and representation of subjects
+ from Mechanical Turk.
+ 
+\end_layout
+
+\begin_layout Standard
+To recruit subjects we posted the screen-er survey as the HIT on Mechanical
+ Turk with the following description 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Fill out this 2-minutes screener survey to qualify for the immediate second
+ study (that study will take ~15 minutes and pay 1 dollar plus bonus).
+ You MUST use your webcam and take a picture (following guidelines) to be
+ considered for the study.
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\emph default
+The screen-er survey is given in the Appendix A.
+ 
+\end_layout
+
+\begin_layout Standard
+Based on the responses in the screen-er survey, we invited participants
+ above the age of 18 who reported their race as 
+\begin_inset Quotes eld
+\end_inset
+
+Black or African American
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+White or Caucasian
+\begin_inset Quotes erd
+\end_inset
+
+ to participate in the experiment.
+ Everyone else was shown the exit screen.
+ 
+\end_layout
+
+\begin_layout Standard
+Since our choice of task is same as 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+, we can use results from their study to determine the sample size that
+ can achieve sufficient power for our study.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+ found that the points scored in each treatment have a standard deviation
+ of around 660 points.
+ Assuming this standard deviation for each treatment and assuming a minimum
+ detectable effect of 185 points between two treatments, we will need around
+ 200 observations in each sub-treatment to have a power of 80 percent.
+ This implies that we will need 200 x 12= 2,400 observations in total for
+ all 12 sub-treatments.
+ In our design one observation constitute two subjects - one employer and
+ one worker - therefore we need to recruit around 400 subjects in each treatment
+ implying a total sample of size 4,800.
+ These calculations are obviously for the full study, and they assume that
+ we have control on the number of subjects in each treatment.
+ As we learned from the pilot, we need to recruit 10 white employers to
+ find one black employer and thus these sub-treatments are not going to
+ have balanced sample sizes.
+ In the light of this, we will be revising our design for the full study.
+\end_layout
+
+\begin_layout Subsection
+Task
+\end_layout
+
+\begin_layout Standard
+We designed this experiment to observe whether workers discriminate in their
+ effort when working for different employer types and then to back out the
+ behavioral parameter of distaste.
+ For this purpose we needed a task which is costly to workers.
+ We settled on a button-pressing task as in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+.
+ The task involves alternating presses of 
+\begin_inset Quotes eld
+\end_inset
+
+a
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+b
+\begin_inset Quotes erd
+\end_inset
+
+ on keyboard for 10 minutes.
+ We settled on this task because it is simple to understand and have features
+ that parallel clerical jobs: it involves repetition and it gets tiring,
+ thus testing the motivation of the workers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Experiment Flow
+\end_layout
+
+\begin_layout Standard
+The experiment proceeded as follows: (1) HIT was posted on Mechanical Turk
+ for a screen-er survey, (2) subjects were presented with the consent form,
+ (3) those who consented and met the criteria were shown a screen to initiate
+ the experiment, (4) upon initiation a subject was randomly assigned to
+ one of the treatment groups and then to the role of employer or worker.
+ The first person to initiate the experiment was always assigned the role
+ of employer while the second person was made the worker.
+ One employer and one worker formed a group for this experiment.
+ The flow of the screenshots of the screens that subjects saw are given
+ in Appendix A.
+ The application for the experiment was designed using oTree 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Chen2016}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The instructions to the employers and workers for each treatment are given
+ in Appendix A.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Baseline Treatment
+\end_layout
+
+\begin_layout Standard
+In the baseline treatment employers were informed (truthfully) that they
+ will be paid 10 cents for every 100 points scored by the randomly matched
+ worker and they can choose if they want to transfer part of 10 cents to
+ workers as piece rate.
+ Employers were allowed to select a piece rate of 0, 3, 6 or 9 cents for
+ the matched worker.
+ Employers did not know the identity of worker for whom the piece rate was
+ selected neither did worker observe the identity of employer before starting
+ to work.
+ Once an employer selected a piece rate, a matched workers was informed
+ of the selected piece rate and was given 10 minutes to work on the task.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Race Salient Treatment
+\end_layout
+
+\begin_layout Standard
+The race salient treatment was identical to baseline treatment except that
+ when a worker observed the selected piece rate, he/she also saw the picture
+ that was taken by the matched employer when he/she selected the piece rate.
+ When employers selected the piece rate they were instructed to write the
+ selected piece rate on a piece of paper and take a picture with only the
+ part of their hand showing in the picture.
+ Showing hand with piece rate is a subtle way of revealing the race 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Doleac2013}
+\end_layout
+
+\end_inset
+
+ and avoid psychological confounds which are associated with facial pictures
+ such as attractiveness and trustworthiness 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Eckel2011}
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Data
+\end_layout
+
+\begin_layout Standard
+We ran our experiment for 9 days from September 24th, 2018 to October 2nd,
+ 2018.
+ There were 483 subjects who filled out the screen-er survey, 331 of them
+ qualified to participate in the experiment.
+ Since an employer and a worker constitute a group, we dropped a group if
+ a worker in that group dropped out of the experiment before starting to
+ work on the task.
+ We ended up dropping 34 groups because of worker attrition.
+ We additionally dropped 5 groups because workers in these groups joined
+ our experiment using mobile phone and the app did not allow them to score
+ points on button-pressing task.
+ 22 other groups were dropped because they failed to score any point, this
+ must be because of some technical issue at the worker's end.
+ We were finally left with 101 groups (202 subjects).
+ 
+\end_layout
+
+\begin_layout Standard
+Many of the workers (12% of workers who started the experiment) dropped
+ out at the stage of control questions.
+ These are probably those subjects who did not understand instructions and
+ did not bother spending time to understand them.
+ 
+\end_layout
+
+\begin_layout Standard
+We designed the app for this experiment to ensure that pages by employers
+ auto submit after certain time has elapsed on each page.
+ This made sure that even if an employer dropped out, a matched worker would
+ still be able to proceed with the experiment rather than waiting indefinitely
+ for the employer decision.
+ We went with the default choice of 0 cents per 100 points if the employer
+ dropped out before selecting a piece rate for worker.
+ Also, as the first person to join the group was assigned the role of employer,
+ he/she could make a decision without waiting for a worker, hence by the
+ time the worker joined, employer may have already selected a piece rate
+ for him/her.
+ This design allowed us to control attrition from waiting for the employer
+ and eventually only 2 workers dropped out while waiting for the employer.
+ There were 15 employers who dropped out before selecting a piece rate,
+ we still use the data from their corresponding workers (who saw a piece
+ rate of 0 cents per 100 points and a race of Black
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We are thankful to Arthur Nunoo at Iowa State for allowing us to use picture
+ of his hand for this case.
+\end_layout
+
+\end_inset
+
+).
+ There were five additional subjects which could not be linked to the demographi
+c survey because of incorrect worker id.
+ 
+\end_layout
+
+\begin_layout Subsection
+Summary statistics
+\end_layout
+
+\begin_layout Standard
+The final sample included 202 subjects (37 Blacks and 165 Whites).
+ The overall demographic information of the sample is given in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Demographic"
+
+\end_inset
+
+.
+ Overall the demographics are similar for both racial groups with majority
+ of subjects being females, with at-least some college education and representin
+g age groups from 25 years to 40 years old.
+ The table also presents information for each racial group and for employers
+ and workers separately.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Demographic"
+
+\end_inset
+
+Demographic information of final sample
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/Demographic.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The table presents demographic information of final sample.
+ Column (1) presents proportion of all the subjects by their gender, race,
+ age and education.
+ Column (2) and column (3) presents these information for only Blacks and
+ Whites respectively.
+ Column (4) and column (5) presents these demographics for subject which
+ were assigned the role of employer and worker respectively.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Pictures
+\end_layout
+
+\begin_layout Standard
+All subjects in our experiment were required to take a picture of the back
+ of their hand using webcam.
+ We use that picture to verify if the reported race is consistent with the
+ observed color of the skin.
+ Since we are only looking at Black and White pictures, it is easier to
+ identify the race from the skin color of the subject.
+ Majority (96 percent) of our subject reported the race correctly, in other
+ few instances the reported race was ambiguous or incorrect as compared
+ to the pictures.
+ We could also figure out the gender from the taken pictures because of
+ masculinity of the hand, display of jewelry, and in some cases from the
+ body frame of the subject.
+ In 90 percent of the cases gender was consistent with the reported gender,
+ while in other cases it could not be discerned from the picture or the
+ gender was incorrectly reported.
+ It should be noted that incorrect reporting of race or gender in this case
+ is not an issue, because these pictures or the reported race were never
+ revealed to the other participant and hence could not influence behavior.
+ 
+\end_layout
+
+\begin_layout Standard
+The pictures that were revealed to the workers were the pictures of piece
+ rate taken by employers.
+ As already mentioned these pictures were only revealed in the race salient
+ treatment.
+ Here we analyze whether the observed race is consistent with reported race
+ and if not we use the significance of race from the picture to determine
+ treatment status for the worker in race salient treatment.
+ The piece-rate images had a large variance in how much of the individual’s
+ hands were revealed.
+ Little over 75 percent of the employers in race salient treatment provided
+ images where their hand was at least partially visible.
+ However, many of these images showed only one or two fingers or their skin
+ was a very small portion of the image.
+ Alternatively, small minority of employers in race salient treatment provided
+ images where they showed their entire hand or even showed their face.
+ Of the pictures which showed part of the hand, not all the pictures could
+ clearly be identified as either Black or White.
+ Only around 70 percent of pictures from race salient treatment were such
+ that a race could be figured from the shown picture.
+ This proportion is quite low given the small number of observations in
+ the race salient treatment, we should remove these observations (employer
+ and worker pair) from the analysis to make sure that workers actually observed
+ the race with piece rate in the picture, however because of limited number
+ of observations we do not drop these pairs and therefore the results should
+ be interpreted with caution.
+ 
+\end_layout
+
+\begin_layout Standard
+Another issue that we need to be concerned about is the revelation of gender
+ in some of the pictures along with race.
+ In 35 percent of the pictures in race salient treatment gender could be
+ figured by the worker because of combination of factors such as painted
+ nails, wedding ring style, and a revealed face or torso.
+ We do not control for this effect because gender revelation was not significant
+ly different between Black employers and White employers in the race salient
+ treatment.
+\end_layout
+
+\begin_layout Standard
+Based on what we learned from this experiment, we are less inclined to use
+ pictures to reveal race in the full study.
+ Some of our subjects also expressed concern when using web-camera for M-Turk
+ even though these pictures were not collecting any personally identifiable
+ information
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+According to M-Turk's Terms of Service, one cannot collect personally identifiab
+le information of the workers.
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Standard
+We present the effort by treatments and piece rates in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Effort-Choices"
+
+\end_inset
+
+.
+ Incentives have powerful effect on effort, raising performance from an
+ average of 1125 points (0-cent piece rate) to 1926 points (9-cent piece
+ rate) in the baseline treatment.
+ The standard errors for mean effort are very large for all the treatments
+ because of limited sample that we collected.
+ Because of small sample size, we don't have power to detect the difference
+ in effort between treatments at different piece rates, so we won't make
+ those comparisons here.
+ For illustration the relationship between effort and piece rate is plotted
+ in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Piece-rate-and"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Effort-Choices"
+
+\end_inset
+
+Effort choices by treatment 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/EffortByTreatments.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The table presents average effort by workers under each treatment
+ and for each piece rate.
+ Column (1) presents workers who worked without knowing the identity of
+ an employer.
+ Column (2) and column (3) presents workers who knew that their employer
+ was Black or White respectively.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Piece-rate-and"
+
+\end_inset
+
+Piece rate and effort
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/IncentiveEffectByTreatment.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Note: The figure presents the fitted relationship between effort and piece
+ rate for different treatments.
+ Blue line presents fitted relationship between effort and piece rates in
+ the baseline treatment, red line presents this relationship for black employers
+ while green line present the relationship for white employers.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:RegressionTable"
+
+\end_inset
+
+ presents the reduced form estimates from the OLS regressions.
+ Clearly, piece rate has significant effect on effort and is the main driver
+ of effort in all the given specifications.
+ Workers provide slightly more effort in Race Salient treatment as compared
+ to Baseline treatment, this may be due to increased salience of employer/task
+ because the worker could see the picture taken by the employer.
+ However, this effect of pictures is not significant once we control for
+ the demographic information of the workers.
+ The main coefficient of interest in this specification is the 
+\begin_inset Quotes eld
+\end_inset
+
+Race Salient x Black Employer
+\begin_inset Quotes erd
+\end_inset
+
+, this shows that Black employers in the Race Salient treatment are eliciting
+ significantly more effort as compared to White employers in the same treatment.
+ But once again these coefficients should be interpreted with caution as
+ we do not have enough power to detect the effect sizes.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:RegressionTable"
+
+\end_inset
+
+OLS regression results for effort
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/TreatmentEffect.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: Dependent variable is effort (log of points scored).
+ In model 1, base level for Baseline is Race Salient treatment.
+ In Model 2, 3 and 4, the base coefficient for reported interaction term
+ is 'Race Salient x White Employer'.
+ Other interactions terms are omitted from this table but included in the
+ regression.
+ Fixed Effects include dummies for Gender, Race, Age and Education level.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now examine how effort varies based on the identity of worker.
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:EffortByWorkerGroup"
+
+\end_inset
+
+ presents breakdown of effort by the racial group of workers towards the
+ racial group of employer.
+ Once again because of limited sample size, we do not interpret these results
+ in any meaningful manner.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:EffortByWorkerGroup"
+
+\end_inset
+
+Effort choices by worker's group
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/EffortByWorkerGroup.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The table presents the breakdown of effort in the race salient treatment
+ by the racial group of workers towards the racial group of employer.
+ Column (1) presents effort by the white workers towards the white employer.
+ Column (2) presents effort by the black workers towards the white employer.
+ Similarly column (3) and column (4) presents the average effort by the
+ white workers and the black workers towards the black employers respectively.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Fairness and Effort
+\end_layout
+
+\begin_layout Standard
+Although this experiment was not designed to analyze fairness concerns but
+ the collected data enable us to better understand the choices from the
+ experiment.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chosen and fair rate"
+
+\end_inset
+
+ compare the distribution of piece rates chosen by employers with the piece
+ rate as deemed fair by the workers.
+ More than 80 percent of workers deem piece rate of at-least 6 cents as
+ fair as compared to only around 50 percent of employers actually making
+ the offer of 6 cents or more.
+ It seems like workers have equity as the standard for fairness, that's
+ why most workers choose 6 cents as the fair rate.
+ Also workers may also have the sense that since they are the ones doing
+ the work, they should earn more than the employer and that may explain
+ why most workers think that they should receive larger share of pie.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chosen and fair rate"
+
+\end_inset
+
+Chosen piece rate vs.
+ fair piece rate 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/ChosenAndFairRate.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The figure presents the distribution of piece rates as chosen by
+ employers with the distribution of piece rates as deemed fair by the workers.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Overall it seems that there is high correlation between the offered piece
+ rate and perception of that rate as fair by worker.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:FairnessPerception"
+
+\end_inset
+
+ highlights that no worker perceived 0 cents as the fair rate, while almost
+ 70 percent of workers thought that 6 cents was a fair choice.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:FairnessPerception"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/FairnessPerception.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The figure presents the fraction of workers who perceived the selected
+ piece rate as fair.
+ The x-axis presents the piece rates in cents that the employer could select,
+ y-axis shows the fraction of workers who reported the fair piece rate at-most
+ as great as the selected rate by employer.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Model 3 and 4 of table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:RegressionTable"
+
+\end_inset
+
+ we test for whether fairness derives the change in effort in any direction.
+ It turns out that fairness concerns are overshadowed by the piece rate
+ i.e.
+ workers respond to the monetary incentives than the concern for reciprocity
+ in this set up.
+ 
+\end_layout
+
+\begin_layout Section
+Structural Estimation
+\end_layout
+
+\begin_layout Standard
+We designed our experiment with the structural model given in Section 2.
+ The advantage of designing field experiments on the basis of model of behavior
+ is that it allows researchers to estimate the nuisance parameters in the
+ environment that is relevant to the decision making 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{DellaVigna2017}
+\end_layout
+
+\end_inset
+
+.
+ Because of the simplicity of our task, the only nuisance parameters are
+ related to cost function.
+ We will thus use data from baseline treatment to identify these parameters.
+ Once we have the estimate of these nuisance parameters, we can estimate
+ parameters of taste/distaste using data from the race salient treatments.
+ We will now present the estimation procedure and the resulting estimates.
+ 
+\end_layout
+
+\begin_layout Standard
+We use data from baseline treatment, specifically the average effort correspondi
+ng to three piece rates (0 cents, 3 cents and 9 cents), to estimate 
+\begin_inset Formula $\hat{\gamma}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{s}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{k}$
+\end_inset
+
+ using minimum distance estimation.
+ In the minimum distance estimation one identifies the set of moments in
+ data (average effort) and then finds the set of model parameters that minimizes
+ the distance between the empirical moments and the theory-predicted moments.
+ Minimum distance estimator just rely on the moment and hence do not use
+ all the variation in the data.
+ There are methods such as maximum likelihood and non-linear least squares
+ that can be used to estimate these parameters using all the variation in
+ data but we do not run those estimations.
+ We effectively assume that all workers in a treatment are homogeneous and
+ do not exhibit heterogeneity in any of the behavioral parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+The estimates of minimum distance estimator are presented in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:StructuralEstimates"
+
+\end_inset
+
+ for the power cost function.
+ Given these estimates, we would then back out the estimate of 
+\begin_inset Formula $\Delta s_{ij}$
+\end_inset
+
+ for each piece rate (0, 3, 6 or 9 cents) by using the average effort in
+ the race salient treatment corresponding to the respective piece rate for
+ 
+\begin_inset Formula $i\in\{B,W\}$
+\end_inset
+
+ and 
+\begin_inset Formula $j\in\{B,W\}$
+\end_inset
+
+.
+ However, because of limited data that we collected, we don't have enough
+ observations to calculate these 12 parameters so instead we just estimate
+ two parameters - one for black employers and other for white employers
+ ignoring the variation in piece rate.
+ This means that we are assuming both Black and White workers to have same
+ taste/distaste from working for the White/Black employer for each level
+ of piece rate.
+ That is, the average effort by workers (Black and White) for White employers
+ for all piece rates in the race salient treatment is given by; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{.W}^{RS}=c'^{-1}\left(\left(s+\Delta s_{.W}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly for Black employer, the average effort is; 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e_{.B}^{RS}=c'^{-1}\left(\left(s+\Delta s_{.B}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given the estimates of 
+\begin_inset Formula $\hat{\gamma}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{s}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{k}$
+\end_inset
+
+, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\hat{\Delta s_{.W}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\Delta s_{.B}}$
+\end_inset
+
+ are just identified.
+ The estimates are presented in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:StructuralEstimates"
+
+\end_inset
+
+.
+ The parameter estimates for 
+\begin_inset Formula $\hat{\gamma},$
+\end_inset
+
+ 
+\begin_inset Formula $\hat{k}$
+\end_inset
+
+, and 
+\begin_inset Formula $\hat{s}$
+\end_inset
+
+ are close to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dellavigna2018"
+
+\end_inset
+
+, however the standard errors are huge because of small sample size and
+ thus large variation in the observed effort choices.
+ The taste parameter is positive for both employer types, implying race
+ revelation lead to larger effort as compared to baseline treatment.
+ The magnitude of taste parameter is higher for black employers as compared
+ to white, implying that black employers elicit more effort.
+ However, once again because of enormous standard errors, we don't have
+ any confidence in these estimates.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:StructuralEstimates"
+
+\end_inset
+
+Estimates of behavioral parameters
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/Structural Estimation/StructuralParameters.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: This table reports the structural estimates of the model in section
+ 2.
+ It uses the minimum-distance estimator employing the three moments (average
+ effort corresponding to three piece rates (
+\begin_inset Formula $0$
+\end_inset
+
+, 
+\begin_inset Formula $3$
+\end_inset
+
+ and 
+\begin_inset Formula $9$
+\end_inset
+
+ cents) in baseline treatment) and thus three parameters (
+\begin_inset Formula $\gamma$
+\end_inset
+
+, 
+\begin_inset Formula $s$
+\end_inset
+
+ and 
+\begin_inset Formula $k$
+\end_inset
+
+) are exactly identified.
+ We use power cost function to estimate the model.
+ The standard errors are derived via a bootstrap with 1000 draws.
+ Implied effort is calculated using estimated parameters, the actual average
+ effort in the 6 cents treatment is 2112 points.
+ For the race salient parameters, the baseline parameters are taken as given
+ and we use the average effort for Black employers and White Employer (subsuming
+ piece rate and worker's race) from the race salient treatments to calculate
+ 
+\begin_inset Formula $\Delta s_{.W}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta s_{.B}$
+\end_inset
+
+.
+ Standard errors are calculated by taking a bootstrap sample of 1000 draws
+ and recalculating these parameters for each draw.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+Do workers discriminate in effort based on the social identity of the employer?
+ Is it possible for the worker side to exhibit a taste bias towards the
+ employer in an environment of no possibility of statistical bias? Does
+ fairness play a role in the effort decision of the workers when the punishment
+ is costly to workers?
+\end_layout
+
+\begin_layout Standard
+We designed a pilot experiment on Amazon's Mechanical Turk to answer the
+ above questions.
+ The model-based experiment design consisted of 12 treatment arms.
+ Four piece rate treatments with no information of employer's identity,
+ and other eight treatments with revealed employer's race (Black or White)
+ at each of the 4 piece rates.
+ The worker's identity was always hidden so as not to confound behavior
+ from employers in the worker's effort choice.
+ 
+\end_layout
+
+\begin_layout Standard
+We find that monetary incentives work as expected i.e.
+ higher piece rate lead to more effort in all the treatments.
+ We do not find any discriminatory preferences among workers towards Black
+ or White employers i.e.
+ the effort provided to white employer is statistically not different from
+ effort provided to the black employer.
+ This once again highlights the fact that monetary incentive are considered
+ more important in this environment than the social identity of employers
+ and are the main driver of effort.
+ We also do not find any concerns for reciprocity among workers.
+ Although some workers do express discontentment when lower piece rate is
+ selected by employers (as observed from their optional feedback), the monetary
+ incentive still take precedence over these concerns and the average effort
+ is not statistically affected.
+\end_layout
+
+\begin_layout Standard
+Since this study was only a pilot, there are significant limitation in the
+ presented results and hence we do not interpret any of the results more
+ than a noise.
+ This is because of the limited sample size in each of our treatment cells
+ and the resulting enormous standard errors.
+ For the full study we are revising the design to answer the above questions
+ among others.
+\end_layout
+
+\begin_layout Standard
+This is the first study attempting to understand discrimination from the
+ non-traditional side of the market and there is huge room for further research
+ in this area.
+ In an ongoing work, we are exploring issues such as the possibility of
+ discrimination in reciprocity by workers, the documentation of statistical
+ discrimination by workers and the general equilibrium interaction of discrimina
+tion from both sides of the market (employer and workers).
+ We believe there is lot of research needed to fully explore the possibility
+ of discrimination from this non-traditional side of the market.
+ More evidence of this reverse discrimination or its lack in different environme
+nt and context will help improve our understanding of the issue in deeper
+ sense.
+ 
+\end_layout
+
+\begin_layout Standard
+Based on this pilot, we need to revise our research design as follows; 1)
+ there is considerable ambiguity in the way race was revealed, we need to
+ come up with another way of revealing race, 2) the current experiment design
+ was not adequate because it lead to disproportional number of observations
+ in each treatment cell.
+ We need to come up with the design in which treatment status is determined
+ a priori and not endogenously determined during the experiment, 3) since
+ our research question is aimed at examining worker's problem we probably
+ don't need to hire as many employers as we did for this experiment.
+ It may be possible to use one employer for more than one worker, 4) since
+ it is not easy to recruit blacks on M-Turk, we may way to restrict only
+ to white workers and study their performance for black versus white employers,
+ 5) we also need to record the intensity of effort throughout the duration
+ of task to see how it changes over time, we did not record this data for
+ this pilot.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "C:/Users/asads/Dropbox/References/Discrimination"
+options "bibtotoc,apacitex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Experiment Material Appendix
+\end_layout
+
+\begin_layout Subsection
+Informed Consent Document and Screen-er Survey
+\end_layout
+
+\begin_layout Standard
+\begin_inset External
+	template PDFPages
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Documentation/App Sequence/App Sequence.pdf
+	extra LaTeX "pages=1-5"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Interface for Employers
+\end_layout
+
+\begin_layout Standard
+\begin_inset External
+	template PDFPages
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Documentation/App Sequence/App Sequence.pdf
+	extra LaTeX "pages=6-14"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Interface for Workers
+\end_layout
+
+\begin_layout Standard
+\begin_inset External
+	template PDFPages
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Documentation/App Sequence/App Sequence.pdf
+	extra LaTeX "pages=15-23"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Miscellaneous Tables and Figures
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{figure}{0} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thefigure}{C.
+\backslash
+arabic{figure}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Overall Sample Demographics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/Demographics.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Effort distribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/PointsDist.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The figure shows the distribution of points scored by all workers.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Effort Distribution by Piece Rate
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename C:/Users/asads/Dropbox/Discrimination/Intensive Margin/Output/Analysis/PieceRateCDFs.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Notes: The figure shows the cumulative distribution of points scored for
+ all four piece rates from all the treatments combined.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
