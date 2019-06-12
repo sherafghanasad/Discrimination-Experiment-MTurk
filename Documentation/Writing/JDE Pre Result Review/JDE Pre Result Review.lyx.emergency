@@ -1455,23 +1455,9 @@ will invite
 \change_deleted 253428369 1560303475
 ed
 \change_unchanged
- their race as 
-\change_deleted 253428369 1560308172
-“Black or African American” or
-\change_unchanged
- “White or Caucasian” to participate in the experiment.
-
-\change_inserted 253428369 1560308405
- Based on our pilot for this study, we found that it is difficult to recruit
- a representative number of Black workers from M-Turk to make a credible
- inference.
- Therefore we restrict to only white workers and study their effort choices
- for Blacks versus White employers.
- 
-\change_deleted 253428369 1560308381
- 
-\change_unchanged
-We 
+ their race as “Black or African American” or “White or Caucasian” to participat
+e in the experiment.
+ We 
 \change_deleted 253428369 1560303481
 paid
 \change_inserted 253428369 1560303482
@@ -1628,20 +1614,15 @@ d
 \change_unchanged
  the digital voice for the videos in the piece rate treatments.
  
-\change_inserted 253428369 1560306519
-We will program each video to play with subtitles to aid easier understanding
- of the instructions.
- 
-\begin_inset CommandInset href
-LatexCommand href
-name "Here"
-target "https://www.youtube.com/watch?v=jiE-x_vBrz0"
+\change_inserted 253428369 1560303814
+We give the links of sample video for each treatment, in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-of-treatments"
 
 \end_inset
 
- is the link to the sample video corresponding to the `Piece Rate - 0 cents'
- treatment.
- 
+.
 \change_inserted 2090806916 1560279749
 
 \begin_inset Note Note
@@ -1667,23 +1648,7 @@ Experiment Flow
 \end_layout
 
 \begin_layout Standard
-The experiment 
-\change_inserted 253428369 1560305299
-will 
-\change_unchanged
-proceed
-\change_deleted 253428369 1560305301
-ed
-\change_unchanged
- as follows: (1) We 
-\change_inserted 253428369 1560305304
-will 
-\change_unchanged
-recruit
-\change_deleted 253428369 1560305306
-ed
-\change_unchanged
- 
+The experiment proceeded as follows: (1) We recruited 
 \change_inserted 2090806916 1560279793
 
 \begin_inset Note Note
@@ -1701,45 +1666,11 @@ see above? recruited or will recruit?
 
 
 \change_unchanged
-employers from Iowa State University and record
-\change_deleted 253428369 1560305311
-ed
-\change_unchanged
- videos of them explaining the task, 2) we 
-\change_inserted 253428369 1560305317
-will 
-\change_unchanged
-then post
-\change_deleted 253428369 1560305320
-ed
-\change_unchanged
- a HIT on Amazon's Mechanical Turk for a screener survey for the recruitment
- of workers, (3) we 
-\change_inserted 253428369 1560305326
-will 
-\change_unchanged
-invite
-\change_deleted 253428369 1560305328
-d
-\change_unchanged
- subjects who consente
-\change_deleted 253428369 1560305330
-d
-\change_unchanged
- and me
-\change_inserted 253428369 1560305333
-e
-\change_unchanged
-t the recruitment criteria (undisclosed) to initiate the experiment, (4)
- upon initiation we
-\change_inserted 253428369 1560305338
- will
-\change_unchanged
- assign
-\change_deleted 253428369 1560305340
-ed
-\change_unchanged
- each subject to one of the treatment groups.
+employers from Iowa State University and recorded videos of them explaining
+ the task, 2) we then posted a HIT on Amazon's Mechanical Turk for a screener
+ survey for the recruitment of workers, (3) we invited subjects who consented
+ and met the recruitment criteria (undisclosed) to initiate the experiment,
+ (4) upon initiation we assigned each subject to one of the treatment groups.
  Following 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1747,22 +1678,10 @@ key "Czibor2019"
 
 \end_inset
 
-, we 
-\change_inserted 253428369 1560305345
-will 
-\change_unchanged
-use
-\change_deleted 253428369 1560305347
-d
-\change_unchanged
- the blocked randomization design to assign subjects to treatments.
- We define
-\change_deleted 253428369 1560305364
-d
-\change_unchanged
- blocks based on demographic information collected in the screener survey
- (Gender, Age, Race, Education, Income, Political Party Affiliation, and
- the Most-lived US State),
+, we used the blocked randomization design to assign subjects to treatments.
+ We defined blocks based on demographic information collected in the screener
+ survey (Gender, Age, Race, Education, Income, Political Party Affiliation,
+ and the Most-lived US State),
 \begin_inset Foot
 status open
 
@@ -1781,31 +1700,12 @@ key "Cavaille2018"
 
 \end_inset
 
- (4) we 
-\change_inserted 253428369 1560305382
-will then 
-\change_unchanged
-present
-\change_deleted 253428369 1560305384
-ed
-\change_unchanged
- instructions to each subject in a pre-recorded video (based on the assigned
- treatment).
+ (4) we presented instructions to each subject in a pre-recorded video (based
+ on the assigned treatment).
  We programmed our study to require each worker to watch a video before
- proceeding to the task, and (5) each worker 
-\change_inserted 253428369 1560305399
-will 
-\change_unchanged
-work
-\change_deleted 253428369 1560305401
-ed
-\change_unchanged
- on a task for 10 minutes and then answer
-\change_deleted 253428369 1560305407
-ed
-\change_unchanged
- some questions aimed at elicitation of their beliefs about the matched
- employer.
+ proceeding to the task, and (5) each worker worked on a task for 10 minutes
+ and then answered some questions aimed at elicitation of their beliefs
+ about the matched employer.
  
 \end_layout
 
@@ -1813,7 +1713,7 @@ ed
 \begin_inset Float table
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1900,9 +1800,6 @@ Skin Color
 \begin_layout Plain Layout
 
 \change_inserted 253428369 1560303847
-
-\series bold
-\size scriptsize
 Sample Video
 \end_layout
 
@@ -1964,9 +1861,6 @@ Sample Video
 \begin_layout Plain Layout
 
 \change_inserted 253428369 1560303852
-
-\series bold
-\size scriptsize
 (5)
 \end_layout
 
@@ -2025,8 +1919,6 @@ Concealed
 \begin_layout Plain Layout
 
 \change_inserted 253428369 1560304022
-
-\size scriptsize
 \begin_inset CommandInset href
 LatexCommand href
 name "Link"
@@ -2090,17 +1982,8 @@ Concealed
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560304197
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=DNICEgdZGl0"
-
-\end_inset
-
-
+\change_inserted 253428369 1560303870
+Link
 \end_layout
 
 \end_inset
@@ -2156,17 +2039,8 @@ Concealed
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560304216
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=7v_GcZehMz0"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304030
+Link
 \end_layout
 
 \end_inset
@@ -2222,17 +2096,8 @@ Concealed
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560304240
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=-SGX11kXZ8E"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304031
+Link
 \end_layout
 
 \end_inset
@@ -2339,17 +2204,8 @@ Concealed
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305081
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=T8PkuRrHKgw"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304033
+Link
 \end_layout
 
 \end_inset
@@ -2405,17 +2261,8 @@ Black
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305108
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=dLibpnFOw7I"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304034
+Link
 \end_layout
 
 \end_inset
@@ -2471,17 +2318,8 @@ White
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305133
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=VRnL5m3xt_Y"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304035
+Link
 \end_layout
 
 \end_inset
@@ -2590,17 +2428,8 @@ Concealed
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305152
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=QxUK0iCEI5A"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304036
+Link
 \end_layout
 
 \end_inset
@@ -2659,17 +2488,8 @@ Black
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305172
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=GJtp9QtFFew"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304037
+Link
 \end_layout
 
 \end_inset
@@ -2727,17 +2547,8 @@ White
 
 \begin_layout Plain Layout
 
-\change_inserted 253428369 1560305192
-
-\size scriptsize
-\begin_inset CommandInset href
-LatexCommand href
-name "Link"
-target "https://www.youtube.com/watch?v=qMINTQ96rts"
-
-\end_inset
-
-
+\change_inserted 253428369 1560304038
+Link
 \end_layout
 
 \end_inset
@@ -2753,19 +2564,7 @@ target "https://www.youtube.com/watch?v=qMINTQ96rts"
 \begin_layout Plain Layout
 Notes: The table list all the treatments in this study.
  Each piece rate treatment differs just in the last line of the script,
- use
-\change_inserted 253428369 1560304621
-s
-\change_deleted 253428369 1560304621
-d
-\change_unchanged
- the digital voice, and conceal
-\change_inserted 253428369 1560304628
-s
-\change_deleted 253428369 1560304628
-ed
-\change_unchanged
- the skin color of the hand.
+ used the digital voice, and concealed the skin color of the hand.
  Social preference treatments (altruism and reciprocity) begin with the
  introduction of the employer (in the first person), explain the task using
  the same script as in piece rate treatments and then differ only in the
@@ -2773,13 +2572,7 @@ ed
  Both altruism and reciprocity categories have three treatments, each with
  black, white, and concealed skin tone of the employer.
  In the social preference treatments of concealed skin tone, the ratio of
- black and white employers 
-\change_deleted 253428369 1560304648
-was
-\change_inserted 253428369 1560304650
-will be
-\change_unchanged
- 1:1.
+ black and white employers was 1:1.
  
 \end_layout
 
@@ -2793,13 +2586,8 @@ Piece Rate Treatments
 \end_layout
 
 \begin_layout Standard
-In the piece rate treatments, each worker 
-\change_deleted 253428369 1560305547
-saw
-\change_inserted 253428369 1560305548
-will see
-\change_unchanged
- a video demonstrating a task with a script: 
+In the piece rate treatments, each worker saw a video demonstrating a task
+ with a script: 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2817,13 +2605,7 @@ On the next page, you will play a simple button-pressing task.
  programs/scripts cannot be used), or task will not be approved.
  Feel free to score as many points as you can.
 \shape default
-” Then the last line 
-\change_deleted 253428369 1560305556
-was
-\change_inserted 253428369 1560305558
-will be
-\change_unchanged
- based on the assigned treatment (0, 3, 6 or 9 cents).
+” Then the last line was based on the assigned treatment (0, 3, 6 or 9 cents).
  The wording is provided in table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2839,26 +2621,15 @@ Social Preference Treatments
 \end_layout
 
 \begin_layout Standard
-In the altruism and reciprocity treatments, each video 
-\change_deleted 253428369 1560305565
-started
-\change_inserted 253428369 1560305566
-will start
-\change_unchanged
- with the introduction by the employer: “
+In the altruism and reciprocity treatments, each video started with the
+ introduction by the employer: “
 \shape italic
 Hi, I am another participant in this study who is matched to you.
  In this study, you will work on a simple button-pressing task, and I will
  earn some money depending on how well you do on the task
 \shape default
-.” Then the script 
-\change_deleted 253428369 1560305570
-followed
-\change_inserted 253428369 1560305572
-will follow
-\change_unchanged
- the same instructions as in piece rate treatments with the last paragraph
- being the only difference.
+.” Then the script followed the same instructions as in piece rate treatments
+ with the last paragraph being the only difference.
  The wording is provided in table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2867,49 +2638,15 @@ reference "tab:Summary-of-treatments"
 \end_inset
 
 .
- There 
-\change_deleted 253428369 1560305580
-were
-\change_inserted 253428369 1560305580
-are
-\change_unchanged
- three treatments each in the category of altruism and reciprocity.
- Altruism baseline and reciprocity baseline 
-\change_inserted 253428369 1560305591
-will 
-\change_unchanged
-conceal
-\change_deleted 253428369 1560305586
-ed
-\change_unchanged
- the skin color of the employer using latex gloves.
+ There were three treatments each in the category of altruism and reciprocity.
+ Altruism baseline and reciprocity baseline concealed the skin color of
+ the employer using latex gloves.
  Although the voice in the baseline treatments can reveal some racial markers,
- we 
-\change_inserted 253428369 1560305599
-will 
-\change_unchanged
-recruit
-\change_deleted 253428369 1560305600
-ed
-\change_unchanged
- an equal number of black and white employers in these treatments, therefore,
- on average, the effect of race from voice, if any, should cancel out in
- the baseline treatments.
- The videos show
-\change_inserted 253428369 1560305611
-n
-\change_deleted 253428369 1560305610
-ed
-\change_unchanged
- in the altruism black (white), and reciprocity black (white) 
-\change_inserted 253428369 1560305616
-will 
-\change_unchanged
-reveal
-\change_deleted 253428369 1560305619
-ed
-\change_unchanged
- the black (white) skin of the employers.
+ we recruited an equal number of black and white employers in these treatments,
+ therefore, on average, the effect of race from voice, if any, should cancel
+ out in the baseline treatments.
+ The videos showed in the altruism black (white), and reciprocity black
+ (white) revealed the black (white) skin of the employers.
 \end_layout
 
 \begin_layout Section
@@ -2951,18 +2688,12 @@ To prepare data for the analysis, we will apply some cleaning to the collected
 \change_inserted 2090806916 1560280364
  
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
 \change_inserted 2090806916 1560280374
 no possibility of extensive margin?
-\change_inserted 253428369 1560306569
- No.
- Now that we are making people to spend 10 minutes on the page, it seems
- very weird that a person will not even score a single point.
- DellaVigna and Pope dropped these observations too.
- 
 \change_unchanged
 
 \end_layout
@@ -3088,39 +2819,6 @@ Having compared the overall effort choices to examine the treatment effects,
  Since we used the blocked randomization on these covariates to assign treatment
 s, we can make these comparisons with high enough power.
  
-\change_inserted 253428369 1560310614
-
-\end_layout
-
-\begin_layout Standard
-
-\change_inserted 253428369 1560311872
-Since our race revelation mechanism is very subtle, it is possible that
- the race of the employer may not become salient to the workers.
- This can happen because a worker fails to pay attention to the video or
- he/she may have low to non-existent implicit bias towards the opposite
- race.
- To partially address this concern, we will elicit incentivized beliefs
- of workers about the matched employer after they have finished working
- on the task.
- Each worker will be incentivized to make a guess about the demographics
- of the matched employer (gender, age, race, education, income).
- We will analyze the heterogeneity in treatment effects based on whether
- workers correctly guessed the race of the employer.
- 
-\end_layout
-
-\begin_layout Standard
-
-\change_inserted 253428369 1560313020
-We may also use the data on beliefs to understand more about the beliefs
- of white workers about the black employers relative to the white employers.
- For example, it will be interesting to see whether workers believe that
- black employers are poor relative to white employers and does this play
- a part in explaining their effort choices? Note that even though these
- second order beliefs may cause the differential effort for black versus
- white employers, these effort choices will still be purely driven by the
- social preferences of workers.
 \end_layout
 
 \begin_layout Subsection
@@ -3251,8 +2949,6 @@ The minimum distance estimator just relies on the moment and hence
 As explained in section 2, we will use both the power and the exponential
  cost function to estimate these parameters.
  
-\change_inserted 253428369 1560310526
-
 \end_layout
 
 \begin_layout Standard

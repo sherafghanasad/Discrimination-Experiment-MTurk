@@ -1578,10 +1578,11 @@ Summary of treatments
 
 \size scriptsize
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="4">
+<lyxtabular version="3" rows="14" columns="5">
 <features tabularvalignment="middle" tabularwidth="100text%">
 <column alignment="left" valignment="top" width="0pt">
 <column alignment="left" valignment="top" width="6cm">
+<column alignment="left" valignment="top" width="1.5cm">
 <column alignment="left" valignment="top" width="1.5cm">
 <column alignment="left" valignment="top" width="1.5cm">
 <row>
@@ -1629,6 +1630,18 @@ Voice
 \series bold
 \size scriptsize
 Skin Color 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+Sample Video
 \end_layout
 
 \end_inset
@@ -1683,6 +1696,18 @@ Skin Color
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size scriptsize
+(5)
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" topline="true" usebox="none">
@@ -1726,6 +1751,24 @@ Digital
 
 \size scriptsize
 Concealed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=jiE-x_vBrz0"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1776,6 +1819,24 @@ Concealed
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=DNICEgdZGl0"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" usebox="none">
@@ -1818,6 +1879,24 @@ Digital
 
 \size scriptsize
 Concealed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=7v_GcZehMz0"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1868,6 +1947,24 @@ Concealed
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=-SGX11kXZ8E"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" usebox="none">
@@ -1898,6 +1995,15 @@ Concealed
 \end_inset
 </cell>
 <cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1954,6 +2060,24 @@ Concealed
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=T8PkuRrHKgw"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" usebox="none">
@@ -1996,6 +2120,24 @@ Black
 
 \size scriptsize
 Black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=dLibpnFOw7I"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2046,6 +2188,24 @@ White
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=VRnL5m3xt_Y"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" usebox="none">
@@ -2076,6 +2236,15 @@ White
 \end_inset
 </cell>
 <cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2134,6 +2303,24 @@ Concealed
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=QxUK0iCEI5A"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" usebox="none">
@@ -2183,6 +2370,24 @@ Black
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=GJtp9QtFFew"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
@@ -2231,6 +2436,24 @@ White
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset CommandInset href
+LatexCommand href
+name "Link"
+target "https://www.youtube.com/watch?v=qMINTQ96rts"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 </lyxtabular>
 
@@ -2242,7 +2465,7 @@ White
 \begin_layout Plain Layout
 Notes: The table list all the treatments in this study.
  Each piece rate treatment differs just in the last line of the script,
- used the digital voice, and concealed the skin color of the hand.
+ uses the digital voice, and conceals the skin color of the hand.
  Social preference treatments (altruism and reciprocity) begin with the
  introduction of the employer (in the first person), explain the task using
  the same script as in piece rate treatments and then differ only in the
@@ -2250,7 +2473,7 @@ Notes: The table list all the treatments in this study.
  Both altruism and reciprocity categories have three treatments, each with
  black, white, and concealed skin tone of the employer.
  In the social preference treatments of concealed skin tone, the ratio of
- black and white employers was 1:1.
+ black and white employers will be 1:1.
  
 \end_layout
 

@@ -1521,7 +1521,7 @@ key "Czibor2019"
 , we used the blocked randomization design to assign subjects to treatments.
  We defined blocks based on demographic information collected in the screener
  survey (Gender, Age, Race, Education, Income, Political Party Affiliation,
- and the Most-lived US State).
+ and the Most-lived US State),
 \begin_inset Foot
 status open
 
@@ -1540,7 +1540,12 @@ key "Cavaille2018"
 
 \end_inset
 
- We presented instructions to each subject in a pre-recorded video.
+ (4) we presented instructions to each subject in a pre-recorded video (based
+ on the assigned treatment).
+ We programmed our study to require each worker to watch a video before
+ proceeding to the task, and (5) each worker worked on a task for 10 minutes
+ and then answered some questions aimed at elicitation of their beliefs
+ about the matched employer.
  
 \end_layout
 
